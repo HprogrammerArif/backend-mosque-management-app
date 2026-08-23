@@ -4,13 +4,13 @@ Node.js API for the Masjid OS mosque management platform.
 
 **No web framework.** The router, middleware chain, request context and lifecycle are
 written and owned by this project on `node:http`
-([ADR-0009](../mosque/docs/10-architecture/adr/0009-pure-node-http-server.md)).
+([ADR-0009](../docs/10-architecture/adr/0009-pure-node-http-server.md)).
 
 **No ORM.** Hand-written SQL behind repository interfaces, over `oracledb` in Thin mode
-([ADR-0002](../mosque/docs/10-architecture/adr/0002-oracle-with-portable-repository-layer.md)).
+([ADR-0002](../docs/10-architecture/adr/0002-oracle-with-portable-repository-layer.md)).
 
-Frontend: [`mosque-frontend`](../mosque-frontend) — separate repository.
-Design documentation: [`mosque/docs`](../mosque/docs).
+Frontend: [`frontend`](../frontend) — separate repository.
+Design documentation: [`docs`](../docs).
 
 ## Getting started
 
@@ -40,4 +40,4 @@ Watch the first database start with `docker compose logs -f oracle` and wait for
 
 `openapi.json` is generated from the route table and Zod schemas, and **committed**. The
 frontend generates its API types from it. A contract change is therefore a visible diff
-here, and a required `contract:sync` there ([ADR-0011](../mosque/docs/10-architecture/adr/0011-separate-repositories.md)).
+here, and a required `contract:sync` there ([ADR-0011](../docs/10-architecture/adr/0011-separate-repositories.md)).
