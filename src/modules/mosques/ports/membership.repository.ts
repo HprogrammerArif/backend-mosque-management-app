@@ -20,6 +20,7 @@ export type CreateMembershipInput = {
 /** Global table — no `tenantId` scoping, mirrors UserRepository's port shape (ADR-0002). */
 export interface MembershipRepository {
   findActive(mosqueId: string, userId: string): Promise<MembershipRecord | null>;
+  findById(id: string): Promise<MembershipRecord | null>;
   create(input: CreateMembershipInput): Promise<MembershipRecord>;
   listByMosque(mosqueId: string): Promise<MembershipRecord[]>;
   countActiveAdmins(mosqueId: string): Promise<number>;

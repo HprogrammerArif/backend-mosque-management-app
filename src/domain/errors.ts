@@ -26,6 +26,9 @@ export const ERROR_STATUS = {
   TENANT_NOT_FOUND: 404,
   TENANT_SUSPENDED: 403,
   TENANT_READONLY: 403,
+  // invitations
+  INVITATION_EXPIRED: 409,
+  INVITATION_ALREADY_ACCEPTED: 409,
   // validation
   VALIDATION_FAILED: 422,
   // business rules — a valid request the domain refuses, hence 409 rather than 422

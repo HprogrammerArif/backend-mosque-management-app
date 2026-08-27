@@ -8,12 +8,15 @@ import { OracleUserRepository } from './infrastructure/repositories/oracle/oracl
 import { OracleTokenRepository } from './infrastructure/repositories/oracle/oracle-token.repository.js';
 import { OracleMosqueRepository } from './infrastructure/repositories/oracle/oracle-mosque.repository.js';
 import { OracleMembershipRepository } from './infrastructure/repositories/oracle/oracle-membership.repository.js';
+import { OracleInvitationRepository } from './infrastructure/repositories/oracle/oracle-invitation.repository.js';
 import { PasswordService } from './modules/auth/password.service.js';
 import { TokenService } from './modules/auth/token.service.js';
 import { AuthService } from './modules/auth/auth.service.js';
 import { authRoutes } from './modules/auth/auth.routes.js';
 import { MosquesService } from './modules/mosques/mosques.service.js';
 import { mosquesRoutes } from './modules/mosques/mosques.routes.js';
+import { InvitationsService } from './modules/mosques/invitations.service.js';
+import { invitationsRoutes } from './modules/mosques/invitations.routes.js';
 import { healthRoutes } from './modules/health/health.routes.js';
 import { MemoryIdempotencyStore } from './middleware/require-idempotency.js';
 import { assertRouteTableIsSound } from './middleware/assert-routes.js';
@@ -35,13 +38,15 @@ export async function createApp() {
   const tokens      = new OracleTokenRepository(pool);
   const mosques     = new OracleMosqueRepository(pool);
   const memberships = new OracleMembershipRepository(pool);
+  const invitations = new OracleInvitationRepository(pool);
 
   // ── services ────────────────────────────────────────────────────────────
-  const passwords   = new PasswordService();
-  const tokenSvc    = new TokenService(env, tokens);
-  const authSvc     = new AuthService(users, passwords, tokenSvc, pool);
-  const mosquesSvc  = new MosquesService(pool, mosques, memberships);
-  const idempotency = new MemoryIdempotencyStore();
+  const passwords     = new PasswordService();
+  const tokenSvc      = new TokenService(env, tokens);
+  const authSvc       = new AuthService(users, passwords, tokenSvc, pool);
+  const mosquesSvc    = new MosquesService(pool, mosques, memberships);
+  const invitationsSvc = new InvitationsService(invitations, memberships);
+  const idempotency   = new MemoryIdempotencyStore();
 
   // ── routes ──────────────────────────────────────────────────────────────
   const router = new Router();
@@ -49,6 +54,7 @@ export async function createApp() {
     ...healthRoutes({ pool, migrator }),
     ...authRoutes({ auth: authSvc, tokens: tokenSvc, idempotency }),
     ...mosquesRoutes({ mosques: mosquesSvc, tokens: tokenSvc, memberships, idempotency }),
+    ...invitationsRoutes({ invitations: invitationsSvc, tokens: tokenSvc, memberships, idempotency }),
   ]) router.add(route);
 
   assertRouteTableIsSound(router);   // refuses to boot on a forgotten guard

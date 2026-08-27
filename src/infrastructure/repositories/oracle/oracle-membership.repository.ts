@@ -14,6 +14,8 @@ const SQL_FIND_ACTIVE = `
   SELECT ${COLUMNS} FROM MEMBERSHIPS
    WHERE MOSQUE_ID = :mosqueId AND USER_ID = :userId AND STATUS = 'ACTIVE'`;
 
+const SQL_FIND_BY_ID = `SELECT ${COLUMNS} FROM MEMBERSHIPS WHERE ID = :id`;
+
 const SQL_LIST_BY_MOSQUE = `SELECT ${COLUMNS} FROM MEMBERSHIPS WHERE MOSQUE_ID = :mosqueId`;
 
 const SQL_COUNT_ACTIVE_ADMINS = `
@@ -43,6 +45,11 @@ export class OracleMembershipRepository implements MembershipRepository {
 
   async findActive(mosqueId: string, userId: string): Promise<MembershipRecord | null> {
     const rows = await this.pool.execute<Row>(SQL_FIND_ACTIVE, { mosqueId, userId });
+    return rows[0] ? toRecord(rows[0]) : null;
+  }
+
+  async findById(id: string): Promise<MembershipRecord | null> {
+    const rows = await this.pool.execute<Row>(SQL_FIND_BY_ID, { id });
     return rows[0] ? toRecord(rows[0]) : null;
   }
 
