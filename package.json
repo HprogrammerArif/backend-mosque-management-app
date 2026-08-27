@@ -39,7 +39,7 @@
     "tsx": "^4.19.0",
     "typescript": "^5.6.0",
     "typescript-eslint": "^8.0.0",
-    "vitest": "^2.0.0",
+    "vitest": "^3.2.7",
     "zod-to-json-schema": "^3.25.2"
   },
   "pnpm": {
@@ -47,6 +47,9 @@
       "argon2",
       "esbuild",
       "oracledb"
-    ]
+    ],
+    "overrides": {
+      "vite": ">=6.4.3"
+    }
   }
 }

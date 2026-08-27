@@ -1,0 +1,41 @@
+name: CI
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    services:
+      oracle:
+        image: gvenzl/oracle-free:23-slim
+        env:
+          ORACLE_PASSWORD: testsyspassword
+          APP_USER: masjid
+          APP_USER_PASSWORD: testpassword
+        ports: ['1521:1521']
+        options: >-
+          --health-cmd healthcheck.sh
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 40
+    env:
+      ORACLE_USER: masjid
+      ORACLE_PASSWORD: testpassword
+      ORACLE_CONNECT_STRING: localhost:1521/FREEPDB1
+      JWT_SECRET: test-secret-that-is-at-least-32-characters-long
+      APP_BASE_URL: http://localhost:3000
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with: { version: 10 }
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm lint
+      - run: pnpm typecheck
+      - run: pnpm test
+      - run: pnpm migrate
+      - run: pnpm test:int
+      # Drift guard: regenerating the contract must produce no diff.
+      - run: pnpm openapi
+      - run: git diff --exit-code openapi.json
+      - run: pnpm audit --audit-level high
