@@ -1,3 +1,4 @@
+import { z } from 'zod';
 import { createMosqueSchema, mosqueResponseSchema } from './mosques.schemas.js';
 import type { RouteDefinition } from '../../http/types.js';
 import { createRequireAuth } from '../../middleware/require-auth.js';
@@ -31,7 +32,7 @@ export function mosquesRoutes(deps: MosquesRouteDeps): RouteDefinition[] {
 
     { method: 'GET', path: '/api/v1/mosques', permission: 'AUTHENTICATED',
       middleware: [requireAuth], handler: c.listMine,
-      docs: { summary: 'List mosques the caller belongs to' } },
+      docs: { summary: 'List mosques the caller belongs to', response: z.array(mosqueResponseSchema) } },
 
     { method: 'GET', path: '/api/v1/mosques/:mosqueId', permission: 'TENANT_SCOPED',
       middleware: [requireAuth, tenantGuard], handler: c.getById,

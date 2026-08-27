@@ -1,3 +1,4 @@
+import { z } from 'zod';
 import {
   createInvitationSchema, invitationResponseSchema, updateMembershipSchema, membershipResponseSchema,
 } from './invitations.schemas.js';
@@ -40,7 +41,7 @@ export function invitationsRoutes(deps: InvitationsRouteDeps): RouteDefinition[]
 
     { method: 'GET', path: '/api/v1/mosques/:mosqueId/members', permission: 'TENANT_SCOPED',
       middleware: [requireAuth, tenantGuard], handler: c.listMembers,
-      docs: { summary: 'List a mosque\'s members' } },
+      docs: { summary: 'List a mosque\'s members', response: z.array(membershipResponseSchema) } },
 
     { method: 'PATCH', path: '/api/v1/mosques/:mosqueId/members/:membershipId', permission: 'TENANT_SCOPED',
       middleware: [
@@ -48,6 +49,6 @@ export function invitationsRoutes(deps: InvitationsRouteDeps): RouteDefinition[]
         validate({ body: updateMembershipSchema }), createRequireIdempotency(deps.idempotency),
       ],
       handler: c.updateMembership,
-      docs: { summary: 'Change a member\'s role or status', body: updateMembershipSchema } },
+      docs: { summary: 'Change a member\'s role or status', body: updateMembershipSchema, response: membershipResponseSchema } },
   ];
 }

@@ -950,7 +950,53 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "timezone": {
+                        "type": "string"
+                      },
+                      "latitude": {
+                        "type": "number"
+                      },
+                      "longitude": {
+                        "type": "number"
+                      },
+                      "status": {
+                        "type": "string",
+                        "enum": [
+                          "PROVISIONING",
+                          "ACTIVE",
+                          "SUSPENDED",
+                          "PENDING_DELETION",
+                          "PURGED"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "name",
+                      "timezone",
+                      "latitude",
+                      "longitude",
+                      "status"
+                    ],
+                    "additionalProperties": false
+                  }
+                }
+              }
+            }
           },
           "default": {
             "description": "Error",
@@ -1449,7 +1495,54 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "mosqueId": {
+                        "type": "string"
+                      },
+                      "userId": {
+                        "type": "string"
+                      },
+                      "role": {
+                        "type": "string",
+                        "enum": [
+                          "ADMIN",
+                          "TREASURER",
+                          "COMMITTEE",
+                          "STAFF",
+                          "MEMBER"
+                        ]
+                      },
+                      "status": {
+                        "type": "string",
+                        "enum": [
+                          "ACTIVE",
+                          "SUSPENDED",
+                          "REMOVED"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "mosqueId",
+                      "userId",
+                      "role",
+                      "status"
+                    ],
+                    "additionalProperties": false
+                  }
+                }
+              }
+            }
           },
           "default": {
             "description": "Error",
@@ -1578,7 +1671,51 @@
         },
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "mosqueId": {
+                      "type": "string"
+                    },
+                    "userId": {
+                      "type": "string"
+                    },
+                    "role": {
+                      "type": "string",
+                      "enum": [
+                        "ADMIN",
+                        "TREASURER",
+                        "COMMITTEE",
+                        "STAFF",
+                        "MEMBER"
+                      ]
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "ACTIVE",
+                        "SUSPENDED",
+                        "REMOVED"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "mosqueId",
+                    "userId",
+                    "role",
+                    "status"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
           },
           "default": {
             "description": "Error",
