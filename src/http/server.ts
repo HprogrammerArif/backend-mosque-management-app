@@ -7,6 +7,7 @@ import { parseJsonBody } from './body.js';
 import { sendJson, sendEmpty } from './send.js';
 import { handleError, type Logger } from './error-handler.js';
 import { AppError } from '../common/errors/app-error.js';
+import type { Handler } from './types.js';
 
 type Options = {
   log?: Logger & { info?: (obj: unknown, msg: string) => void };
@@ -40,11 +41,18 @@ export function createHttpServer(router: Router, options: Options) {
           ctx.body = await parseJsonBody(req, options.bodyLimitBytes);
         }
 
-        const result = await compose(matched.route.middleware)(ctx, matched.route.handler);
-
-        if (res.headersSent) return;                       // a middleware already responded
-        if (result === undefined) { sendEmpty(ctx, 204); return; }
-        sendJson(ctx, ctx.method === 'POST' ? 201 : 200, result);
+        // The response is sent from INSIDE the composed chain, not after it returns —
+        // so a middleware that wraps next() (idempotency capture, logging, timing) can
+        // observe the actual write via ctx.res. If sendJson happened only after
+        // compose() resolved, every such middleware's post-next() code would run before
+        // the response existed at all.
+        const sendResult: Handler = async (innerCtx) => {
+          const result = await matched.route.handler(innerCtx);
+          if (innerCtx.res.headersSent) return;             // a middleware already responded
+          if (result === undefined) { sendEmpty(innerCtx, 204); return; }
+          sendJson(innerCtx, innerCtx.method === 'POST' ? 201 : 200, result);
+        };
+        await compose(matched.route.middleware)(ctx, sendResult);
       } catch (error) {
         handleError(ctx, error, log);
       }
