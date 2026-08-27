@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "argon2": "^0.41.0",
+    "dotenv": "^17.4.2",
     "jose": "^5.9.0",
     "oracledb": "^6.6.0",
     "pino": "^9.0.0",

@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import { defineConfig } from 'vitest/config';
 
 // Integration tests need a real Oracle and are slower than the unit suite,
