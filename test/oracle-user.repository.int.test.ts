@@ -3,6 +3,7 @@ import { uuidv7 } from 'uuidv7';
 import { OraclePool } from '../src/infrastructure/database/oracle.pool.js';
 import { OracleUserRepository } from '../src/infrastructure/repositories/oracle/oracle-user.repository.js';
 import { loadEnv } from '../src/config/env.js';
+import { resetAuthTables } from './helpers/reset-auth-tables.js';
 
 let pool: OraclePool;
 let repo: OracleUserRepository;
@@ -13,7 +14,10 @@ beforeAll(async () => {
   repo = new OracleUserRepository(pool);
 });
 afterAll(async () => { await pool.close(); });
-beforeEach(async () => { await pool.execute('DELETE FROM USERS'); });
+// Deletes REFRESH_TOKENS and DEVICES too, even though this suite doesn't create
+// them — another suite's leftover child rows would otherwise block DELETE FROM
+// USERS with ORA-02292. See test/helpers/reset-auth-tables.ts.
+beforeEach(async () => { await resetAuthTables(pool); });
 
 const base = () => ({
   id: uuidv7(), phone: '+8801712345678', email: null,
