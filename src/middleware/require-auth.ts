@@ -3,11 +3,17 @@ import { AppError } from '../common/errors/app-error.js';
 import type { TokenService } from '../modules/auth/token.service.js';
 
 /**
- * The function name is load-bearing: assertRouteTableIsSound inspects Function.name
- * to verify that a non-public route actually runs this. Do not rename or wrap it
- * in an anonymous function.
+ * The RETURNED function's name is load-bearing: assertRouteTableIsSound inspects
+ * Function.name to verify a non-public route actually runs it. That is also why this
+ * factory is deliberately NOT itself named `requireAuth` — a same-named outer/inner
+ * pair (`function requireAuth() { return function requireAuth() {} }`) gets its inner
+ * function renamed by esbuild's collision-avoidance transform under Vitest (observed:
+ * 'requireAuth2'), which corrupts the very check this exists to support. tsc-compiled
+ * production is unaffected, but tests import real routes through the same transform,
+ * so the pattern must be safe there too. Never wrap the returned function in an
+ * anonymous one, and never give this factory the same name as what it returns.
  */
-export function requireAuth(tokens: TokenService): Middleware {
+export function createRequireAuth(tokens: TokenService): Middleware {
   return async function requireAuth(ctx, next) {
     const header = ctx.req.headers.authorization;
     if (!header?.startsWith('Bearer ')) {

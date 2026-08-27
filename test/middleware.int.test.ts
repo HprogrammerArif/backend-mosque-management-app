@@ -4,9 +4,9 @@ import { z } from 'zod';
 import type { Server } from 'node:http';
 import { Router } from '../src/http/router.js';
 import { createHttpServer } from '../src/http/server.js';
-import { requireAuth } from '../src/middleware/require-auth.js';
+import { createRequireAuth } from '../src/middleware/require-auth.js';
 import { validate } from '../src/middleware/validate.js';
-import { requireIdempotency, MemoryIdempotencyStore } from '../src/middleware/require-idempotency.js';
+import { createRequireIdempotency, MemoryIdempotencyStore } from '../src/middleware/require-idempotency.js';
 import { mustUser } from '../src/http/context.js';
 import { TokenService } from '../src/modules/auth/token.service.js';
 import { OracleTokenRepository } from '../src/infrastructure/repositories/oracle/oracle-token.repository.js';
@@ -31,12 +31,12 @@ beforeAll(async () => {
 
   const router = new Router();
   router.add({ method: 'GET', path: '/whoami', permission: 'AUTHENTICATED',
-    middleware: [requireAuth(tokens)], handler: (ctx) => ({ sub: mustUser(ctx).sub }) });
+    middleware: [createRequireAuth(tokens)], handler: (ctx) => ({ sub: mustUser(ctx).sub }) });
   router.add({ method: 'POST', path: '/validated', permission: 'PUBLIC',
     middleware: [validate({ body: z.object({ amountMinor: z.number().int() }) })],
     handler: (ctx) => ctx.body });
   router.add({ method: 'POST', path: '/once', permission: 'AUTHENTICATED',
-    middleware: [requireAuth(tokens), requireIdempotency(new MemoryIdempotencyStore())],
+    middleware: [createRequireAuth(tokens), createRequireIdempotency(new MemoryIdempotencyStore())],
     handler: () => ({ id: Math.random().toString(36).slice(2) }) });
 
   ({ server, shutdown } = createHttpServer(router, {}));

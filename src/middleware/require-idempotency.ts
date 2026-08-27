@@ -16,7 +16,10 @@ export class MemoryIdempotencyStore implements IdempotencyStore {
   async set(key: string, value: StoredResponse): Promise<void> { this.#map.set(key, value); }
 }
 
-export function requireIdempotency(store: IdempotencyStore): Middleware {
+// Named createRequireIdempotency, not requireIdempotency — see the comment on
+// createRequireAuth in require-auth.ts for why a factory must not share its
+// returned function's name.
+export function createRequireIdempotency(store: IdempotencyStore): Middleware {
   return async function requireIdempotency(ctx, next) {
     const key = ctx.req.headers['idempotency-key'];
     if (typeof key !== 'string' || key.length === 0) {
