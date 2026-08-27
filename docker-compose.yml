@@ -6,7 +6,9 @@ services:
       APP_USER: masjid
       APP_USER_PASSWORD: ${ORACLE_PASSWORD:-devpassword}
     ports: ['1521:1521']
-    volumes: ['oracle-data:/opt/oracle/oradata']
+    volumes:
+      - oracle-data:/opt/oracle/oradata
+      - ./docker/initdb:/container-entrypoint-initdb.d
     healthcheck:
       test: ['CMD', 'healthcheck.sh']
       interval: 10s

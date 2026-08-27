@@ -19,7 +19,7 @@
     "lint": "eslint src",
     "db:up": "docker compose up -d",
     "db:down": "docker compose down",
-    "db:reset": "pnpm db:down && docker volume rm mosque-backend_oracle-data || true && pnpm db:up"
+    "db:reset": "pnpm db:down && docker volume rm backend_oracle-data || true && pnpm db:up"
   },
   "dependencies": {
     "argon2": "^0.41.0",
