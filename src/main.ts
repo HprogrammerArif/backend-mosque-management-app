@@ -68,6 +68,19 @@ async function bootstrap(): Promise<void> {
   });
 }
 
-if (process.env['VITEST'] === undefined) {
+/**
+ * Only bootstrap when this file is executed directly (`pnpm dev`, `node dist/main.js`),
+ * never when it is imported for its `createApp` export.
+ *
+ * An earlier version guarded this with `process.env.VITEST === undefined`, which only
+ * accounts for one specific importer (the test runner). `scripts/generate-openapi.ts`
+ * imports this module dynamically to reach `createApp`, is not running under Vitest, and
+ * so tripped the guard — silently starting a full listening server as a side effect of
+ * an import, which either hung the script (a real handle keeping the process alive) or
+ * threw EADDRINUSE on a second run. Comparing `process.argv[1]` against this module's
+ * own path is the general, environment-agnostic form of "am I the entry point" and
+ * covers every importer, not just the ones anticipated in advance.
+ */
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
   await bootstrap();
 }

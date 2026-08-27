@@ -1,4 +1,5 @@
 import type { IncomingMessage, ServerResponse } from 'node:http';
+import type { ZodSchema } from 'zod';
 
 export type Ctx = {
   readonly req: IncomingMessage;
@@ -22,12 +23,20 @@ export type HttpMethod = 'GET' | 'POST' | 'PATCH' | 'PUT' | 'DELETE';
 /** Widens to the full permission matrix in Plan 2, when roles exist. */
 export type RoutePermission = 'PUBLIC' | 'AUTHENTICATED';
 
+export type RouteDocs = {
+  summary: string;
+  body?: ZodSchema;
+  response?: ZodSchema;
+  status?: number;        // defaults to 201 for POST, 200 otherwise
+};
+
 export type RouteDefinition = {
   method: HttpMethod;
   path: string;
   permission: RoutePermission;
   middleware: Middleware[];
   handler: Handler;
+  docs?: RouteDocs;        // additive — routes without it still work
 };
 
 export type MatchResult = { route: RouteDefinition; params: Record<string, string> };

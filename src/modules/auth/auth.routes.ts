@@ -1,4 +1,4 @@
-import { loginSchema, refreshSchema, registerSchema } from './auth.schemas.js';
+import { loginSchema, refreshSchema, registerSchema, authResponseSchema } from './auth.schemas.js';
 import type { RouteDefinition } from '../../http/types.js';
 import { createRequireAuth } from '../../middleware/require-auth.js';
 import { validate } from '../../middleware/validate.js';
@@ -18,19 +18,23 @@ export function authRoutes(deps: AuthRouteDeps): RouteDefinition[] {
 
   return [
     { method: 'POST', path: '/api/v1/auth/register', permission: 'PUBLIC',
-      middleware: [validate({ body: registerSchema })], handler: c.register },
+      middleware: [validate({ body: registerSchema })], handler: c.register,
+      docs: { summary: 'Create an account', body: registerSchema, response: authResponseSchema } },
 
     { method: 'POST', path: '/api/v1/auth/login', permission: 'PUBLIC',
-      middleware: [validate({ body: loginSchema })], handler: c.login },
+      middleware: [validate({ body: loginSchema })], handler: c.login,
+      docs: { summary: 'Sign in', body: loginSchema, response: authResponseSchema } },
 
     { method: 'POST', path: '/api/v1/auth/refresh', permission: 'PUBLIC',
-      middleware: [validate({ body: refreshSchema })], handler: c.refresh },
+      middleware: [validate({ body: refreshSchema })], handler: c.refresh,
+      docs: { summary: 'Rotate the refresh token', body: refreshSchema } },
 
     { method: 'POST', path: '/api/v1/auth/logout', permission: 'AUTHENTICATED',
       middleware: [createRequireAuth(deps.tokens), createRequireIdempotency(deps.idempotency)],
-      handler: c.logout },
+      handler: c.logout, docs: { summary: 'End the session', status: 204 } },
 
     { method: 'GET', path: '/api/v1/auth/me', permission: 'AUTHENTICATED',
-      middleware: [createRequireAuth(deps.tokens)], handler: c.me },
+      middleware: [createRequireAuth(deps.tokens)], handler: c.me,
+      docs: { summary: 'Current user' } },
   ];
 }
