@@ -5,7 +5,7 @@ const MUTATIONS = new Set(['POST', 'PATCH', 'PUT', 'DELETE']);
 /**
  * Replaces a framework's guarantee that a guard cannot be forgotten. Called at startup
  * and asserted again in CI, so a missing guard is a failed build rather than an open
- * endpoint. Plan 2 extends this with requirePermission and requireTenant.
+ * endpoint.
  */
 export function assertRouteTableIsSound(router: Router): void {
   const problems: string[] = [];
@@ -21,6 +21,10 @@ export function assertRouteTableIsSound(router: Router): void {
       if (MUTATIONS.has(route.method) && !names.includes('requireIdempotency')) {
         problems.push(`${where}: missing requireIdempotency`);
       }
+    }
+
+    if (route.permission === 'TENANT_SCOPED' && !names.includes('tenantGuard')) {
+      problems.push(`${where}: missing tenantGuard`);
     }
   }
 

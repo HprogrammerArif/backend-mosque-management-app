@@ -1,5 +1,6 @@
 import type { IncomingMessage, ServerResponse } from 'node:http';
 import type { ZodSchema } from 'zod';
+import type { Role } from '../domain/enums.js';
 
 export type Ctx = {
   readonly req: IncomingMessage;
@@ -13,6 +14,8 @@ export type Ctx = {
   body: unknown;
   /** Set by requireAuth. Read through mustUser(), never directly. */
   user?: { sub: string; jti: string; did: string };
+  /** Set by tenantGuard. Read through mustTenant(), never directly. */
+  tenant?: { tenantId: string; userId: string; role: Role };
 };
 
 export type Handler = (ctx: Ctx) => Promise<unknown> | unknown;
@@ -20,8 +23,8 @@ export type Middleware = (ctx: Ctx, next: () => Promise<void>) => Promise<void>;
 
 export type HttpMethod = 'GET' | 'POST' | 'PATCH' | 'PUT' | 'DELETE';
 
-/** Widens to the full permission matrix in Plan 2, when roles exist. */
-export type RoutePermission = 'PUBLIC' | 'AUTHENTICATED';
+/** Widened in Plan 2: TENANT_SCOPED requires an active membership (tenantGuard). */
+export type RoutePermission = 'PUBLIC' | 'AUTHENTICATED' | 'TENANT_SCOPED';
 
 export type RouteDocs = {
   summary: string;

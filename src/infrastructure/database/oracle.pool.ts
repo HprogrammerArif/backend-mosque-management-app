@@ -62,6 +62,56 @@ export class OraclePool {
     }
   }
 
+  /**
+   * Tenant-scoped read/write. Every `execute()` call already acquires and releases its
+   * own connection (no persistent per-request connection exists here), so "set the VPD
+   * context on acquire, clear it on release" (multi-tenancy doc, Layer 2) maps onto
+   * "set immediately before the query, clear immediately after, on the same connection,
+   * every call." A stale context on a released connection is worse than none, hence the
+   * best-effort clear in `finally` even though the connection is about to close anyway.
+   */
+  async executeAsTenant<T>(tenantId: string, sql: string, binds: Binds = {}): Promise<T[]> {
+    const conn = await this.#require().getConnection();
+    try {
+      await conn.execute('BEGIN masjid_ctx_pkg.set_tenant(:tenantId); END;', { tenantId });
+      const result = await conn.execute<Record<string, unknown>>(sql, binds as oracledb.BindParameters, {
+        outFormat: oracledb.OUT_FORMAT_OBJECT,
+        autoCommit: true,
+      });
+      return (result.rows ?? []).map((r) => normaliseRow<T>(r));
+    } finally {
+      await conn.execute('BEGIN masjid_ctx_pkg.set_tenant(NULL); END;').catch(() => {});
+      await conn.close();
+    }
+  }
+
+  async withTenantTransaction<T>(tenantId: string, fn: (tx: Tx) => Promise<T>): Promise<T> {
+    const conn = await this.#require().getConnection();
+
+    const tx: Tx = {
+      execute: async <R>(sql: string, binds: Binds = {}) => {
+        const result = await conn.execute<Record<string, unknown>>(sql, binds as oracledb.BindParameters, {
+          outFormat: oracledb.OUT_FORMAT_OBJECT,
+          autoCommit: false,
+        });
+        return (result.rows ?? []).map((r) => normaliseRow<R>(r));
+      },
+    };
+
+    try {
+      await conn.execute('BEGIN masjid_ctx_pkg.set_tenant(:tenantId); END;', { tenantId });
+      const value = await fn(tx);
+      await conn.commit();
+      return value;
+    } catch (error) {
+      await conn.rollback();
+      throw error;
+    } finally {
+      await conn.execute('BEGIN masjid_ctx_pkg.set_tenant(NULL); END;').catch(() => {});
+      await conn.close();
+    }
+  }
+
   async withTransaction<T>(fn: (tx: Tx) => Promise<T>): Promise<T> {
     const conn = await this.#require().getConnection();
 

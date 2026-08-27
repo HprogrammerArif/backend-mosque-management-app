@@ -31,3 +31,11 @@ export function mustUser(ctx: Ctx): NonNullable<Ctx['user']> {
   }
   return ctx.user;
 }
+
+/** Same fail-loud shape as mustUser, for tenantGuard. */
+export function mustTenant(ctx: Ctx): NonNullable<Ctx['tenant']> {
+  if (!ctx.tenant) {
+    throw new Error(`Route ${ctx.method} ${ctx.path} read ctx.tenant without tenantGuard`);
+  }
+  return ctx.tenant;
+}
