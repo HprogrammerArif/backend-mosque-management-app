@@ -84,9 +84,12 @@ export class Migrator {
 
     for (const file of pending) {
       const started = Date.now();
-      // Statements are split on a lone ';' line — Oracle rejects a trailing ';'
-      // inside a single execute(), so a file with several statements is split here.
-      for (const statement of file.sql.split(/^\s*;\s*$/m).map((s) => s.trim()).filter(Boolean)) {
+      // Statements are split on a lone ';' or '/' line, mirroring SQL*Plus: ';' ends a
+      // plain SQL statement (stripped, not sent to the driver), '/' ends a PL/SQL block
+      // (CREATE PACKAGE/FUNCTION/anonymous block) whose own internal ';'s are part of
+      // the statement text, not delimiters — so a line with ONLY ';' or '/' terminates,
+      // but 'END;' does not, because that line carries more than just the terminator.
+      for (const statement of file.sql.split(/^\s*[;/]\s*$/m).map((s) => s.trim()).filter(Boolean)) {
         await this.pool.execute(statement);
       }
       const durationMs = Date.now() - started;
