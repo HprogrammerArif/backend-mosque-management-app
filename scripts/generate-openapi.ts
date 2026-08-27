@@ -26,6 +26,13 @@ const ERROR_RESPONSE = {
   },
 } as const;
 
+// $refStrategy: 'none' forces zod-to-json-schema to fully inline every schema instead
+// of hoisting repeated sub-schemas (e.g. prayer-config.schemas.ts's shared offsetMinutes/
+// timeOfDay validators) behind a `$ref`. Each call below embeds its result directly at a
+// deeply nested path (paths -> ... -> responses -> ... -> schema); a `$ref` is always
+// root-relative in JSON Schema, and there is no root-level `definitions`/`components`
+// bucket collecting what each independent call would produce, so any ref-based
+// deduplication produces a dangling reference openapi-typescript can't resolve.
 export function buildOpenApiDocument(router: Router): OpenApiDocument {
   const paths: Record<string, Record<string, unknown>> = {};
 
@@ -45,14 +52,14 @@ export function buildOpenApiDocument(router: Router): OpenApiDocument {
       ...(params.length > 0 ? { parameters: params } : {}),
       ...(route.docs?.body
         ? { requestBody: { required: true, content: {
-              'application/json': { schema: zodToJsonSchema(route.docs.body, { target: 'openApi3' }) } } } }
+              'application/json': { schema: zodToJsonSchema(route.docs.body, { target: 'openApi3', $refStrategy: 'none' }) } } } }
         : {}),
       responses: {
         [String(status)]: {
           description: 'Success',
           ...(route.docs?.response
             ? { content: { 'application/json': {
-                  schema: zodToJsonSchema(route.docs.response, { target: 'openApi3' }) } } }
+                  schema: zodToJsonSchema(route.docs.response, { target: 'openApi3', $refStrategy: 'none' }) } } }
             : {}),
         },
         default: {

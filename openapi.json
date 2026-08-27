@@ -1686,16 +1686,24 @@
                       "maximum": 120
                     },
                     "dhuhrOffsetMin": {
-                      "$ref": "#/properties/fajrOffsetMin"
+                      "type": "integer",
+                      "minimum": -120,
+                      "maximum": 120
                     },
                     "asrOffsetMin": {
-                      "$ref": "#/properties/fajrOffsetMin"
+                      "type": "integer",
+                      "minimum": -120,
+                      "maximum": 120
                     },
                     "maghribOffsetMin": {
-                      "$ref": "#/properties/fajrOffsetMin"
+                      "type": "integer",
+                      "minimum": -120,
+                      "maximum": 120
                     },
                     "ishaOffsetMin": {
-                      "$ref": "#/properties/fajrOffsetMin"
+                      "type": "integer",
+                      "minimum": -120,
+                      "maximum": 120
                     },
                     "fajrFixedTime": {
                       "type": "string",
@@ -1703,43 +1711,28 @@
                       "nullable": true
                     },
                     "dhuhrFixedTime": {
-                      "allOf": [
-                        {
-                          "$ref": "#/properties/fajrFixedTime"
-                        }
-                      ],
+                      "type": "string",
+                      "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$",
                       "nullable": true
                     },
                     "asrFixedTime": {
-                      "allOf": [
-                        {
-                          "$ref": "#/properties/fajrFixedTime"
-                        }
-                      ],
+                      "type": "string",
+                      "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$",
                       "nullable": true
                     },
                     "maghribFixedTime": {
-                      "allOf": [
-                        {
-                          "$ref": "#/properties/fajrFixedTime"
-                        }
-                      ],
+                      "type": "string",
+                      "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$",
                       "nullable": true
                     },
                     "ishaFixedTime": {
-                      "allOf": [
-                        {
-                          "$ref": "#/properties/fajrFixedTime"
-                        }
-                      ],
+                      "type": "string",
+                      "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$",
                       "nullable": true
                     },
                     "jumuahTime": {
-                      "allOf": [
-                        {
-                          "$ref": "#/properties/fajrFixedTime"
-                        }
-                      ],
+                      "type": "string",
+                      "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$",
                       "nullable": true
                     }
                   },
@@ -1866,19 +1859,27 @@
                     "default": 0
                   },
                   "dhuhrOffsetMin": {
-                    "$ref": "#/properties/fajrOffsetMin",
+                    "type": "integer",
+                    "minimum": -120,
+                    "maximum": 120,
                     "default": 0
                   },
                   "asrOffsetMin": {
-                    "$ref": "#/properties/fajrOffsetMin",
+                    "type": "integer",
+                    "minimum": -120,
+                    "maximum": 120,
                     "default": 0
                   },
                   "maghribOffsetMin": {
-                    "$ref": "#/properties/fajrOffsetMin",
+                    "type": "integer",
+                    "minimum": -120,
+                    "maximum": 120,
                     "default": 0
                   },
                   "ishaOffsetMin": {
-                    "$ref": "#/properties/fajrOffsetMin",
+                    "type": "integer",
+                    "minimum": -120,
+                    "maximum": 120,
                     "default": 0
                   },
                   "fajrFixedTime": {
@@ -1888,47 +1889,32 @@
                     "default": null
                   },
                   "dhuhrFixedTime": {
-                    "allOf": [
-                      {
-                        "$ref": "#/properties/fajrFixedTime"
-                      }
-                    ],
+                    "type": "string",
+                    "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$",
                     "nullable": true,
                     "default": null
                   },
                   "asrFixedTime": {
-                    "allOf": [
-                      {
-                        "$ref": "#/properties/fajrFixedTime"
-                      }
-                    ],
+                    "type": "string",
+                    "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$",
                     "nullable": true,
                     "default": null
                   },
                   "maghribFixedTime": {
-                    "allOf": [
-                      {
-                        "$ref": "#/properties/fajrFixedTime"
-                      }
-                    ],
+                    "type": "string",
+                    "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$",
                     "nullable": true,
                     "default": null
                   },
                   "ishaFixedTime": {
-                    "allOf": [
-                      {
-                        "$ref": "#/properties/fajrFixedTime"
-                      }
-                    ],
+                    "type": "string",
+                    "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$",
                     "nullable": true,
                     "default": null
                   },
                   "jumuahTime": {
-                    "allOf": [
-                      {
-                        "$ref": "#/properties/fajrFixedTime"
-                      }
-                    ],
+                    "type": "string",
+                    "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$",
                     "nullable": true,
                     "default": null
                   }
@@ -1961,16 +1947,24 @@
                       "maximum": 120
                     },
                     "dhuhrOffsetMin": {
-                      "$ref": "#/properties/fajrOffsetMin"
+                      "type": "integer",
+                      "minimum": -120,
+                      "maximum": 120
                     },
                     "asrOffsetMin": {
-                      "$ref": "#/properties/fajrOffsetMin"
+                      "type": "integer",
+                      "minimum": -120,
+                      "maximum": 120
                     },
                     "maghribOffsetMin": {
-                      "$ref": "#/properties/fajrOffsetMin"
+                      "type": "integer",
+                      "minimum": -120,
+                      "maximum": 120
                     },
                     "ishaOffsetMin": {
-                      "$ref": "#/properties/fajrOffsetMin"
+                      "type": "integer",
+                      "minimum": -120,
+                      "maximum": 120
                     },
                     "fajrFixedTime": {
                       "type": "string",
@@ -1978,43 +1972,28 @@
                       "nullable": true
                     },
                     "dhuhrFixedTime": {
-                      "allOf": [
-                        {
-                          "$ref": "#/properties/fajrFixedTime"
-                        }
-                      ],
+                      "type": "string",
+                      "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$",
                       "nullable": true
                     },
                     "asrFixedTime": {
-                      "allOf": [
-                        {
-                          "$ref": "#/properties/fajrFixedTime"
-                        }
-                      ],
+                      "type": "string",
+                      "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$",
                       "nullable": true
                     },
                     "maghribFixedTime": {
-                      "allOf": [
-                        {
-                          "$ref": "#/properties/fajrFixedTime"
-                        }
-                      ],
+                      "type": "string",
+                      "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$",
                       "nullable": true
                     },
                     "ishaFixedTime": {
-                      "allOf": [
-                        {
-                          "$ref": "#/properties/fajrFixedTime"
-                        }
-                      ],
+                      "type": "string",
+                      "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$",
                       "nullable": true
                     },
                     "jumuahTime": {
-                      "allOf": [
-                        {
-                          "$ref": "#/properties/fajrFixedTime"
-                        }
-                      ],
+                      "type": "string",
+                      "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$",
                       "nullable": true
                     }
                   },
