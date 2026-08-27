@@ -11,9 +11,14 @@ import type { MembershipRepository } from '../mosques/ports/membership.repositor
 export function createTenantGuard(memberships: MembershipRepository): Middleware {
   return async function tenantGuard(ctx, next) {
     const user = mustUser(ctx);
-    const tenantId = ctx.req.headers['x-tenant-id'];
-    if (typeof tenantId !== 'string' || tenantId === '') {
-      throw new AppError('TENANT_ID_REQUIRED', 'X-Tenant-Id header is required');
+    // Path param first — every tenant-scoped route in this codebase carries :mosqueId,
+    // so the URL is the natural source and needs no header that could disagree with it.
+    // The X-Tenant-Id header remains a fallback for a route shape that has no per-mosque
+    // path segment (multi-tenancy doc: "header, or the path") — none exists yet.
+    const header = ctx.req.headers['x-tenant-id'];
+    const tenantId = ctx.params.mosqueId ?? (typeof header === 'string' ? header : undefined);
+    if (tenantId === undefined || tenantId === '') {
+      throw new AppError('TENANT_ID_REQUIRED', 'No mosque ID in the path or X-Tenant-Id header');
     }
     const membership = await memberships.findActive(tenantId, user.sub);
     if (!membership) {
