@@ -15,6 +15,7 @@ export const acceptInvitationSchema = z.object({}).strip();
 
 export const membershipResponseSchema = z.object({
   id: z.string(),
+  mosqueId: z.string(),
   userId: z.string(),
   role: z.enum(ROLES),
   status: z.enum(['ACTIVE', 'SUSPENDED', 'REMOVED']),

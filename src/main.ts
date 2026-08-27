@@ -17,6 +17,8 @@ import { MosquesService } from './modules/mosques/mosques.service.js';
 import { mosquesRoutes } from './modules/mosques/mosques.routes.js';
 import { InvitationsService } from './modules/mosques/invitations.service.js';
 import { invitationsRoutes } from './modules/mosques/invitations.routes.js';
+import { PrayerConfigService } from './modules/mosques/prayer-config.service.js';
+import { prayerConfigRoutes } from './modules/mosques/prayer-config.routes.js';
 import { healthRoutes } from './modules/health/health.routes.js';
 import { MemoryIdempotencyStore } from './middleware/require-idempotency.js';
 import { assertRouteTableIsSound } from './middleware/assert-routes.js';
@@ -44,9 +46,10 @@ export async function createApp() {
   const passwords     = new PasswordService();
   const tokenSvc      = new TokenService(env, tokens);
   const authSvc       = new AuthService(users, passwords, tokenSvc, pool);
-  const mosquesSvc    = new MosquesService(pool, mosques, memberships);
-  const invitationsSvc = new InvitationsService(invitations, memberships);
-  const idempotency   = new MemoryIdempotencyStore();
+  const mosquesSvc      = new MosquesService(pool, mosques, memberships);
+  const invitationsSvc  = new InvitationsService(invitations, memberships);
+  const prayerConfigSvc = new PrayerConfigService(pool);
+  const idempotency     = new MemoryIdempotencyStore();
 
   // ── routes ──────────────────────────────────────────────────────────────
   const router = new Router();
@@ -55,6 +58,7 @@ export async function createApp() {
     ...authRoutes({ auth: authSvc, tokens: tokenSvc, idempotency }),
     ...mosquesRoutes({ mosques: mosquesSvc, tokens: tokenSvc, memberships, idempotency }),
     ...invitationsRoutes({ invitations: invitationsSvc, tokens: tokenSvc, memberships, idempotency }),
+    ...prayerConfigRoutes({ prayerConfig: prayerConfigSvc, tokens: tokenSvc, memberships, idempotency }),
   ]) router.add(route);
 
   assertRouteTableIsSound(router);   // refuses to boot on a forgotten guard
