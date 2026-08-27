@@ -42,9 +42,12 @@
                             "PERM_ROLE_REQUIRED",
                             "FEATURE_NOT_IN_PLAN",
                             "FEATURE_LIMIT_REACHED",
+                            "TENANT_ID_REQUIRED",
                             "TENANT_NOT_FOUND",
                             "TENANT_SUSPENDED",
                             "TENANT_READONLY",
+                            "INVITATION_EXPIRED",
+                            "INVITATION_ALREADY_ACCEPTED",
                             "VALIDATION_FAILED",
                             "RULE_FUND_RESTRICTION_VIOLATED",
                             "RULE_WAQF_CORPUS_PROTECTED",
@@ -115,9 +118,12 @@
                             "PERM_ROLE_REQUIRED",
                             "FEATURE_NOT_IN_PLAN",
                             "FEATURE_LIMIT_REACHED",
+                            "TENANT_ID_REQUIRED",
                             "TENANT_NOT_FOUND",
                             "TENANT_SUSPENDED",
                             "TENANT_READONLY",
+                            "INVITATION_EXPIRED",
+                            "INVITATION_ALREADY_ACCEPTED",
                             "VALIDATION_FAILED",
                             "RULE_FUND_RESTRICTION_VIOLATED",
                             "RULE_WAQF_CORPUS_PROTECTED",
@@ -283,9 +289,12 @@
                             "PERM_ROLE_REQUIRED",
                             "FEATURE_NOT_IN_PLAN",
                             "FEATURE_LIMIT_REACHED",
+                            "TENANT_ID_REQUIRED",
                             "TENANT_NOT_FOUND",
                             "TENANT_SUSPENDED",
                             "TENANT_READONLY",
+                            "INVITATION_EXPIRED",
+                            "INVITATION_ALREADY_ACCEPTED",
                             "VALIDATION_FAILED",
                             "RULE_FUND_RESTRICTION_VIOLATED",
                             "RULE_WAQF_CORPUS_PROTECTED",
@@ -471,9 +480,12 @@
                             "PERM_ROLE_REQUIRED",
                             "FEATURE_NOT_IN_PLAN",
                             "FEATURE_LIMIT_REACHED",
+                            "TENANT_ID_REQUIRED",
                             "TENANT_NOT_FOUND",
                             "TENANT_SUSPENDED",
                             "TENANT_READONLY",
+                            "INVITATION_EXPIRED",
+                            "INVITATION_ALREADY_ACCEPTED",
                             "VALIDATION_FAILED",
                             "RULE_FUND_RESTRICTION_VIOLATED",
                             "RULE_WAQF_CORPUS_PROTECTED",
@@ -569,9 +581,12 @@
                             "PERM_ROLE_REQUIRED",
                             "FEATURE_NOT_IN_PLAN",
                             "FEATURE_LIMIT_REACHED",
+                            "TENANT_ID_REQUIRED",
                             "TENANT_NOT_FOUND",
                             "TENANT_SUSPENDED",
                             "TENANT_READONLY",
+                            "INVITATION_EXPIRED",
+                            "INVITATION_ALREADY_ACCEPTED",
                             "VALIDATION_FAILED",
                             "RULE_FUND_RESTRICTION_VIOLATED",
                             "RULE_WAQF_CORPUS_PROTECTED",
@@ -646,9 +661,12 @@
                             "PERM_ROLE_REQUIRED",
                             "FEATURE_NOT_IN_PLAN",
                             "FEATURE_LIMIT_REACHED",
+                            "TENANT_ID_REQUIRED",
                             "TENANT_NOT_FOUND",
                             "TENANT_SUSPENDED",
                             "TENANT_READONLY",
+                            "INVITATION_EXPIRED",
+                            "INVITATION_ALREADY_ACCEPTED",
                             "VALIDATION_FAILED",
                             "RULE_FUND_RESTRICTION_VIOLATED",
                             "RULE_WAQF_CORPUS_PROTECTED",
@@ -723,9 +741,1338 @@
                             "PERM_ROLE_REQUIRED",
                             "FEATURE_NOT_IN_PLAN",
                             "FEATURE_LIMIT_REACHED",
+                            "TENANT_ID_REQUIRED",
                             "TENANT_NOT_FOUND",
                             "TENANT_SUSPENDED",
                             "TENANT_READONLY",
+                            "INVITATION_EXPIRED",
+                            "INVITATION_ALREADY_ACCEPTED",
+                            "VALIDATION_FAILED",
+                            "RULE_FUND_RESTRICTION_VIOLATED",
+                            "RULE_WAQF_CORPUS_PROTECTED",
+                            "RULE_LEDGER_IMMUTABLE",
+                            "RULE_LAST_ADMIN",
+                            "SYNC_CURSOR_TOO_OLD",
+                            "SYNC_DEPENDENCY_NOT_FOUND",
+                            "SYNC_EPOCH_MISMATCH",
+                            "CONFLICT_VERSION_MISMATCH",
+                            "IDEMPOTENCY_KEY_REUSED",
+                            "IDEMPOTENCY_KEY_REQUIRED",
+                            "NOT_FOUND",
+                            "RATE_LIMIT_EXCEEDED",
+                            "INTERNAL_ERROR"
+                          ]
+                        },
+                        "message": {
+                          "type": "string"
+                        },
+                        "requestId": {
+                          "type": "string"
+                        },
+                        "details": {}
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/mosques": {
+      "post": {
+        "summary": "Create a mosque",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 200
+                  },
+                  "timezone": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 50
+                  },
+                  "latitude": {
+                    "type": "number",
+                    "minimum": -90,
+                    "maximum": 90
+                  },
+                  "longitude": {
+                    "type": "number",
+                    "minimum": -180,
+                    "maximum": 180
+                  }
+                },
+                "required": [
+                  "name",
+                  "timezone",
+                  "latitude",
+                  "longitude"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "timezone": {
+                      "type": "string"
+                    },
+                    "latitude": {
+                      "type": "number"
+                    },
+                    "longitude": {
+                      "type": "number"
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "PROVISIONING",
+                        "ACTIVE",
+                        "SUSPENDED",
+                        "PENDING_DELETION",
+                        "PURGED"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "name",
+                    "timezone",
+                    "latitude",
+                    "longitude",
+                    "status"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "required": [
+                        "code",
+                        "message",
+                        "requestId"
+                      ],
+                      "properties": {
+                        "code": {
+                          "type": "string",
+                          "enum": [
+                            "AUTH_INVALID_CREDENTIALS",
+                            "AUTH_TOKEN_EXPIRED",
+                            "AUTH_TOKEN_INVALID",
+                            "AUTH_TOKEN_REUSED",
+                            "AUTH_ACCOUNT_LOCKED",
+                            "AUTH_EMAIL_TAKEN",
+                            "AUTH_PHONE_TAKEN",
+                            "PERM_DENIED",
+                            "PERM_ROLE_REQUIRED",
+                            "FEATURE_NOT_IN_PLAN",
+                            "FEATURE_LIMIT_REACHED",
+                            "TENANT_ID_REQUIRED",
+                            "TENANT_NOT_FOUND",
+                            "TENANT_SUSPENDED",
+                            "TENANT_READONLY",
+                            "INVITATION_EXPIRED",
+                            "INVITATION_ALREADY_ACCEPTED",
+                            "VALIDATION_FAILED",
+                            "RULE_FUND_RESTRICTION_VIOLATED",
+                            "RULE_WAQF_CORPUS_PROTECTED",
+                            "RULE_LEDGER_IMMUTABLE",
+                            "RULE_LAST_ADMIN",
+                            "SYNC_CURSOR_TOO_OLD",
+                            "SYNC_DEPENDENCY_NOT_FOUND",
+                            "SYNC_EPOCH_MISMATCH",
+                            "CONFLICT_VERSION_MISMATCH",
+                            "IDEMPOTENCY_KEY_REUSED",
+                            "IDEMPOTENCY_KEY_REQUIRED",
+                            "NOT_FOUND",
+                            "RATE_LIMIT_EXCEEDED",
+                            "INTERNAL_ERROR"
+                          ]
+                        },
+                        "message": {
+                          "type": "string"
+                        },
+                        "requestId": {
+                          "type": "string"
+                        },
+                        "details": {}
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "List mosques the caller belongs to",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "required": [
+                        "code",
+                        "message",
+                        "requestId"
+                      ],
+                      "properties": {
+                        "code": {
+                          "type": "string",
+                          "enum": [
+                            "AUTH_INVALID_CREDENTIALS",
+                            "AUTH_TOKEN_EXPIRED",
+                            "AUTH_TOKEN_INVALID",
+                            "AUTH_TOKEN_REUSED",
+                            "AUTH_ACCOUNT_LOCKED",
+                            "AUTH_EMAIL_TAKEN",
+                            "AUTH_PHONE_TAKEN",
+                            "PERM_DENIED",
+                            "PERM_ROLE_REQUIRED",
+                            "FEATURE_NOT_IN_PLAN",
+                            "FEATURE_LIMIT_REACHED",
+                            "TENANT_ID_REQUIRED",
+                            "TENANT_NOT_FOUND",
+                            "TENANT_SUSPENDED",
+                            "TENANT_READONLY",
+                            "INVITATION_EXPIRED",
+                            "INVITATION_ALREADY_ACCEPTED",
+                            "VALIDATION_FAILED",
+                            "RULE_FUND_RESTRICTION_VIOLATED",
+                            "RULE_WAQF_CORPUS_PROTECTED",
+                            "RULE_LEDGER_IMMUTABLE",
+                            "RULE_LAST_ADMIN",
+                            "SYNC_CURSOR_TOO_OLD",
+                            "SYNC_DEPENDENCY_NOT_FOUND",
+                            "SYNC_EPOCH_MISMATCH",
+                            "CONFLICT_VERSION_MISMATCH",
+                            "IDEMPOTENCY_KEY_REUSED",
+                            "IDEMPOTENCY_KEY_REQUIRED",
+                            "NOT_FOUND",
+                            "RATE_LIMIT_EXCEEDED",
+                            "INTERNAL_ERROR"
+                          ]
+                        },
+                        "message": {
+                          "type": "string"
+                        },
+                        "requestId": {
+                          "type": "string"
+                        },
+                        "details": {}
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/mosques/{mosqueId}": {
+      "get": {
+        "summary": "Get a mosque",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "mosqueId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "timezone": {
+                      "type": "string"
+                    },
+                    "latitude": {
+                      "type": "number"
+                    },
+                    "longitude": {
+                      "type": "number"
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "PROVISIONING",
+                        "ACTIVE",
+                        "SUSPENDED",
+                        "PENDING_DELETION",
+                        "PURGED"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "name",
+                    "timezone",
+                    "latitude",
+                    "longitude",
+                    "status"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "required": [
+                        "code",
+                        "message",
+                        "requestId"
+                      ],
+                      "properties": {
+                        "code": {
+                          "type": "string",
+                          "enum": [
+                            "AUTH_INVALID_CREDENTIALS",
+                            "AUTH_TOKEN_EXPIRED",
+                            "AUTH_TOKEN_INVALID",
+                            "AUTH_TOKEN_REUSED",
+                            "AUTH_ACCOUNT_LOCKED",
+                            "AUTH_EMAIL_TAKEN",
+                            "AUTH_PHONE_TAKEN",
+                            "PERM_DENIED",
+                            "PERM_ROLE_REQUIRED",
+                            "FEATURE_NOT_IN_PLAN",
+                            "FEATURE_LIMIT_REACHED",
+                            "TENANT_ID_REQUIRED",
+                            "TENANT_NOT_FOUND",
+                            "TENANT_SUSPENDED",
+                            "TENANT_READONLY",
+                            "INVITATION_EXPIRED",
+                            "INVITATION_ALREADY_ACCEPTED",
+                            "VALIDATION_FAILED",
+                            "RULE_FUND_RESTRICTION_VIOLATED",
+                            "RULE_WAQF_CORPUS_PROTECTED",
+                            "RULE_LEDGER_IMMUTABLE",
+                            "RULE_LAST_ADMIN",
+                            "SYNC_CURSOR_TOO_OLD",
+                            "SYNC_DEPENDENCY_NOT_FOUND",
+                            "SYNC_EPOCH_MISMATCH",
+                            "CONFLICT_VERSION_MISMATCH",
+                            "IDEMPOTENCY_KEY_REUSED",
+                            "IDEMPOTENCY_KEY_REQUIRED",
+                            "NOT_FOUND",
+                            "RATE_LIMIT_EXCEEDED",
+                            "INTERNAL_ERROR"
+                          ]
+                        },
+                        "message": {
+                          "type": "string"
+                        },
+                        "requestId": {
+                          "type": "string"
+                        },
+                        "details": {}
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/mosques/{mosqueId}/invitations": {
+      "post": {
+        "summary": "Invite a member",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "mosqueId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "emailOrPhone": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 255
+                  },
+                  "role": {
+                    "type": "string",
+                    "enum": [
+                      "ADMIN",
+                      "TREASURER",
+                      "COMMITTEE",
+                      "STAFF",
+                      "MEMBER"
+                    ]
+                  }
+                },
+                "required": [
+                  "emailOrPhone",
+                  "role"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string"
+                    },
+                    "expiresAt": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "token",
+                    "expiresAt"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "required": [
+                        "code",
+                        "message",
+                        "requestId"
+                      ],
+                      "properties": {
+                        "code": {
+                          "type": "string",
+                          "enum": [
+                            "AUTH_INVALID_CREDENTIALS",
+                            "AUTH_TOKEN_EXPIRED",
+                            "AUTH_TOKEN_INVALID",
+                            "AUTH_TOKEN_REUSED",
+                            "AUTH_ACCOUNT_LOCKED",
+                            "AUTH_EMAIL_TAKEN",
+                            "AUTH_PHONE_TAKEN",
+                            "PERM_DENIED",
+                            "PERM_ROLE_REQUIRED",
+                            "FEATURE_NOT_IN_PLAN",
+                            "FEATURE_LIMIT_REACHED",
+                            "TENANT_ID_REQUIRED",
+                            "TENANT_NOT_FOUND",
+                            "TENANT_SUSPENDED",
+                            "TENANT_READONLY",
+                            "INVITATION_EXPIRED",
+                            "INVITATION_ALREADY_ACCEPTED",
+                            "VALIDATION_FAILED",
+                            "RULE_FUND_RESTRICTION_VIOLATED",
+                            "RULE_WAQF_CORPUS_PROTECTED",
+                            "RULE_LEDGER_IMMUTABLE",
+                            "RULE_LAST_ADMIN",
+                            "SYNC_CURSOR_TOO_OLD",
+                            "SYNC_DEPENDENCY_NOT_FOUND",
+                            "SYNC_EPOCH_MISMATCH",
+                            "CONFLICT_VERSION_MISMATCH",
+                            "IDEMPOTENCY_KEY_REUSED",
+                            "IDEMPOTENCY_KEY_REQUIRED",
+                            "NOT_FOUND",
+                            "RATE_LIMIT_EXCEEDED",
+                            "INTERNAL_ERROR"
+                          ]
+                        },
+                        "message": {
+                          "type": "string"
+                        },
+                        "requestId": {
+                          "type": "string"
+                        },
+                        "details": {}
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/invitations/{token}/accept": {
+      "post": {
+        "summary": "Accept an invitation",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "token",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "mosqueId": {
+                      "type": "string"
+                    },
+                    "userId": {
+                      "type": "string"
+                    },
+                    "role": {
+                      "type": "string",
+                      "enum": [
+                        "ADMIN",
+                        "TREASURER",
+                        "COMMITTEE",
+                        "STAFF",
+                        "MEMBER"
+                      ]
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "ACTIVE",
+                        "SUSPENDED",
+                        "REMOVED"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "mosqueId",
+                    "userId",
+                    "role",
+                    "status"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "required": [
+                        "code",
+                        "message",
+                        "requestId"
+                      ],
+                      "properties": {
+                        "code": {
+                          "type": "string",
+                          "enum": [
+                            "AUTH_INVALID_CREDENTIALS",
+                            "AUTH_TOKEN_EXPIRED",
+                            "AUTH_TOKEN_INVALID",
+                            "AUTH_TOKEN_REUSED",
+                            "AUTH_ACCOUNT_LOCKED",
+                            "AUTH_EMAIL_TAKEN",
+                            "AUTH_PHONE_TAKEN",
+                            "PERM_DENIED",
+                            "PERM_ROLE_REQUIRED",
+                            "FEATURE_NOT_IN_PLAN",
+                            "FEATURE_LIMIT_REACHED",
+                            "TENANT_ID_REQUIRED",
+                            "TENANT_NOT_FOUND",
+                            "TENANT_SUSPENDED",
+                            "TENANT_READONLY",
+                            "INVITATION_EXPIRED",
+                            "INVITATION_ALREADY_ACCEPTED",
+                            "VALIDATION_FAILED",
+                            "RULE_FUND_RESTRICTION_VIOLATED",
+                            "RULE_WAQF_CORPUS_PROTECTED",
+                            "RULE_LEDGER_IMMUTABLE",
+                            "RULE_LAST_ADMIN",
+                            "SYNC_CURSOR_TOO_OLD",
+                            "SYNC_DEPENDENCY_NOT_FOUND",
+                            "SYNC_EPOCH_MISMATCH",
+                            "CONFLICT_VERSION_MISMATCH",
+                            "IDEMPOTENCY_KEY_REUSED",
+                            "IDEMPOTENCY_KEY_REQUIRED",
+                            "NOT_FOUND",
+                            "RATE_LIMIT_EXCEEDED",
+                            "INTERNAL_ERROR"
+                          ]
+                        },
+                        "message": {
+                          "type": "string"
+                        },
+                        "requestId": {
+                          "type": "string"
+                        },
+                        "details": {}
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/mosques/{mosqueId}/members": {
+      "get": {
+        "summary": "List a mosque's members",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "mosqueId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "required": [
+                        "code",
+                        "message",
+                        "requestId"
+                      ],
+                      "properties": {
+                        "code": {
+                          "type": "string",
+                          "enum": [
+                            "AUTH_INVALID_CREDENTIALS",
+                            "AUTH_TOKEN_EXPIRED",
+                            "AUTH_TOKEN_INVALID",
+                            "AUTH_TOKEN_REUSED",
+                            "AUTH_ACCOUNT_LOCKED",
+                            "AUTH_EMAIL_TAKEN",
+                            "AUTH_PHONE_TAKEN",
+                            "PERM_DENIED",
+                            "PERM_ROLE_REQUIRED",
+                            "FEATURE_NOT_IN_PLAN",
+                            "FEATURE_LIMIT_REACHED",
+                            "TENANT_ID_REQUIRED",
+                            "TENANT_NOT_FOUND",
+                            "TENANT_SUSPENDED",
+                            "TENANT_READONLY",
+                            "INVITATION_EXPIRED",
+                            "INVITATION_ALREADY_ACCEPTED",
+                            "VALIDATION_FAILED",
+                            "RULE_FUND_RESTRICTION_VIOLATED",
+                            "RULE_WAQF_CORPUS_PROTECTED",
+                            "RULE_LEDGER_IMMUTABLE",
+                            "RULE_LAST_ADMIN",
+                            "SYNC_CURSOR_TOO_OLD",
+                            "SYNC_DEPENDENCY_NOT_FOUND",
+                            "SYNC_EPOCH_MISMATCH",
+                            "CONFLICT_VERSION_MISMATCH",
+                            "IDEMPOTENCY_KEY_REUSED",
+                            "IDEMPOTENCY_KEY_REQUIRED",
+                            "NOT_FOUND",
+                            "RATE_LIMIT_EXCEEDED",
+                            "INTERNAL_ERROR"
+                          ]
+                        },
+                        "message": {
+                          "type": "string"
+                        },
+                        "requestId": {
+                          "type": "string"
+                        },
+                        "details": {}
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/mosques/{mosqueId}/members/{membershipId}": {
+      "patch": {
+        "summary": "Change a member's role or status",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "mosqueId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "membershipId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "role": {
+                    "type": "string",
+                    "enum": [
+                      "ADMIN",
+                      "TREASURER",
+                      "COMMITTEE",
+                      "STAFF",
+                      "MEMBER"
+                    ]
+                  },
+                  "status": {
+                    "type": "string",
+                    "enum": [
+                      "ACTIVE",
+                      "SUSPENDED",
+                      "REMOVED"
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "required": [
+                        "code",
+                        "message",
+                        "requestId"
+                      ],
+                      "properties": {
+                        "code": {
+                          "type": "string",
+                          "enum": [
+                            "AUTH_INVALID_CREDENTIALS",
+                            "AUTH_TOKEN_EXPIRED",
+                            "AUTH_TOKEN_INVALID",
+                            "AUTH_TOKEN_REUSED",
+                            "AUTH_ACCOUNT_LOCKED",
+                            "AUTH_EMAIL_TAKEN",
+                            "AUTH_PHONE_TAKEN",
+                            "PERM_DENIED",
+                            "PERM_ROLE_REQUIRED",
+                            "FEATURE_NOT_IN_PLAN",
+                            "FEATURE_LIMIT_REACHED",
+                            "TENANT_ID_REQUIRED",
+                            "TENANT_NOT_FOUND",
+                            "TENANT_SUSPENDED",
+                            "TENANT_READONLY",
+                            "INVITATION_EXPIRED",
+                            "INVITATION_ALREADY_ACCEPTED",
+                            "VALIDATION_FAILED",
+                            "RULE_FUND_RESTRICTION_VIOLATED",
+                            "RULE_WAQF_CORPUS_PROTECTED",
+                            "RULE_LEDGER_IMMUTABLE",
+                            "RULE_LAST_ADMIN",
+                            "SYNC_CURSOR_TOO_OLD",
+                            "SYNC_DEPENDENCY_NOT_FOUND",
+                            "SYNC_EPOCH_MISMATCH",
+                            "CONFLICT_VERSION_MISMATCH",
+                            "IDEMPOTENCY_KEY_REUSED",
+                            "IDEMPOTENCY_KEY_REQUIRED",
+                            "NOT_FOUND",
+                            "RATE_LIMIT_EXCEEDED",
+                            "INTERNAL_ERROR"
+                          ]
+                        },
+                        "message": {
+                          "type": "string"
+                        },
+                        "requestId": {
+                          "type": "string"
+                        },
+                        "details": {}
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/mosques/{mosqueId}/prayer-config": {
+      "get": {
+        "summary": "Get prayer calculation method and jamaat offsets",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "mosqueId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "tenantId": {
+                      "type": "string"
+                    },
+                    "calculationMethod": {
+                      "type": "string"
+                    },
+                    "fajrOffsetMin": {
+                      "type": "integer",
+                      "minimum": -120,
+                      "maximum": 120
+                    },
+                    "dhuhrOffsetMin": {
+                      "$ref": "#/properties/fajrOffsetMin"
+                    },
+                    "asrOffsetMin": {
+                      "$ref": "#/properties/fajrOffsetMin"
+                    },
+                    "maghribOffsetMin": {
+                      "$ref": "#/properties/fajrOffsetMin"
+                    },
+                    "ishaOffsetMin": {
+                      "$ref": "#/properties/fajrOffsetMin"
+                    },
+                    "fajrFixedTime": {
+                      "type": "string",
+                      "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$",
+                      "nullable": true
+                    },
+                    "dhuhrFixedTime": {
+                      "allOf": [
+                        {
+                          "$ref": "#/properties/fajrFixedTime"
+                        }
+                      ],
+                      "nullable": true
+                    },
+                    "asrFixedTime": {
+                      "allOf": [
+                        {
+                          "$ref": "#/properties/fajrFixedTime"
+                        }
+                      ],
+                      "nullable": true
+                    },
+                    "maghribFixedTime": {
+                      "allOf": [
+                        {
+                          "$ref": "#/properties/fajrFixedTime"
+                        }
+                      ],
+                      "nullable": true
+                    },
+                    "ishaFixedTime": {
+                      "allOf": [
+                        {
+                          "$ref": "#/properties/fajrFixedTime"
+                        }
+                      ],
+                      "nullable": true
+                    },
+                    "jumuahTime": {
+                      "allOf": [
+                        {
+                          "$ref": "#/properties/fajrFixedTime"
+                        }
+                      ],
+                      "nullable": true
+                    }
+                  },
+                  "required": [
+                    "tenantId",
+                    "calculationMethod",
+                    "fajrOffsetMin",
+                    "dhuhrOffsetMin",
+                    "asrOffsetMin",
+                    "maghribOffsetMin",
+                    "ishaOffsetMin",
+                    "fajrFixedTime",
+                    "dhuhrFixedTime",
+                    "asrFixedTime",
+                    "maghribFixedTime",
+                    "ishaFixedTime",
+                    "jumuahTime"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "required": [
+                        "code",
+                        "message",
+                        "requestId"
+                      ],
+                      "properties": {
+                        "code": {
+                          "type": "string",
+                          "enum": [
+                            "AUTH_INVALID_CREDENTIALS",
+                            "AUTH_TOKEN_EXPIRED",
+                            "AUTH_TOKEN_INVALID",
+                            "AUTH_TOKEN_REUSED",
+                            "AUTH_ACCOUNT_LOCKED",
+                            "AUTH_EMAIL_TAKEN",
+                            "AUTH_PHONE_TAKEN",
+                            "PERM_DENIED",
+                            "PERM_ROLE_REQUIRED",
+                            "FEATURE_NOT_IN_PLAN",
+                            "FEATURE_LIMIT_REACHED",
+                            "TENANT_ID_REQUIRED",
+                            "TENANT_NOT_FOUND",
+                            "TENANT_SUSPENDED",
+                            "TENANT_READONLY",
+                            "INVITATION_EXPIRED",
+                            "INVITATION_ALREADY_ACCEPTED",
+                            "VALIDATION_FAILED",
+                            "RULE_FUND_RESTRICTION_VIOLATED",
+                            "RULE_WAQF_CORPUS_PROTECTED",
+                            "RULE_LEDGER_IMMUTABLE",
+                            "RULE_LAST_ADMIN",
+                            "SYNC_CURSOR_TOO_OLD",
+                            "SYNC_DEPENDENCY_NOT_FOUND",
+                            "SYNC_EPOCH_MISMATCH",
+                            "CONFLICT_VERSION_MISMATCH",
+                            "IDEMPOTENCY_KEY_REUSED",
+                            "IDEMPOTENCY_KEY_REQUIRED",
+                            "NOT_FOUND",
+                            "RATE_LIMIT_EXCEEDED",
+                            "INTERNAL_ERROR"
+                          ]
+                        },
+                        "message": {
+                          "type": "string"
+                        },
+                        "requestId": {
+                          "type": "string"
+                        },
+                        "details": {}
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Set the calculation method and jamaat offsets",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "mosqueId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "calculationMethod": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 30
+                  },
+                  "fajrOffsetMin": {
+                    "type": "integer",
+                    "minimum": -120,
+                    "maximum": 120,
+                    "default": 0
+                  },
+                  "dhuhrOffsetMin": {
+                    "$ref": "#/properties/fajrOffsetMin",
+                    "default": 0
+                  },
+                  "asrOffsetMin": {
+                    "$ref": "#/properties/fajrOffsetMin",
+                    "default": 0
+                  },
+                  "maghribOffsetMin": {
+                    "$ref": "#/properties/fajrOffsetMin",
+                    "default": 0
+                  },
+                  "ishaOffsetMin": {
+                    "$ref": "#/properties/fajrOffsetMin",
+                    "default": 0
+                  },
+                  "fajrFixedTime": {
+                    "type": "string",
+                    "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$",
+                    "nullable": true,
+                    "default": null
+                  },
+                  "dhuhrFixedTime": {
+                    "allOf": [
+                      {
+                        "$ref": "#/properties/fajrFixedTime"
+                      }
+                    ],
+                    "nullable": true,
+                    "default": null
+                  },
+                  "asrFixedTime": {
+                    "allOf": [
+                      {
+                        "$ref": "#/properties/fajrFixedTime"
+                      }
+                    ],
+                    "nullable": true,
+                    "default": null
+                  },
+                  "maghribFixedTime": {
+                    "allOf": [
+                      {
+                        "$ref": "#/properties/fajrFixedTime"
+                      }
+                    ],
+                    "nullable": true,
+                    "default": null
+                  },
+                  "ishaFixedTime": {
+                    "allOf": [
+                      {
+                        "$ref": "#/properties/fajrFixedTime"
+                      }
+                    ],
+                    "nullable": true,
+                    "default": null
+                  },
+                  "jumuahTime": {
+                    "allOf": [
+                      {
+                        "$ref": "#/properties/fajrFixedTime"
+                      }
+                    ],
+                    "nullable": true,
+                    "default": null
+                  }
+                },
+                "required": [
+                  "calculationMethod"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "tenantId": {
+                      "type": "string"
+                    },
+                    "calculationMethod": {
+                      "type": "string"
+                    },
+                    "fajrOffsetMin": {
+                      "type": "integer",
+                      "minimum": -120,
+                      "maximum": 120
+                    },
+                    "dhuhrOffsetMin": {
+                      "$ref": "#/properties/fajrOffsetMin"
+                    },
+                    "asrOffsetMin": {
+                      "$ref": "#/properties/fajrOffsetMin"
+                    },
+                    "maghribOffsetMin": {
+                      "$ref": "#/properties/fajrOffsetMin"
+                    },
+                    "ishaOffsetMin": {
+                      "$ref": "#/properties/fajrOffsetMin"
+                    },
+                    "fajrFixedTime": {
+                      "type": "string",
+                      "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$",
+                      "nullable": true
+                    },
+                    "dhuhrFixedTime": {
+                      "allOf": [
+                        {
+                          "$ref": "#/properties/fajrFixedTime"
+                        }
+                      ],
+                      "nullable": true
+                    },
+                    "asrFixedTime": {
+                      "allOf": [
+                        {
+                          "$ref": "#/properties/fajrFixedTime"
+                        }
+                      ],
+                      "nullable": true
+                    },
+                    "maghribFixedTime": {
+                      "allOf": [
+                        {
+                          "$ref": "#/properties/fajrFixedTime"
+                        }
+                      ],
+                      "nullable": true
+                    },
+                    "ishaFixedTime": {
+                      "allOf": [
+                        {
+                          "$ref": "#/properties/fajrFixedTime"
+                        }
+                      ],
+                      "nullable": true
+                    },
+                    "jumuahTime": {
+                      "allOf": [
+                        {
+                          "$ref": "#/properties/fajrFixedTime"
+                        }
+                      ],
+                      "nullable": true
+                    }
+                  },
+                  "required": [
+                    "tenantId",
+                    "calculationMethod",
+                    "fajrOffsetMin",
+                    "dhuhrOffsetMin",
+                    "asrOffsetMin",
+                    "maghribOffsetMin",
+                    "ishaOffsetMin",
+                    "fajrFixedTime",
+                    "dhuhrFixedTime",
+                    "asrFixedTime",
+                    "maghribFixedTime",
+                    "ishaFixedTime",
+                    "jumuahTime"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "required": [
+                        "code",
+                        "message",
+                        "requestId"
+                      ],
+                      "properties": {
+                        "code": {
+                          "type": "string",
+                          "enum": [
+                            "AUTH_INVALID_CREDENTIALS",
+                            "AUTH_TOKEN_EXPIRED",
+                            "AUTH_TOKEN_INVALID",
+                            "AUTH_TOKEN_REUSED",
+                            "AUTH_ACCOUNT_LOCKED",
+                            "AUTH_EMAIL_TAKEN",
+                            "AUTH_PHONE_TAKEN",
+                            "PERM_DENIED",
+                            "PERM_ROLE_REQUIRED",
+                            "FEATURE_NOT_IN_PLAN",
+                            "FEATURE_LIMIT_REACHED",
+                            "TENANT_ID_REQUIRED",
+                            "TENANT_NOT_FOUND",
+                            "TENANT_SUSPENDED",
+                            "TENANT_READONLY",
+                            "INVITATION_EXPIRED",
+                            "INVITATION_ALREADY_ACCEPTED",
                             "VALIDATION_FAILED",
                             "RULE_FUND_RESTRICTION_VIOLATED",
                             "RULE_WAQF_CORPUS_PROTECTED",
