@@ -21,6 +21,7 @@ import { PrayerConfigService } from './modules/mosques/prayer-config.service.js'
 import { prayerConfigRoutes } from './modules/mosques/prayer-config.routes.js';
 import { HouseholdsService } from './modules/households/households.service.js';
 import { householdsRoutes } from './modules/households/households.routes.js';
+import { IndividualsService } from './modules/households/individuals.service.js';
 import { DonationsService } from './modules/donations/donations.service.js';
 import { donationsRoutes } from './modules/donations/donations.routes.js';
 import { ExpensesService } from './modules/donations/expenses.service.js';
@@ -59,6 +60,7 @@ export async function createApp() {
   const invitationsSvc  = new InvitationsService(invitations, memberships);
   const prayerConfigSvc = new PrayerConfigService(pool);
   const householdsSvc   = new HouseholdsService(pool);
+  const individualsSvc  = new IndividualsService(pool);
   const donationsSvc    = new DonationsService(pool);
   const expensesSvc     = new ExpensesService(pool);
   const expenseCategoriesSvc = new ExpenseCategoriesService(pool);
@@ -73,7 +75,10 @@ export async function createApp() {
     ...mosquesRoutes({ mosques: mosquesSvc, tokens: tokenSvc, memberships, idempotency }),
     ...invitationsRoutes({ invitations: invitationsSvc, tokens: tokenSvc, memberships, idempotency }),
     ...prayerConfigRoutes({ prayerConfig: prayerConfigSvc, tokens: tokenSvc, memberships, idempotency }),
-    ...householdsRoutes({ households: householdsSvc, tokens: tokenSvc, memberships, idempotency }),
+    ...householdsRoutes({
+      households: householdsSvc, individuals: individualsSvc,
+      tokens: tokenSvc, memberships, idempotency,
+    }),
     ...donationsRoutes({ donations: donationsSvc, tokens: tokenSvc, memberships, idempotency }),
     ...expensesRoutes({
       expenses: expensesSvc, expenseCategories: expenseCategoriesSvc,
