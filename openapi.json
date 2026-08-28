@@ -11006,6 +11006,13 @@
                               "additionalProperties": false
                             }
                           ]
+                        },
+                        "changedFields": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          },
+                          "default": []
                         }
                       },
                       "required": [

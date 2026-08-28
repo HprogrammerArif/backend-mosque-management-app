@@ -128,13 +128,143 @@ describe('sync push — households', () => {
     expect(list.body).toHaveLength(1);
   });
 
-  it('rejects a non-insert op — field-merge is a named, not-yet-built gap', async () => {
+  it('rejects a delete op — soft-delete via sync is a separate, not-yet-built gap', async () => {
+    const tenant = await createTenant(server);
+    const mutation = householdMutation({ op: 'delete' });
+    const res = await api().post('/api/v1/sync/push').set(auth(tenant)).set(idem())
+      .send({ deviceId: 'device-1', mutations: [mutation] });
+
+    expect(res.body.results[0]).toMatchObject({ status: 'rejected', code: 'VALIDATION_FAILED' });
+  });
+
+  it('rejects an update to a household that does not exist', async () => {
     const tenant = await createTenant(server);
     const mutation = householdMutation({ op: 'update' });
     const res = await api().post('/api/v1/sync/push').set(auth(tenant)).set(idem())
       .send({ deviceId: 'device-1', mutations: [mutation] });
 
-    expect(res.body.results[0]).toMatchObject({ status: 'rejected', code: 'VALIDATION_FAILED' });
+    expect(res.body.results[0]).toMatchObject({ status: 'rejected', code: 'NOT_FOUND' });
+  });
+});
+
+describe('sync push — household field-merge (offline-sync-protocol.md §6.2)', () => {
+  async function insertHousehold(tenant: TenantFixture, overrides: Partial<Record<string, unknown>> = {}) {
+    const mutation = householdMutation(overrides);
+    const res = await api().post('/api/v1/sync/push').set(auth(tenant)).set(idem())
+      .send({ deviceId: 'device-1', mutations: [mutation] });
+    return { entityId: mutation.entityId, accepted: res.body.results[0] };
+  }
+
+  function updateMutation(
+    entityId: string, hlc: string, changedFields: string[], payloadOverrides: Partial<Record<string, unknown>>,
+  ) {
+    return {
+      mutationId: uuidv7(), entity: 'households' as const, entityId, op: 'update' as const,
+      hlc, dependsOn: [], changedFields,
+      payload: {
+        name: 'Rahman Household', addressLine1: null, area: null, phone: null,
+        monthlyDuesMinor: 50000, exempt: false, joinedOn: null,
+        ...payloadOverrides,
+      },
+    };
+  }
+
+  it('accepts a single-device update where every changed field wins — status "accepted", not "conflict"', async () => {
+    const tenant = await createTenant(server);
+    const { entityId } = await insertHousehold(tenant);
+    const laterHlc = `${Date.now() + 60_000}:000000:device-1`;
+
+    const res = await api().post('/api/v1/sync/push').set(auth(tenant)).set(idem())
+      .send({ deviceId: 'device-1', mutations: [updateMutation(entityId, laterHlc, ['area'], { area: 'Mirpur' })] });
+
+    expect(res.body.results[0].status).toBe('accepted');
+    expect(res.body.results[0].canonical.area).toBe('Mirpur');
+
+    const fetched = await api().get(`/api/v1/mosques/${tenant.mosqueId}/households/${entityId}`).set(auth(tenant));
+    expect(fetched.body.area).toBe('Mirpur');
+  });
+
+  it('rejects a stale update (older HLC than the field already has) as a no-op conflict, not an error', async () => {
+    const tenant = await createTenant(server);
+    const { entityId } = await insertHousehold(tenant);
+    // The insert stamped every field with a SERVER clock at "now" — an update whose hlc
+    // is from far in the past must lose on the field it's trying to change.
+    const staleHlc = '000000000000001:000000:device-1';
+
+    const res = await api().post('/api/v1/sync/push').set(auth(tenant)).set(idem())
+      .send({ deviceId: 'device-1', mutations: [updateMutation(entityId, staleHlc, ['area'], { area: 'Mirpur' })] });
+
+    expect(res.body.results[0]).toMatchObject({ status: 'conflict', resolution: 'field_merge' });
+    // The server's existing value survives — the stale write never applied.
+    expect(res.body.results[0].canonical.area).toBeNull();
+
+    const fetched = await api().get(`/api/v1/mosques/${tenant.mosqueId}/households/${entityId}`).set(auth(tenant));
+    expect(fetched.body.area).toBeNull();
+  });
+
+  it('merges two devices\' concurrent edits to DIFFERENT fields — both survive regardless of clock order', async () => {
+    const tenant = await createTenant(server);
+    const { entityId } = await insertHousehold(tenant);
+    const t1 = `${Date.now() + 60_000}:000000:device-A`;
+    // Device B's clock is actually EARLIER than A's — if changedFields scoping were
+    // missing, this ordering would be the tell: without it, whichever mutation's blanket
+    // clock is later would win on every field, including ones it never intended to touch.
+    const t2 = `${Date.now() + 30_000}:000000:device-B`;
+
+    // Device A, offline, changes only the phone number and explicitly says so.
+    await api().post('/api/v1/sync/push').set(auth(tenant)).set(idem())
+      .send({ deviceId: 'device-A', mutations: [updateMutation(entityId, t1, ['phone'], { phone: '+8801711111111' })] });
+
+    // Device B, offline, changes only the area. Its payload still carries the OLD phone
+    // value (it never saw A's edit) — changedFields: ['area'] is what stops that stale
+    // phone field from being considered at all, let alone overwriting A's write.
+    const res = await api().post('/api/v1/sync/push').set(auth(tenant)).set(idem())
+      .send({ deviceId: 'device-B', mutations: [updateMutation(entityId, t2, ['area'], { area: 'Uttara' })] });
+
+    expect(res.body.results[0]).toMatchObject({ status: 'accepted' });
+    expect(res.body.results[0].canonical.area).toBe('Uttara');
+    expect(res.body.results[0].canonical.phone).toBe('+8801711111111');
+
+    const fetched = await api().get(`/api/v1/mosques/${tenant.mosqueId}/households/${entityId}`).set(auth(tenant));
+    expect(fetched.body.area).toBe('Uttara');
+    expect(fetched.body.phone).toBe('+8801711111111');
+  });
+
+  it('increments serverVersion on each successive update, persisted not just reported', async () => {
+    const tenant = await createTenant(server);
+    const inserted = await insertHousehold(tenant);
+    expect(inserted.accepted.serverVersion).toBe(1);
+
+    const first = await api().post('/api/v1/sync/push').set(auth(tenant)).set(idem())
+      .send({
+        deviceId: 'device-1',
+        mutations: [updateMutation(inserted.entityId, `${Date.now() + 60_000}:000000:device-1`, ['area'], { area: 'Mirpur' })],
+      });
+    expect(first.body.results[0].serverVersion).toBe(2);
+
+    // A SECOND update must see 3, not 2 again — if SERVER_VERSION were computed from a
+    // stale in-memory value rather than the row NVL-incremented in the same UPDATE
+    // statement, every update after the first would keep reporting 2.
+    const second = await api().post('/api/v1/sync/push').set(auth(tenant)).set(idem())
+      .send({
+        deviceId: 'device-1',
+        mutations: [updateMutation(inserted.entityId, `${Date.now() + 120_000}:000000:device-1`, ['area'], { area: 'Uttara' })],
+      });
+    expect(second.body.results[0].serverVersion).toBe(3);
+  });
+
+  it('deduplicates a retried update mutation by mutationId', async () => {
+    const tenant = await createTenant(server);
+    const { entityId } = await insertHousehold(tenant);
+    const mutation = updateMutation(entityId, `${Date.now() + 60_000}:000000:device-1`, ['area'], { area: 'Badda' });
+
+    const first = await api().post('/api/v1/sync/push').set(auth(tenant)).set(idem())
+      .send({ deviceId: 'device-1', mutations: [mutation] });
+    const retry = await api().post('/api/v1/sync/push').set(auth(tenant)).set(idem())
+      .send({ deviceId: 'device-1', mutations: [mutation] });
+
+    expect(first.body.results[0].status).toBe('accepted');
+    expect(retry.body.results[0]).toMatchObject({ status: 'duplicate', changeSeq: first.body.results[0].changeSeq });
   });
 });
 

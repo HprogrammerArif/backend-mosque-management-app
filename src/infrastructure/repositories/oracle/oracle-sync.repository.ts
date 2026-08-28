@@ -152,6 +152,43 @@ export class OracleSyncRepository {
     );
   }
 
+  /**
+   * Writes the field-merge OUTCOME the service already computed — every mutable column
+   * gets set to its winning value (the incoming write's or the row's own current one),
+   * never a partial/dynamic SET clause. FIELD_CLOCKS is the full post-merge map, not a
+   * delta. No append-only trigger on HOUSEHOLDS (unlike DONATIONS/EXPENSES) — it's a
+   * mutable registry entity by design, matching SYNC_ENTITIES' 'field_merge' policy.
+   *
+   * `NVL(SERVER_VERSION, 0) + 1`, not a plain `+ 1`: a household created via the REST
+   * API (never synced) has SERVER_VERSION = NULL — migration 0011's "never synced"
+   * signal — and Oracle arithmetic on NULL yields NULL, which would leave it NULL
+   * forever instead of correctly becoming 1 on its first sync-visible write.
+   */
+  async updateHouseholdMerged(
+    tx: Tx, id: string,
+    input: {
+      name: string; address_line1: string | null; area: string | null; phone: string | null;
+      monthly_dues_minor: number; exempt: number; joined_on: string | null;
+      changeSeq: number; hlc: string; mutationId: string; fieldClocksJson: string;
+    },
+  ): Promise<void> {
+    await tx.execute(
+      `UPDATE HOUSEHOLDS SET
+         NAME = :name, ADDRESS_LINE1 = :addressLine1, AREA = :area, PHONE = :phone,
+         MONTHLY_DUES_MINOR = :monthlyDuesMinor, EXEMPT = :exempt, JOINED_ON = :joinedOn,
+         SERVER_VERSION = NVL(SERVER_VERSION, 0) + 1,
+         CHANGE_SEQ = :changeSeq, HLC = :hlc, MUTATION_ID = :mutationId, FIELD_CLOCKS = :fieldClocksJson
+       WHERE ID = :id`,
+      {
+        id, name: input.name, addressLine1: input.address_line1, area: input.area, phone: input.phone,
+        monthlyDuesMinor: input.monthly_dues_minor, exempt: input.exempt,
+        joinedOn: input.joined_on === null ? null : new Date(input.joined_on),
+        changeSeq: input.changeSeq, hlc: input.hlc, mutationId: input.mutationId,
+        fieldClocksJson: input.fieldClocksJson,
+      },
+    );
+  }
+
   async pullHouseholds(tenantId: string, since: number, maxSeq: number, limit: number): Promise<HouseholdRow[]> {
     return this.pool.executeAsTenant<HouseholdRow>(
       tenantId,

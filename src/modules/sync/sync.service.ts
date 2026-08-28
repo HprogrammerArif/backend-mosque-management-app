@@ -4,7 +4,8 @@ import type { TenantContext } from '../tenancy/tenant-context.js';
 import type {
   BootstrapRequest, PushRequest, Mutation, SyncEntity, DonationPayload, HouseholdPayload,
 } from './sync.schemas.js';
-import { serializeHlc, type Hlc } from '../../domain/hlc.js';
+import { serializeHlc, parseHlc, compareHlc, type Hlc } from '../../domain/hlc.js';
+import type { HouseholdRow } from '../../infrastructure/repositories/oracle/oracle-sync.repository.js';
 
 const BOOTSTRAP_PAGE_SIZE = 500;
 const PULL_PAGE_SIZE = 500;
@@ -12,7 +13,64 @@ const PULL_PAGE_SIZE = 500;
 export type MutationResult =
   | { mutationId: string; status: 'accepted'; serverVersion: number; changeSeq: number; canonical: unknown }
   | { mutationId: string; status: 'duplicate'; serverVersion: number; changeSeq: number; canonical: unknown }
+  | { mutationId: string; status: 'conflict'; resolution: 'field_merge'; serverVersion: number; changeSeq: number; canonical: unknown }
   | { mutationId: string; status: 'rejected'; code: string; message: string };
+
+/**
+ * offline-sync-protocol.md §6.2 — every field here gets its own HLC, stored in
+ * HOUSEHOLDS.FIELD_CLOCKS. Identifiers, tenant, and STATUS (server-managed) are
+ * deliberately excluded: "fields outside mergeableFields always take the server value."
+ */
+const HOUSEHOLD_MERGEABLE_FIELDS = [
+  'name', 'addressLine1', 'area', 'phone', 'monthlyDuesMinor', 'exempt', 'joinedOn',
+] as const;
+
+const EPOCH_HLC: Hlc = { wall: 0, counter: 0, node: '' };
+
+/**
+ * Applies the merge algorithm only to the fields THIS mutation declares as changed
+ * (`changedFields`) — every other field is left completely untouched, value and clock
+ * both. That scoping is what makes field-level merge actually field-level: the payload
+ * always carries every column (the client's local cache is a full row, never a diff), so
+ * without `changedFields` the server can't tell "the user edited this" from "this value
+ * just came along unchanged" — comparing one mutation-level hlc against every field would
+ * make a later write win on ALL of them, collapsing into ordinary row-level LWW. With it,
+ * device A's phone-number edit and device B's concurrent, unrelated area edit each only
+ * have to beat what was already stored for THAT field.
+ */
+function mergeHouseholdFields(
+  current: HouseholdRow, incomingHlc: Hlc, payload: HouseholdPayload, changedFields: readonly string[],
+): { merged: Record<string, unknown>; fieldClocksJson: string; anyChanged: boolean; allWon: boolean } {
+  const storedClocks = current.field_clocks !== null
+    ? JSON.parse(current.field_clocks) as Record<string, string> : {};
+  const currentValues: Record<string, unknown> = {
+    name: current.name, addressLine1: current.address_line1, area: current.area, phone: current.phone,
+    monthlyDuesMinor: Number(current.monthly_dues_minor), exempt: Number(current.exempt) === 1,
+    joinedOn: current.joined_on === null ? null : current.joined_on.toISOString().slice(0, 10),
+  };
+
+  const merged: Record<string, unknown> = { ...currentValues };
+  const fieldClocks: Record<string, string> = { ...storedClocks };
+  const touchedFields = HOUSEHOLD_MERGEABLE_FIELDS.filter((field) => changedFields.includes(field));
+  let wonCount = 0;
+
+  for (const field of touchedFields) {
+    const storedClockStr = storedClocks[field];
+    const storedClock = storedClockStr !== undefined ? parseHlc(storedClockStr) : EPOCH_HLC;
+    const incomingWins = compareHlc(incomingHlc, storedClock) > 0;
+    if (incomingWins) {
+      merged[field] = payload[field];
+      fieldClocks[field] = serializeHlc(incomingHlc);
+      wonCount += 1;
+    }
+  }
+
+  const anyChanged = touchedFields.some((field) => merged[field] !== currentValues[field]);
+  return {
+    merged, fieldClocksJson: JSON.stringify(fieldClocks), anyChanged,
+    allWon: wonCount === touchedFields.length,
+  };
+}
 
 function donationToCanonical(row: Awaited<ReturnType<OracleSyncRepository['findDonationByMutationId']>>) {
   if (!row) return null;
@@ -78,7 +136,7 @@ export class SyncService {
     for (const mutation of request.mutations) {
       const result = await this.#applyOne(ctx, repo, mutation, appliedThisBatch);
       results.push(result);
-      if (result.status === 'accepted' || result.status === 'duplicate') {
+      if (result.status === 'accepted' || result.status === 'duplicate' || result.status === 'conflict') {
         appliedThisBatch.add(mutation.entityId);
         lastChangeSeq = Math.max(lastChangeSeq, result.changeSeq);
       }
@@ -153,14 +211,12 @@ export class SyncService {
   }
 
   async #applyHousehold(ctx: TenantContext, repo: OracleSyncRepository, mutation: Mutation): Promise<MutationResult> {
-    if (mutation.op !== 'insert') {
-      // Field-level LWW merge for updates (offline-sync-protocol.md §6.2) is a named,
-      // deliberate gap — not yet built. Insert-only still exercises the whole push/pull/
-      // bootstrap/dedup/HLC machinery end to end; merge is additive work on top of it,
-      // not a prerequisite for it.
+    if (mutation.op === 'delete') {
+      // Soft-delete via sync is a separate, still-unbuilt gap — HOUSEHOLDS.DELETED_AT
+      // exists in the schema for it, but nothing writes to it yet.
       return {
         mutationId: mutation.mutationId, status: 'rejected', code: 'VALIDATION_FAILED',
-        message: 'Household updates via sync are not yet supported — field-merge is a known gap',
+        message: 'Deleting a household via sync is not yet supported',
       };
     }
     const payload = mutation.payload as HouseholdPayload;
@@ -175,23 +231,75 @@ export class SyncService {
         };
       }
 
+      if (mutation.op === 'insert') {
+        const changeSeq = await repo.nextChangeSeq(tx);
+        const clock: Hlc = { wall: Date.now(), counter: 0, node: 'server' };
+        const fieldClocksJson = JSON.stringify(Object.fromEntries(
+          Object.keys(payload).map((field) => [field, serializeHlc(clock)]),
+        ));
+        await repo.insertHouseholdSynced(tx, ctx.tenantId, ctx.userId, {
+          id: mutation.entityId, name: payload.name, head_individual_id: null,
+          address_line1: payload.addressLine1, area: payload.area, phone: payload.phone,
+          monthly_dues_minor: payload.monthlyDuesMinor, collector_user_id: null,
+          exempt: payload.exempt ? 1 : 0, joined_on: payload.joinedOn, status: 'ACTIVE',
+          changeSeq, hlc: mutation.hlc, mutationId: mutation.mutationId, fieldClocksJson,
+        });
+        await repo.writeChangeLog(tx, ctx.tenantId, 'households', mutation.entityId, 'insert', changeSeq);
+
+        return {
+          mutationId: mutation.mutationId, status: 'accepted' as const, serverVersion: 1, changeSeq,
+          canonical: { id: mutation.entityId, ...payload, status: 'ACTIVE' },
+        };
+      }
+
+      // op === 'update' — field-level LWW merge (offline-sync-protocol.md §6.2).
+      const current = await repo.findHouseholdById(tx, mutation.entityId);
+      if (!current) {
+        return {
+          mutationId: mutation.mutationId, status: 'rejected', code: 'NOT_FOUND',
+          message: `Household ${mutation.entityId} not found`,
+        };
+      }
+
+      const incomingHlc = parseHlc(mutation.hlc);
+      const { merged, fieldClocksJson, anyChanged, allWon } =
+        mergeHouseholdFields(current, incomingHlc, payload, mutation.changedFields);
+
+      if (!anyChanged) {
+        // Every field this mutation touched lost to a value already stored under a
+        // later clock — a genuinely stale write. Nothing to persist; report the row's
+        // actual current state rather than a changeSeq that never happened.
+        return {
+          mutationId: mutation.mutationId, status: 'conflict' as const, resolution: 'field_merge' as const,
+          serverVersion: current.server_version ?? 0, changeSeq: current.change_seq ?? 0,
+          canonical: householdToCanonical(current),
+        };
+      }
+
       const changeSeq = await repo.nextChangeSeq(tx);
-      const clock: Hlc = { wall: Date.now(), counter: 0, node: 'server' };
-      const fieldClocksJson = JSON.stringify(Object.fromEntries(
-        Object.keys(payload).map((field) => [field, serializeHlc(clock)]),
-      ));
-      await repo.insertHouseholdSynced(tx, ctx.tenantId, ctx.userId, {
-        id: mutation.entityId, name: payload.name, head_individual_id: null,
-        address_line1: payload.addressLine1, area: payload.area, phone: payload.phone,
-        monthly_dues_minor: payload.monthlyDuesMinor, collector_user_id: null,
-        exempt: payload.exempt ? 1 : 0, joined_on: payload.joinedOn, status: 'ACTIVE',
+      // Matches SQL_UPDATE's own NVL(SERVER_VERSION, 0) + 1 exactly — see that method's
+      // doc comment for why a plain `?? 1` here would be wrong for a REST-created,
+      // never-synced row (NULL in the DB, must become 1, not 2).
+      const nextServerVersion = (current.server_version ?? 0) + 1;
+      await repo.updateHouseholdMerged(tx, mutation.entityId, {
+        name: merged.name as string, address_line1: merged.addressLine1 as string | null,
+        area: merged.area as string | null, phone: merged.phone as string | null,
+        monthly_dues_minor: merged.monthlyDuesMinor as number, exempt: merged.exempt ? 1 : 0,
+        joined_on: merged.joinedOn as string | null,
         changeSeq, hlc: mutation.hlc, mutationId: mutation.mutationId, fieldClocksJson,
       });
-      await repo.writeChangeLog(tx, ctx.tenantId, 'households', mutation.entityId, 'insert', changeSeq);
+      await repo.writeChangeLog(tx, ctx.tenantId, 'households', mutation.entityId, 'update', changeSeq);
 
+      const canonical = { id: mutation.entityId, ...merged, status: current.status };
+      if (allWon) {
+        return {
+          mutationId: mutation.mutationId, status: 'accepted' as const,
+          serverVersion: nextServerVersion, changeSeq, canonical,
+        };
+      }
       return {
-        mutationId: mutation.mutationId, status: 'accepted' as const, serverVersion: 1, changeSeq,
-        canonical: { id: mutation.entityId, ...payload, status: 'ACTIVE' },
+        mutationId: mutation.mutationId, status: 'conflict' as const, resolution: 'field_merge' as const,
+        serverVersion: nextServerVersion, changeSeq, canonical,
       };
     });
   }

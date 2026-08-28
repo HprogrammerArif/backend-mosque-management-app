@@ -40,6 +40,16 @@ export const mutationSchema = z.object({
   hlc: z.string().min(1),
   dependsOn: z.array(z.string()).default([]),
   payload: z.union([donationPayloadSchema, householdPayloadSchema]),
+  /**
+   * Field-merge entities only (offline-sync-protocol.md §6.2) — which keys in `payload`
+   * this specific write actually intends to change. The payload itself always carries
+   * every field (the client's local cache is a full row, never a diff), so without this
+   * the server can't distinguish "the user edited this field" from "this field's old
+   * value just came along for the ride" — comparing one mutation-level hlc against every
+   * field would make a later write win on ALL fields, collapsing field-level merge into
+   * ordinary row-level LWW. Ignored for inserts and for donations.
+   */
+  changedFields: z.array(z.string()).default([]),
 });
 
 export const pushRequestSchema = z.object({
