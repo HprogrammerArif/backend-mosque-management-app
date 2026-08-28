@@ -32,3 +32,9 @@ export type DonationMethod = (typeof DONATION_METHODS)[number];
 
 export const DUES_CHARGE_STATUSES = ['PENDING', 'PARTIAL', 'PAID', 'WAIVED'] as const;
 export type DuesChargeStatus = (typeof DUES_CHARGE_STATUSES)[number];
+
+export const STAFF_STATUSES = ['ACTIVE', 'INACTIVE'] as const;
+export type StaffStatus = (typeof STAFF_STATUSES)[number];
+
+export const PAYROLL_RUN_STATUSES = ['DRAFT', 'POSTED'] as const;
+export type PayrollRunStatus = (typeof PAYROLL_RUN_STATUSES)[number];

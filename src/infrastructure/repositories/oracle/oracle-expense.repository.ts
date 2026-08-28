@@ -1,4 +1,4 @@
-import type { OraclePool } from '../../database/oracle.pool.js';
+import type { OraclePool, Tx } from '../../database/oracle.pool.js';
 import type { TenantContext } from '../../../modules/tenancy/tenant-context.js';
 import type { DonationMethod } from '../../../domain/enums.js';
 import type { Currency } from '../../../domain/money.js';
@@ -68,8 +68,26 @@ export class OracleExpenseRepository extends BaseRepository implements ExpenseRe
     return rows.map(toRecord);
   }
 
-  async create(input: CreateExpenseInput): Promise<ExpenseRecord> {
-    await this.scoped(SQL_INSERT, { ...input, occurredOn: new Date(input.occurredOn) });
+  /**
+   * `tx` runs this inside a caller's transaction (e.g. PayrollService.postRun writing
+   * one EXPENSE per payroll line alongside its own bookkeeping). The post-insert
+   * `findById` re-fetch that the non-tx path uses to pick up server defaults
+   * (APPROVAL_STATUS, CREATED_AT) would run on a *different* connection and can't see
+   * an uncommitted row — so the tx path constructs the record client-side instead,
+   * same as OracleFundRepository.insert.
+   */
+  async create(input: CreateExpenseInput, tx?: Tx): Promise<ExpenseRecord> {
+    const binds = { ...input, occurredOn: new Date(input.occurredOn), tenantId: this.ctx.tenantId };
+    if (tx) {
+      await tx.execute(SQL_INSERT, binds);
+      return {
+        ...input,
+        currency: input.currency as Currency,
+        approvalStatus: 'POSTED',
+        createdAt: new Date().toISOString(),
+      };
+    }
+    await this.scoped(SQL_INSERT, binds);
     const created = await this.findById(input.id);
     if (!created) throw new Error(`Expense ${input.id} vanished immediately after insert`);
     return created;
