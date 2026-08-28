@@ -38,3 +38,6 @@ export type StaffStatus = (typeof STAFF_STATUSES)[number];
 
 export const PAYROLL_RUN_STATUSES = ['DRAFT', 'POSTED'] as const;
 export type PayrollRunStatus = (typeof PAYROLL_RUN_STATUSES)[number];
+
+export const COMMITTEE_STATUSES = ['ACTIVE', 'INACTIVE'] as const;
+export type CommitteeStatus = (typeof COMMITTEE_STATUSES)[number];

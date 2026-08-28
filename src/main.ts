@@ -34,6 +34,8 @@ import { duesRoutes } from './modules/dues/dues.routes.js';
 import { StaffService } from './modules/payroll/staff.service.js';
 import { PayrollService } from './modules/payroll/payroll.service.js';
 import { payrollRoutes } from './modules/payroll/payroll.routes.js';
+import { CommitteeService } from './modules/committee/committee.service.js';
+import { committeeRoutes } from './modules/committee/committee.routes.js';
 import { SyncService } from './modules/sync/sync.service.js';
 import { syncRoutes } from './modules/sync/sync.routes.js';
 import { healthRoutes } from './modules/health/health.routes.js';
@@ -75,6 +77,7 @@ export async function createApp() {
   const duesSvc         = new DuesService(pool);
   const staffSvc        = new StaffService(pool);
   const payrollSvc      = new PayrollService(pool);
+  const committeeSvc    = new CommitteeService(pool);
   const syncSvc         = new SyncService(pool);
   const idempotency     = new MemoryIdempotencyStore();
 
@@ -98,6 +101,7 @@ export async function createApp() {
     ...fundsRoutes({ funds: fundsSvc, tokens: tokenSvc, memberships }),
     ...duesRoutes({ dues: duesSvc, tokens: tokenSvc, memberships, idempotency }),
     ...payrollRoutes({ staff: staffSvc, payroll: payrollSvc, tokens: tokenSvc, memberships, idempotency }),
+    ...committeeRoutes({ committee: committeeSvc, tokens: tokenSvc, memberships, idempotency }),
     ...syncRoutes({ sync: syncSvc, tokens: tokenSvc, memberships, idempotency }),
   ]) router.add(route);
 
