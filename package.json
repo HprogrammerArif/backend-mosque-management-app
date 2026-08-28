@@ -13,6 +13,7 @@
     "start": "node dist/main.js",
     "migrate": "tsx src/infrastructure/database/migrate-cli.ts",
     "openapi": "tsx scripts/generate-openapi.ts",
+    "seed:realistic": "tsx scripts/seed-realistic-tenant.ts",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
