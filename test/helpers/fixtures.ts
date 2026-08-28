@@ -8,6 +8,7 @@ export type TenantFixture = {
   userId: string;
   mosqueId: string;
   fundId: string;
+  expenseCategoryId: string;
 };
 
 /**
@@ -43,5 +44,10 @@ export async function createTenant(server: Server): Promise<TenantFixture> {
   const fundId = (funds.body as { id: string }[])[0]?.id;
   if (fundId === undefined) throw new Error('Fixture mosque has no seeded funds');
 
-  return { accessToken, userId, mosqueId, fundId };
+  const categories = await api.get(`/api/v1/mosques/${mosqueId}/expense-categories`)
+    .set('Authorization', `Bearer ${accessToken}`);
+  const expenseCategoryId = (categories.body as { id: string }[])[0]?.id;
+  if (expenseCategoryId === undefined) throw new Error('Fixture mosque has no seeded expense categories');
+
+  return { accessToken, userId, mosqueId, fundId, expenseCategoryId };
 }
