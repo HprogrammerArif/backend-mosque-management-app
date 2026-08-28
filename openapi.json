@@ -53,6 +53,8 @@
                             "RULE_WAQF_CORPUS_PROTECTED",
                             "RULE_LEDGER_IMMUTABLE",
                             "RULE_LAST_ADMIN",
+                            "RULE_DUES_ALREADY_SETTLED",
+                            "RULE_DUES_OVERPAYMENT",
                             "SYNC_CURSOR_TOO_OLD",
                             "SYNC_DEPENDENCY_NOT_FOUND",
                             "SYNC_EPOCH_MISMATCH",
@@ -129,6 +131,8 @@
                             "RULE_WAQF_CORPUS_PROTECTED",
                             "RULE_LEDGER_IMMUTABLE",
                             "RULE_LAST_ADMIN",
+                            "RULE_DUES_ALREADY_SETTLED",
+                            "RULE_DUES_OVERPAYMENT",
                             "SYNC_CURSOR_TOO_OLD",
                             "SYNC_DEPENDENCY_NOT_FOUND",
                             "SYNC_EPOCH_MISMATCH",
@@ -300,6 +304,8 @@
                             "RULE_WAQF_CORPUS_PROTECTED",
                             "RULE_LEDGER_IMMUTABLE",
                             "RULE_LAST_ADMIN",
+                            "RULE_DUES_ALREADY_SETTLED",
+                            "RULE_DUES_OVERPAYMENT",
                             "SYNC_CURSOR_TOO_OLD",
                             "SYNC_DEPENDENCY_NOT_FOUND",
                             "SYNC_EPOCH_MISMATCH",
@@ -491,6 +497,8 @@
                             "RULE_WAQF_CORPUS_PROTECTED",
                             "RULE_LEDGER_IMMUTABLE",
                             "RULE_LAST_ADMIN",
+                            "RULE_DUES_ALREADY_SETTLED",
+                            "RULE_DUES_OVERPAYMENT",
                             "SYNC_CURSOR_TOO_OLD",
                             "SYNC_DEPENDENCY_NOT_FOUND",
                             "SYNC_EPOCH_MISMATCH",
@@ -592,6 +600,8 @@
                             "RULE_WAQF_CORPUS_PROTECTED",
                             "RULE_LEDGER_IMMUTABLE",
                             "RULE_LAST_ADMIN",
+                            "RULE_DUES_ALREADY_SETTLED",
+                            "RULE_DUES_OVERPAYMENT",
                             "SYNC_CURSOR_TOO_OLD",
                             "SYNC_DEPENDENCY_NOT_FOUND",
                             "SYNC_EPOCH_MISMATCH",
@@ -672,6 +682,8 @@
                             "RULE_WAQF_CORPUS_PROTECTED",
                             "RULE_LEDGER_IMMUTABLE",
                             "RULE_LAST_ADMIN",
+                            "RULE_DUES_ALREADY_SETTLED",
+                            "RULE_DUES_OVERPAYMENT",
                             "SYNC_CURSOR_TOO_OLD",
                             "SYNC_DEPENDENCY_NOT_FOUND",
                             "SYNC_EPOCH_MISMATCH",
@@ -752,6 +764,8 @@
                             "RULE_WAQF_CORPUS_PROTECTED",
                             "RULE_LEDGER_IMMUTABLE",
                             "RULE_LAST_ADMIN",
+                            "RULE_DUES_ALREADY_SETTLED",
+                            "RULE_DUES_OVERPAYMENT",
                             "SYNC_CURSOR_TOO_OLD",
                             "SYNC_DEPENDENCY_NOT_FOUND",
                             "SYNC_EPOCH_MISMATCH",
@@ -914,6 +928,8 @@
                             "RULE_WAQF_CORPUS_PROTECTED",
                             "RULE_LEDGER_IMMUTABLE",
                             "RULE_LAST_ADMIN",
+                            "RULE_DUES_ALREADY_SETTLED",
+                            "RULE_DUES_OVERPAYMENT",
                             "SYNC_CURSOR_TOO_OLD",
                             "SYNC_DEPENDENCY_NOT_FOUND",
                             "SYNC_EPOCH_MISMATCH",
@@ -1038,6 +1054,8 @@
                             "RULE_WAQF_CORPUS_PROTECTED",
                             "RULE_LEDGER_IMMUTABLE",
                             "RULE_LAST_ADMIN",
+                            "RULE_DUES_ALREADY_SETTLED",
+                            "RULE_DUES_OVERPAYMENT",
                             "SYNC_CURSOR_TOO_OLD",
                             "SYNC_DEPENDENCY_NOT_FOUND",
                             "SYNC_EPOCH_MISMATCH",
@@ -1171,6 +1189,8 @@
                             "RULE_WAQF_CORPUS_PROTECTED",
                             "RULE_LEDGER_IMMUTABLE",
                             "RULE_LAST_ADMIN",
+                            "RULE_DUES_ALREADY_SETTLED",
+                            "RULE_DUES_OVERPAYMENT",
                             "SYNC_CURSOR_TOO_OLD",
                             "SYNC_DEPENDENCY_NOT_FOUND",
                             "SYNC_EPOCH_MISMATCH",
@@ -1313,6 +1333,8 @@
                             "RULE_WAQF_CORPUS_PROTECTED",
                             "RULE_LEDGER_IMMUTABLE",
                             "RULE_LAST_ADMIN",
+                            "RULE_DUES_ALREADY_SETTLED",
+                            "RULE_DUES_OVERPAYMENT",
                             "SYNC_CURSOR_TOO_OLD",
                             "SYNC_DEPENDENCY_NOT_FOUND",
                             "SYNC_EPOCH_MISMATCH",
@@ -1447,6 +1469,8 @@
                             "RULE_WAQF_CORPUS_PROTECTED",
                             "RULE_LEDGER_IMMUTABLE",
                             "RULE_LAST_ADMIN",
+                            "RULE_DUES_ALREADY_SETTLED",
+                            "RULE_DUES_OVERPAYMENT",
                             "SYNC_CURSOR_TOO_OLD",
                             "SYNC_DEPENDENCY_NOT_FOUND",
                             "SYNC_EPOCH_MISMATCH",
@@ -1584,6 +1608,8 @@
                             "RULE_WAQF_CORPUS_PROTECTED",
                             "RULE_LEDGER_IMMUTABLE",
                             "RULE_LAST_ADMIN",
+                            "RULE_DUES_ALREADY_SETTLED",
+                            "RULE_DUES_OVERPAYMENT",
                             "SYNC_CURSOR_TOO_OLD",
                             "SYNC_DEPENDENCY_NOT_FOUND",
                             "SYNC_EPOCH_MISMATCH",
@@ -1757,6 +1783,8 @@
                             "RULE_WAQF_CORPUS_PROTECTED",
                             "RULE_LEDGER_IMMUTABLE",
                             "RULE_LAST_ADMIN",
+                            "RULE_DUES_ALREADY_SETTLED",
+                            "RULE_DUES_OVERPAYMENT",
                             "SYNC_CURSOR_TOO_OLD",
                             "SYNC_DEPENDENCY_NOT_FOUND",
                             "SYNC_EPOCH_MISMATCH",
@@ -1933,6 +1961,8 @@
                             "RULE_WAQF_CORPUS_PROTECTED",
                             "RULE_LEDGER_IMMUTABLE",
                             "RULE_LAST_ADMIN",
+                            "RULE_DUES_ALREADY_SETTLED",
+                            "RULE_DUES_OVERPAYMENT",
                             "SYNC_CURSOR_TOO_OLD",
                             "SYNC_DEPENDENCY_NOT_FOUND",
                             "SYNC_EPOCH_MISMATCH",
@@ -2194,6 +2224,8 @@
                             "RULE_WAQF_CORPUS_PROTECTED",
                             "RULE_LEDGER_IMMUTABLE",
                             "RULE_LAST_ADMIN",
+                            "RULE_DUES_ALREADY_SETTLED",
+                            "RULE_DUES_OVERPAYMENT",
                             "SYNC_CURSOR_TOO_OLD",
                             "SYNC_DEPENDENCY_NOT_FOUND",
                             "SYNC_EPOCH_MISMATCH",
@@ -2410,6 +2442,8 @@
                             "RULE_WAQF_CORPUS_PROTECTED",
                             "RULE_LEDGER_IMMUTABLE",
                             "RULE_LAST_ADMIN",
+                            "RULE_DUES_ALREADY_SETTLED",
+                            "RULE_DUES_OVERPAYMENT",
                             "SYNC_CURSOR_TOO_OLD",
                             "SYNC_DEPENDENCY_NOT_FOUND",
                             "SYNC_EPOCH_MISMATCH",
@@ -2568,6 +2602,8 @@
                             "RULE_WAQF_CORPUS_PROTECTED",
                             "RULE_LEDGER_IMMUTABLE",
                             "RULE_LAST_ADMIN",
+                            "RULE_DUES_ALREADY_SETTLED",
+                            "RULE_DUES_OVERPAYMENT",
                             "SYNC_CURSOR_TOO_OLD",
                             "SYNC_DEPENDENCY_NOT_FOUND",
                             "SYNC_EPOCH_MISMATCH",
@@ -2733,6 +2769,8 @@
                             "RULE_WAQF_CORPUS_PROTECTED",
                             "RULE_LEDGER_IMMUTABLE",
                             "RULE_LAST_ADMIN",
+                            "RULE_DUES_ALREADY_SETTLED",
+                            "RULE_DUES_OVERPAYMENT",
                             "SYNC_CURSOR_TOO_OLD",
                             "SYNC_DEPENDENCY_NOT_FOUND",
                             "SYNC_EPOCH_MISMATCH",
@@ -2890,6 +2928,8 @@
                             "RULE_WAQF_CORPUS_PROTECTED",
                             "RULE_LEDGER_IMMUTABLE",
                             "RULE_LAST_ADMIN",
+                            "RULE_DUES_ALREADY_SETTLED",
+                            "RULE_DUES_OVERPAYMENT",
                             "SYNC_CURSOR_TOO_OLD",
                             "SYNC_DEPENDENCY_NOT_FOUND",
                             "SYNC_EPOCH_MISMATCH",
@@ -3098,6 +3138,8 @@
                             "RULE_WAQF_CORPUS_PROTECTED",
                             "RULE_LEDGER_IMMUTABLE",
                             "RULE_LAST_ADMIN",
+                            "RULE_DUES_ALREADY_SETTLED",
+                            "RULE_DUES_OVERPAYMENT",
                             "SYNC_CURSOR_TOO_OLD",
                             "SYNC_DEPENDENCY_NOT_FOUND",
                             "SYNC_EPOCH_MISMATCH",
@@ -3354,6 +3396,8 @@
                             "RULE_WAQF_CORPUS_PROTECTED",
                             "RULE_LEDGER_IMMUTABLE",
                             "RULE_LAST_ADMIN",
+                            "RULE_DUES_ALREADY_SETTLED",
+                            "RULE_DUES_OVERPAYMENT",
                             "SYNC_CURSOR_TOO_OLD",
                             "SYNC_DEPENDENCY_NOT_FOUND",
                             "SYNC_EPOCH_MISMATCH",
@@ -3531,6 +3575,8 @@
                             "RULE_WAQF_CORPUS_PROTECTED",
                             "RULE_LEDGER_IMMUTABLE",
                             "RULE_LAST_ADMIN",
+                            "RULE_DUES_ALREADY_SETTLED",
+                            "RULE_DUES_OVERPAYMENT",
                             "SYNC_CURSOR_TOO_OLD",
                             "SYNC_DEPENDENCY_NOT_FOUND",
                             "SYNC_EPOCH_MISMATCH",
@@ -3644,6 +3690,8 @@
                             "RULE_WAQF_CORPUS_PROTECTED",
                             "RULE_LEDGER_IMMUTABLE",
                             "RULE_LAST_ADMIN",
+                            "RULE_DUES_ALREADY_SETTLED",
+                            "RULE_DUES_OVERPAYMENT",
                             "SYNC_CURSOR_TOO_OLD",
                             "SYNC_DEPENDENCY_NOT_FOUND",
                             "SYNC_EPOCH_MISMATCH",
@@ -3828,6 +3876,8 @@
                             "RULE_WAQF_CORPUS_PROTECTED",
                             "RULE_LEDGER_IMMUTABLE",
                             "RULE_LAST_ADMIN",
+                            "RULE_DUES_ALREADY_SETTLED",
+                            "RULE_DUES_OVERPAYMENT",
                             "SYNC_CURSOR_TOO_OLD",
                             "SYNC_DEPENDENCY_NOT_FOUND",
                             "SYNC_EPOCH_MISMATCH",
@@ -4033,6 +4083,8 @@
                             "RULE_WAQF_CORPUS_PROTECTED",
                             "RULE_LEDGER_IMMUTABLE",
                             "RULE_LAST_ADMIN",
+                            "RULE_DUES_ALREADY_SETTLED",
+                            "RULE_DUES_OVERPAYMENT",
                             "SYNC_CURSOR_TOO_OLD",
                             "SYNC_DEPENDENCY_NOT_FOUND",
                             "SYNC_EPOCH_MISMATCH",
@@ -4169,6 +4221,8 @@
                             "RULE_WAQF_CORPUS_PROTECTED",
                             "RULE_LEDGER_IMMUTABLE",
                             "RULE_LAST_ADMIN",
+                            "RULE_DUES_ALREADY_SETTLED",
+                            "RULE_DUES_OVERPAYMENT",
                             "SYNC_CURSOR_TOO_OLD",
                             "SYNC_DEPENDENCY_NOT_FOUND",
                             "SYNC_EPOCH_MISMATCH",
@@ -4340,6 +4394,8 @@
                             "RULE_WAQF_CORPUS_PROTECTED",
                             "RULE_LEDGER_IMMUTABLE",
                             "RULE_LAST_ADMIN",
+                            "RULE_DUES_ALREADY_SETTLED",
+                            "RULE_DUES_OVERPAYMENT",
                             "SYNC_CURSOR_TOO_OLD",
                             "SYNC_DEPENDENCY_NOT_FOUND",
                             "SYNC_EPOCH_MISMATCH",
@@ -4586,6 +4642,8 @@
                             "RULE_WAQF_CORPUS_PROTECTED",
                             "RULE_LEDGER_IMMUTABLE",
                             "RULE_LAST_ADMIN",
+                            "RULE_DUES_ALREADY_SETTLED",
+                            "RULE_DUES_OVERPAYMENT",
                             "SYNC_CURSOR_TOO_OLD",
                             "SYNC_DEPENDENCY_NOT_FOUND",
                             "SYNC_EPOCH_MISMATCH",
@@ -4763,6 +4821,8 @@
                             "RULE_WAQF_CORPUS_PROTECTED",
                             "RULE_LEDGER_IMMUTABLE",
                             "RULE_LAST_ADMIN",
+                            "RULE_DUES_ALREADY_SETTLED",
+                            "RULE_DUES_OVERPAYMENT",
                             "SYNC_CURSOR_TOO_OLD",
                             "SYNC_DEPENDENCY_NOT_FOUND",
                             "SYNC_EPOCH_MISMATCH",
@@ -4947,6 +5007,8 @@
                             "RULE_WAQF_CORPUS_PROTECTED",
                             "RULE_LEDGER_IMMUTABLE",
                             "RULE_LAST_ADMIN",
+                            "RULE_DUES_ALREADY_SETTLED",
+                            "RULE_DUES_OVERPAYMENT",
                             "SYNC_CURSOR_TOO_OLD",
                             "SYNC_DEPENDENCY_NOT_FOUND",
                             "SYNC_EPOCH_MISMATCH",
@@ -5152,6 +5214,8 @@
                             "RULE_WAQF_CORPUS_PROTECTED",
                             "RULE_LEDGER_IMMUTABLE",
                             "RULE_LAST_ADMIN",
+                            "RULE_DUES_ALREADY_SETTLED",
+                            "RULE_DUES_OVERPAYMENT",
                             "SYNC_CURSOR_TOO_OLD",
                             "SYNC_DEPENDENCY_NOT_FOUND",
                             "SYNC_EPOCH_MISMATCH",
@@ -5288,6 +5352,1223 @@
                             "RULE_WAQF_CORPUS_PROTECTED",
                             "RULE_LEDGER_IMMUTABLE",
                             "RULE_LAST_ADMIN",
+                            "RULE_DUES_ALREADY_SETTLED",
+                            "RULE_DUES_OVERPAYMENT",
+                            "SYNC_CURSOR_TOO_OLD",
+                            "SYNC_DEPENDENCY_NOT_FOUND",
+                            "SYNC_EPOCH_MISMATCH",
+                            "CONFLICT_VERSION_MISMATCH",
+                            "IDEMPOTENCY_KEY_REUSED",
+                            "IDEMPOTENCY_KEY_REQUIRED",
+                            "NOT_FOUND",
+                            "RATE_LIMIT_EXCEEDED",
+                            "INTERNAL_ERROR"
+                          ]
+                        },
+                        "message": {
+                          "type": "string"
+                        },
+                        "requestId": {
+                          "type": "string"
+                        },
+                        "details": {}
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/mosques/{mosqueId}/dues/generate": {
+      "post": {
+        "summary": "Generate dues charges for a period",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "mosqueId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "period": {
+                    "type": "string",
+                    "pattern": "^\\d{4}-\\d{2}$"
+                  }
+                },
+                "required": [
+                  "period"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "householdId": {
+                        "type": "string"
+                      },
+                      "period": {
+                        "type": "string"
+                      },
+                      "amountMinor": {
+                        "type": "integer"
+                      },
+                      "paidMinor": {
+                        "type": "integer"
+                      },
+                      "currency": {
+                        "type": "string"
+                      },
+                      "dueOn": {
+                        "type": "string"
+                      },
+                      "status": {
+                        "type": "string",
+                        "enum": [
+                          "PENDING",
+                          "PARTIAL",
+                          "PAID",
+                          "WAIVED"
+                        ]
+                      },
+                      "waivedBy": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "waivedReason": {
+                        "type": "string",
+                        "nullable": true
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "householdId",
+                      "period",
+                      "amountMinor",
+                      "paidMinor",
+                      "currency",
+                      "dueOn",
+                      "status",
+                      "waivedBy",
+                      "waivedReason"
+                    ],
+                    "additionalProperties": false
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "required": [
+                        "code",
+                        "message",
+                        "requestId"
+                      ],
+                      "properties": {
+                        "code": {
+                          "type": "string",
+                          "enum": [
+                            "AUTH_INVALID_CREDENTIALS",
+                            "AUTH_TOKEN_EXPIRED",
+                            "AUTH_TOKEN_INVALID",
+                            "AUTH_TOKEN_REUSED",
+                            "AUTH_ACCOUNT_LOCKED",
+                            "AUTH_EMAIL_TAKEN",
+                            "AUTH_PHONE_TAKEN",
+                            "PERM_DENIED",
+                            "PERM_ROLE_REQUIRED",
+                            "FEATURE_NOT_IN_PLAN",
+                            "FEATURE_LIMIT_REACHED",
+                            "TENANT_ID_REQUIRED",
+                            "TENANT_NOT_FOUND",
+                            "TENANT_SUSPENDED",
+                            "TENANT_READONLY",
+                            "INVITATION_EXPIRED",
+                            "INVITATION_ALREADY_ACCEPTED",
+                            "VALIDATION_FAILED",
+                            "RULE_FUND_RESTRICTION_VIOLATED",
+                            "RULE_WAQF_CORPUS_PROTECTED",
+                            "RULE_LEDGER_IMMUTABLE",
+                            "RULE_LAST_ADMIN",
+                            "RULE_DUES_ALREADY_SETTLED",
+                            "RULE_DUES_OVERPAYMENT",
+                            "SYNC_CURSOR_TOO_OLD",
+                            "SYNC_DEPENDENCY_NOT_FOUND",
+                            "SYNC_EPOCH_MISMATCH",
+                            "CONFLICT_VERSION_MISMATCH",
+                            "IDEMPOTENCY_KEY_REUSED",
+                            "IDEMPOTENCY_KEY_REQUIRED",
+                            "NOT_FOUND",
+                            "RATE_LIMIT_EXCEEDED",
+                            "INTERNAL_ERROR"
+                          ]
+                        },
+                        "message": {
+                          "type": "string"
+                        },
+                        "requestId": {
+                          "type": "string"
+                        },
+                        "details": {}
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/mosques/{mosqueId}/dues/charges": {
+      "get": {
+        "summary": "List dues charges for a period",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "mosqueId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "householdId": {
+                        "type": "string"
+                      },
+                      "period": {
+                        "type": "string"
+                      },
+                      "amountMinor": {
+                        "type": "integer"
+                      },
+                      "paidMinor": {
+                        "type": "integer"
+                      },
+                      "currency": {
+                        "type": "string"
+                      },
+                      "dueOn": {
+                        "type": "string"
+                      },
+                      "status": {
+                        "type": "string",
+                        "enum": [
+                          "PENDING",
+                          "PARTIAL",
+                          "PAID",
+                          "WAIVED"
+                        ]
+                      },
+                      "waivedBy": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "waivedReason": {
+                        "type": "string",
+                        "nullable": true
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "householdId",
+                      "period",
+                      "amountMinor",
+                      "paidMinor",
+                      "currency",
+                      "dueOn",
+                      "status",
+                      "waivedBy",
+                      "waivedReason"
+                    ],
+                    "additionalProperties": false
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "required": [
+                        "code",
+                        "message",
+                        "requestId"
+                      ],
+                      "properties": {
+                        "code": {
+                          "type": "string",
+                          "enum": [
+                            "AUTH_INVALID_CREDENTIALS",
+                            "AUTH_TOKEN_EXPIRED",
+                            "AUTH_TOKEN_INVALID",
+                            "AUTH_TOKEN_REUSED",
+                            "AUTH_ACCOUNT_LOCKED",
+                            "AUTH_EMAIL_TAKEN",
+                            "AUTH_PHONE_TAKEN",
+                            "PERM_DENIED",
+                            "PERM_ROLE_REQUIRED",
+                            "FEATURE_NOT_IN_PLAN",
+                            "FEATURE_LIMIT_REACHED",
+                            "TENANT_ID_REQUIRED",
+                            "TENANT_NOT_FOUND",
+                            "TENANT_SUSPENDED",
+                            "TENANT_READONLY",
+                            "INVITATION_EXPIRED",
+                            "INVITATION_ALREADY_ACCEPTED",
+                            "VALIDATION_FAILED",
+                            "RULE_FUND_RESTRICTION_VIOLATED",
+                            "RULE_WAQF_CORPUS_PROTECTED",
+                            "RULE_LEDGER_IMMUTABLE",
+                            "RULE_LAST_ADMIN",
+                            "RULE_DUES_ALREADY_SETTLED",
+                            "RULE_DUES_OVERPAYMENT",
+                            "SYNC_CURSOR_TOO_OLD",
+                            "SYNC_DEPENDENCY_NOT_FOUND",
+                            "SYNC_EPOCH_MISMATCH",
+                            "CONFLICT_VERSION_MISMATCH",
+                            "IDEMPOTENCY_KEY_REUSED",
+                            "IDEMPOTENCY_KEY_REQUIRED",
+                            "NOT_FOUND",
+                            "RATE_LIMIT_EXCEEDED",
+                            "INTERNAL_ERROR"
+                          ]
+                        },
+                        "message": {
+                          "type": "string"
+                        },
+                        "requestId": {
+                          "type": "string"
+                        },
+                        "details": {}
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/mosques/{mosqueId}/dues/charges/{chargeId}": {
+      "get": {
+        "summary": "Get a dues charge",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "mosqueId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "chargeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "householdId": {
+                      "type": "string"
+                    },
+                    "period": {
+                      "type": "string"
+                    },
+                    "amountMinor": {
+                      "type": "integer"
+                    },
+                    "paidMinor": {
+                      "type": "integer"
+                    },
+                    "currency": {
+                      "type": "string"
+                    },
+                    "dueOn": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "PENDING",
+                        "PARTIAL",
+                        "PAID",
+                        "WAIVED"
+                      ]
+                    },
+                    "waivedBy": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "waivedReason": {
+                      "type": "string",
+                      "nullable": true
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "householdId",
+                    "period",
+                    "amountMinor",
+                    "paidMinor",
+                    "currency",
+                    "dueOn",
+                    "status",
+                    "waivedBy",
+                    "waivedReason"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "required": [
+                        "code",
+                        "message",
+                        "requestId"
+                      ],
+                      "properties": {
+                        "code": {
+                          "type": "string",
+                          "enum": [
+                            "AUTH_INVALID_CREDENTIALS",
+                            "AUTH_TOKEN_EXPIRED",
+                            "AUTH_TOKEN_INVALID",
+                            "AUTH_TOKEN_REUSED",
+                            "AUTH_ACCOUNT_LOCKED",
+                            "AUTH_EMAIL_TAKEN",
+                            "AUTH_PHONE_TAKEN",
+                            "PERM_DENIED",
+                            "PERM_ROLE_REQUIRED",
+                            "FEATURE_NOT_IN_PLAN",
+                            "FEATURE_LIMIT_REACHED",
+                            "TENANT_ID_REQUIRED",
+                            "TENANT_NOT_FOUND",
+                            "TENANT_SUSPENDED",
+                            "TENANT_READONLY",
+                            "INVITATION_EXPIRED",
+                            "INVITATION_ALREADY_ACCEPTED",
+                            "VALIDATION_FAILED",
+                            "RULE_FUND_RESTRICTION_VIOLATED",
+                            "RULE_WAQF_CORPUS_PROTECTED",
+                            "RULE_LEDGER_IMMUTABLE",
+                            "RULE_LAST_ADMIN",
+                            "RULE_DUES_ALREADY_SETTLED",
+                            "RULE_DUES_OVERPAYMENT",
+                            "SYNC_CURSOR_TOO_OLD",
+                            "SYNC_DEPENDENCY_NOT_FOUND",
+                            "SYNC_EPOCH_MISMATCH",
+                            "CONFLICT_VERSION_MISMATCH",
+                            "IDEMPOTENCY_KEY_REUSED",
+                            "IDEMPOTENCY_KEY_REQUIRED",
+                            "NOT_FOUND",
+                            "RATE_LIMIT_EXCEEDED",
+                            "INTERNAL_ERROR"
+                          ]
+                        },
+                        "message": {
+                          "type": "string"
+                        },
+                        "requestId": {
+                          "type": "string"
+                        },
+                        "details": {}
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/mosques/{mosqueId}/dues/charges/{chargeId}/payments": {
+      "get": {
+        "summary": "List payments recorded against a dues charge",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "mosqueId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "chargeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "chargeId": {
+                        "type": "string"
+                      },
+                      "fundId": {
+                        "type": "string"
+                      },
+                      "amountMinor": {
+                        "type": "integer"
+                      },
+                      "currency": {
+                        "type": "string"
+                      },
+                      "paidOn": {
+                        "type": "string"
+                      },
+                      "method": {
+                        "type": "string",
+                        "enum": [
+                          "CASH",
+                          "BANK",
+                          "MOBILE_MONEY",
+                          "CARD",
+                          "CHEQUE",
+                          "IN_KIND"
+                        ]
+                      },
+                      "collectedBy": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "createdBy": {
+                        "type": "string"
+                      },
+                      "createdAt": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "chargeId",
+                      "fundId",
+                      "amountMinor",
+                      "currency",
+                      "paidOn",
+                      "method",
+                      "collectedBy",
+                      "createdBy",
+                      "createdAt"
+                    ],
+                    "additionalProperties": false
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "required": [
+                        "code",
+                        "message",
+                        "requestId"
+                      ],
+                      "properties": {
+                        "code": {
+                          "type": "string",
+                          "enum": [
+                            "AUTH_INVALID_CREDENTIALS",
+                            "AUTH_TOKEN_EXPIRED",
+                            "AUTH_TOKEN_INVALID",
+                            "AUTH_TOKEN_REUSED",
+                            "AUTH_ACCOUNT_LOCKED",
+                            "AUTH_EMAIL_TAKEN",
+                            "AUTH_PHONE_TAKEN",
+                            "PERM_DENIED",
+                            "PERM_ROLE_REQUIRED",
+                            "FEATURE_NOT_IN_PLAN",
+                            "FEATURE_LIMIT_REACHED",
+                            "TENANT_ID_REQUIRED",
+                            "TENANT_NOT_FOUND",
+                            "TENANT_SUSPENDED",
+                            "TENANT_READONLY",
+                            "INVITATION_EXPIRED",
+                            "INVITATION_ALREADY_ACCEPTED",
+                            "VALIDATION_FAILED",
+                            "RULE_FUND_RESTRICTION_VIOLATED",
+                            "RULE_WAQF_CORPUS_PROTECTED",
+                            "RULE_LEDGER_IMMUTABLE",
+                            "RULE_LAST_ADMIN",
+                            "RULE_DUES_ALREADY_SETTLED",
+                            "RULE_DUES_OVERPAYMENT",
+                            "SYNC_CURSOR_TOO_OLD",
+                            "SYNC_DEPENDENCY_NOT_FOUND",
+                            "SYNC_EPOCH_MISMATCH",
+                            "CONFLICT_VERSION_MISMATCH",
+                            "IDEMPOTENCY_KEY_REUSED",
+                            "IDEMPOTENCY_KEY_REQUIRED",
+                            "NOT_FOUND",
+                            "RATE_LIMIT_EXCEEDED",
+                            "INTERNAL_ERROR"
+                          ]
+                        },
+                        "message": {
+                          "type": "string"
+                        },
+                        "requestId": {
+                          "type": "string"
+                        },
+                        "details": {}
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Record a payment against a dues charge",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "mosqueId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "chargeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "fundId": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "amountMinor": {
+                    "type": "integer",
+                    "exclusiveMinimum": true,
+                    "minimum": 0
+                  },
+                  "currency": {
+                    "type": "string",
+                    "enum": [
+                      "BDT",
+                      "USD",
+                      "GBP",
+                      "EUR"
+                    ],
+                    "default": "BDT"
+                  },
+                  "paidOn": {
+                    "type": "string",
+                    "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+                  },
+                  "method": {
+                    "type": "string",
+                    "enum": [
+                      "CASH",
+                      "BANK",
+                      "MOBILE_MONEY",
+                      "CARD",
+                      "CHEQUE",
+                      "IN_KIND"
+                    ]
+                  },
+                  "collectedBy": {
+                    "type": "string",
+                    "nullable": true,
+                    "default": null
+                  }
+                },
+                "required": [
+                  "fundId",
+                  "amountMinor",
+                  "paidOn",
+                  "method"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "chargeId": {
+                      "type": "string"
+                    },
+                    "fundId": {
+                      "type": "string"
+                    },
+                    "amountMinor": {
+                      "type": "integer"
+                    },
+                    "currency": {
+                      "type": "string"
+                    },
+                    "paidOn": {
+                      "type": "string"
+                    },
+                    "method": {
+                      "type": "string",
+                      "enum": [
+                        "CASH",
+                        "BANK",
+                        "MOBILE_MONEY",
+                        "CARD",
+                        "CHEQUE",
+                        "IN_KIND"
+                      ]
+                    },
+                    "collectedBy": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "createdBy": {
+                      "type": "string"
+                    },
+                    "createdAt": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "chargeId",
+                    "fundId",
+                    "amountMinor",
+                    "currency",
+                    "paidOn",
+                    "method",
+                    "collectedBy",
+                    "createdBy",
+                    "createdAt"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "required": [
+                        "code",
+                        "message",
+                        "requestId"
+                      ],
+                      "properties": {
+                        "code": {
+                          "type": "string",
+                          "enum": [
+                            "AUTH_INVALID_CREDENTIALS",
+                            "AUTH_TOKEN_EXPIRED",
+                            "AUTH_TOKEN_INVALID",
+                            "AUTH_TOKEN_REUSED",
+                            "AUTH_ACCOUNT_LOCKED",
+                            "AUTH_EMAIL_TAKEN",
+                            "AUTH_PHONE_TAKEN",
+                            "PERM_DENIED",
+                            "PERM_ROLE_REQUIRED",
+                            "FEATURE_NOT_IN_PLAN",
+                            "FEATURE_LIMIT_REACHED",
+                            "TENANT_ID_REQUIRED",
+                            "TENANT_NOT_FOUND",
+                            "TENANT_SUSPENDED",
+                            "TENANT_READONLY",
+                            "INVITATION_EXPIRED",
+                            "INVITATION_ALREADY_ACCEPTED",
+                            "VALIDATION_FAILED",
+                            "RULE_FUND_RESTRICTION_VIOLATED",
+                            "RULE_WAQF_CORPUS_PROTECTED",
+                            "RULE_LEDGER_IMMUTABLE",
+                            "RULE_LAST_ADMIN",
+                            "RULE_DUES_ALREADY_SETTLED",
+                            "RULE_DUES_OVERPAYMENT",
+                            "SYNC_CURSOR_TOO_OLD",
+                            "SYNC_DEPENDENCY_NOT_FOUND",
+                            "SYNC_EPOCH_MISMATCH",
+                            "CONFLICT_VERSION_MISMATCH",
+                            "IDEMPOTENCY_KEY_REUSED",
+                            "IDEMPOTENCY_KEY_REQUIRED",
+                            "NOT_FOUND",
+                            "RATE_LIMIT_EXCEEDED",
+                            "INTERNAL_ERROR"
+                          ]
+                        },
+                        "message": {
+                          "type": "string"
+                        },
+                        "requestId": {
+                          "type": "string"
+                        },
+                        "details": {}
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/mosques/{mosqueId}/dues/charges/{chargeId}/waive": {
+      "post": {
+        "summary": "Waive a dues charge",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "mosqueId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "chargeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "reason": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 500
+                  }
+                },
+                "required": [
+                  "reason"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "householdId": {
+                      "type": "string"
+                    },
+                    "period": {
+                      "type": "string"
+                    },
+                    "amountMinor": {
+                      "type": "integer"
+                    },
+                    "paidMinor": {
+                      "type": "integer"
+                    },
+                    "currency": {
+                      "type": "string"
+                    },
+                    "dueOn": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "PENDING",
+                        "PARTIAL",
+                        "PAID",
+                        "WAIVED"
+                      ]
+                    },
+                    "waivedBy": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "waivedReason": {
+                      "type": "string",
+                      "nullable": true
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "householdId",
+                    "period",
+                    "amountMinor",
+                    "paidMinor",
+                    "currency",
+                    "dueOn",
+                    "status",
+                    "waivedBy",
+                    "waivedReason"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "required": [
+                        "code",
+                        "message",
+                        "requestId"
+                      ],
+                      "properties": {
+                        "code": {
+                          "type": "string",
+                          "enum": [
+                            "AUTH_INVALID_CREDENTIALS",
+                            "AUTH_TOKEN_EXPIRED",
+                            "AUTH_TOKEN_INVALID",
+                            "AUTH_TOKEN_REUSED",
+                            "AUTH_ACCOUNT_LOCKED",
+                            "AUTH_EMAIL_TAKEN",
+                            "AUTH_PHONE_TAKEN",
+                            "PERM_DENIED",
+                            "PERM_ROLE_REQUIRED",
+                            "FEATURE_NOT_IN_PLAN",
+                            "FEATURE_LIMIT_REACHED",
+                            "TENANT_ID_REQUIRED",
+                            "TENANT_NOT_FOUND",
+                            "TENANT_SUSPENDED",
+                            "TENANT_READONLY",
+                            "INVITATION_EXPIRED",
+                            "INVITATION_ALREADY_ACCEPTED",
+                            "VALIDATION_FAILED",
+                            "RULE_FUND_RESTRICTION_VIOLATED",
+                            "RULE_WAQF_CORPUS_PROTECTED",
+                            "RULE_LEDGER_IMMUTABLE",
+                            "RULE_LAST_ADMIN",
+                            "RULE_DUES_ALREADY_SETTLED",
+                            "RULE_DUES_OVERPAYMENT",
+                            "SYNC_CURSOR_TOO_OLD",
+                            "SYNC_DEPENDENCY_NOT_FOUND",
+                            "SYNC_EPOCH_MISMATCH",
+                            "CONFLICT_VERSION_MISMATCH",
+                            "IDEMPOTENCY_KEY_REUSED",
+                            "IDEMPOTENCY_KEY_REQUIRED",
+                            "NOT_FOUND",
+                            "RATE_LIMIT_EXCEEDED",
+                            "INTERNAL_ERROR"
+                          ]
+                        },
+                        "message": {
+                          "type": "string"
+                        },
+                        "requestId": {
+                          "type": "string"
+                        },
+                        "details": {}
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/mosques/{mosqueId}/households/{householdId}/dues": {
+      "get": {
+        "summary": "List dues charges for a household",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "mosqueId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "householdId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "householdId": {
+                        "type": "string"
+                      },
+                      "period": {
+                        "type": "string"
+                      },
+                      "amountMinor": {
+                        "type": "integer"
+                      },
+                      "paidMinor": {
+                        "type": "integer"
+                      },
+                      "currency": {
+                        "type": "string"
+                      },
+                      "dueOn": {
+                        "type": "string"
+                      },
+                      "status": {
+                        "type": "string",
+                        "enum": [
+                          "PENDING",
+                          "PARTIAL",
+                          "PAID",
+                          "WAIVED"
+                        ]
+                      },
+                      "waivedBy": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "waivedReason": {
+                        "type": "string",
+                        "nullable": true
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "householdId",
+                      "period",
+                      "amountMinor",
+                      "paidMinor",
+                      "currency",
+                      "dueOn",
+                      "status",
+                      "waivedBy",
+                      "waivedReason"
+                    ],
+                    "additionalProperties": false
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "required": [
+                        "code",
+                        "message",
+                        "requestId"
+                      ],
+                      "properties": {
+                        "code": {
+                          "type": "string",
+                          "enum": [
+                            "AUTH_INVALID_CREDENTIALS",
+                            "AUTH_TOKEN_EXPIRED",
+                            "AUTH_TOKEN_INVALID",
+                            "AUTH_TOKEN_REUSED",
+                            "AUTH_ACCOUNT_LOCKED",
+                            "AUTH_EMAIL_TAKEN",
+                            "AUTH_PHONE_TAKEN",
+                            "PERM_DENIED",
+                            "PERM_ROLE_REQUIRED",
+                            "FEATURE_NOT_IN_PLAN",
+                            "FEATURE_LIMIT_REACHED",
+                            "TENANT_ID_REQUIRED",
+                            "TENANT_NOT_FOUND",
+                            "TENANT_SUSPENDED",
+                            "TENANT_READONLY",
+                            "INVITATION_EXPIRED",
+                            "INVITATION_ALREADY_ACCEPTED",
+                            "VALIDATION_FAILED",
+                            "RULE_FUND_RESTRICTION_VIOLATED",
+                            "RULE_WAQF_CORPUS_PROTECTED",
+                            "RULE_LEDGER_IMMUTABLE",
+                            "RULE_LAST_ADMIN",
+                            "RULE_DUES_ALREADY_SETTLED",
+                            "RULE_DUES_OVERPAYMENT",
                             "SYNC_CURSOR_TOO_OLD",
                             "SYNC_DEPENDENCY_NOT_FOUND",
                             "SYNC_EPOCH_MISMATCH",
@@ -5395,6 +6676,8 @@
                             "RULE_WAQF_CORPUS_PROTECTED",
                             "RULE_LEDGER_IMMUTABLE",
                             "RULE_LAST_ADMIN",
+                            "RULE_DUES_ALREADY_SETTLED",
+                            "RULE_DUES_OVERPAYMENT",
                             "SYNC_CURSOR_TOO_OLD",
                             "SYNC_DEPENDENCY_NOT_FOUND",
                             "SYNC_EPOCH_MISMATCH",
@@ -5681,6 +6964,8 @@
                             "RULE_WAQF_CORPUS_PROTECTED",
                             "RULE_LEDGER_IMMUTABLE",
                             "RULE_LAST_ADMIN",
+                            "RULE_DUES_ALREADY_SETTLED",
+                            "RULE_DUES_OVERPAYMENT",
                             "SYNC_CURSOR_TOO_OLD",
                             "SYNC_DEPENDENCY_NOT_FOUND",
                             "SYNC_EPOCH_MISMATCH",
@@ -5761,6 +7046,8 @@
                             "RULE_WAQF_CORPUS_PROTECTED",
                             "RULE_LEDGER_IMMUTABLE",
                             "RULE_LAST_ADMIN",
+                            "RULE_DUES_ALREADY_SETTLED",
+                            "RULE_DUES_OVERPAYMENT",
                             "SYNC_CURSOR_TOO_OLD",
                             "SYNC_DEPENDENCY_NOT_FOUND",
                             "SYNC_EPOCH_MISMATCH",
