@@ -10,8 +10,10 @@
   "scripts": {
     "dev": "tsx watch src/main.ts",
     "build": "tsc",
-    "start": "node dist/main.js",
+    "postbuild": "node scripts/copy-migrations.mjs",
+    "start": "node dist/src/main.js",
     "migrate": "tsx src/infrastructure/database/migrate-cli.ts",
+    "migrate:prod": "node dist/src/infrastructure/database/migrate-cli.js",
     "openapi": "tsx scripts/generate-openapi.ts",
     "seed:realistic": "tsx scripts/seed-realistic-tenant.ts",
     "typecheck": "tsc --noEmit",
