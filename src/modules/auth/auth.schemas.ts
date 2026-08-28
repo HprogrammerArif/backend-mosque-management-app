@@ -41,6 +41,15 @@ export const refreshSchema = z.object({
   deviceId: z.string().min(1),
 }).strip();
 
+const membershipEntitlementsSchema = z.object({
+  features: z.array(z.string()),
+  limits: z.object({
+    adminUsers: z.number().int().nullable(),
+    members: z.number().int().nullable(),
+    historyMonths: z.number().int().nullable(),
+  }),
+});
+
 export const authResponseSchema = z.object({
   accessToken: z.string(),
   expiresIn: z.number().int(),
@@ -52,6 +61,15 @@ export const authResponseSchema = z.object({
     phone: z.string().nullable(),
     email: z.string().nullable(),
   }),
+  // Read at login/register and refreshed on sync, so plan gating stays correct offline
+  // (FR-SUB-9) — the app never has to make a live call just to know what it's allowed to show.
+  memberships: z.array(z.object({
+    mosqueId: z.string(),
+    mosqueName: z.string(),
+    role: z.string(),
+    plan: z.string().nullable(),
+    entitlements: membershipEntitlementsSchema,
+  })),
 });
 
 export type DeviceInput = z.infer<typeof deviceSchema>;

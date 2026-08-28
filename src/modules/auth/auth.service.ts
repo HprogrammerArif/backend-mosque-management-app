@@ -6,6 +6,17 @@ import type { PasswordService } from './password.service.js';
 import type { TokenService } from './token.service.js';
 import type { UserRepository, UserRecord } from './ports/user.repository.js';
 
+const SQL_MEMBERSHIPS_WITH_PLAN = `
+  SELECT m.ID AS MOSQUE_ID, m.NAME AS MOSQUE_NAME, ms.ROLE,
+         s.PLAN_CODE, p.ENTITLEMENTS
+    FROM MOSQUES m
+    JOIN MEMBERSHIPS ms ON ms.MOSQUE_ID = m.ID
+    LEFT JOIN SUBSCRIPTIONS s ON s.MOSQUE_ID = m.ID AND s.STATUS IN ('TRIALING','ACTIVE')
+    LEFT JOIN PLANS p ON p.CODE = s.PLAN_CODE
+   WHERE ms.USER_ID = :userId AND ms.STATUS = 'ACTIVE'`;
+
+const NO_ENTITLEMENTS = { features: [] as string[], limits: { adminUsers: null, members: null, historyMonths: null } };
+
 const SQL_UPSERT_DEVICE = `
   MERGE INTO DEVICES d
   USING (SELECT :id AS ID FROM DUAL) s ON (d.ID = s.ID)
@@ -37,6 +48,24 @@ export class AuthService {
     };
   }
 
+  /** Entitlements at login/register, per FR-SUB-9 — see auth.schemas.ts's authResponseSchema. */
+  async #loadMemberships(userId: string): Promise<AuthResponse['memberships']> {
+    const rows = await this.pool.execute<{
+      mosque_id: string; mosque_name: string; role: string;
+      plan_code: string | null; entitlements: string | null;
+    }>(SQL_MEMBERSHIPS_WITH_PLAN, { userId });
+
+    return rows.map((row) => ({
+      mosqueId: row.mosque_id,
+      mosqueName: row.mosque_name,
+      role: row.role,
+      plan: row.plan_code,
+      entitlements: row.entitlements === null
+        ? NO_ENTITLEMENTS
+        : JSON.parse(row.entitlements) as AuthResponse['memberships'][number]['entitlements'],
+    }));
+  }
+
   async register(input: RegisterInput): Promise<AuthResponse> {
     if (input.phone && await this.users.findByIdentifier(input.phone)) {
       throw new AppError('AUTH_PHONE_TAKEN', 'That phone number is already registered');
@@ -60,7 +89,8 @@ export class AuthService {
       model: null, appVersion: null, pushToken: null,
     });
 
-    return this.#present(user, await this.tokens.issue(user.id, deviceId));
+    const issued = await this.tokens.issue(user.id, deviceId);
+    return this.#present(user, { ...issued, memberships: await this.#loadMemberships(user.id) });
   }
 
   async login(input: LoginInput): Promise<AuthResponse> {
@@ -88,10 +118,15 @@ export class AuthService {
       pushToken: input.device.pushToken ?? null,
     });
 
-    return this.#present(user, await this.tokens.issue(user.id, input.device.id));
+    const issued = await this.tokens.issue(user.id, input.device.id);
+    return this.#present(user, { ...issued, memberships: await this.#loadMemberships(user.id) });
   }
 
-  async refresh(refreshToken: string, deviceId: string): Promise<Omit<AuthResponse, 'user'>> {
+  /**
+   * No `memberships` here — refresh is a lightweight token rotation, not a full re-login.
+   * Entitlement changes reach the client via sync (FR-SUB-9), not this endpoint.
+   */
+  async refresh(refreshToken: string, deviceId: string): Promise<Omit<AuthResponse, 'user' | 'memberships'>> {
     return this.tokens.rotate(refreshToken, deviceId);
   }
 

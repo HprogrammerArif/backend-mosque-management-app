@@ -26,6 +26,10 @@ export function assertRouteTableIsSound(router: Router): void {
     if (route.permission === 'TENANT_SCOPED' && !names.includes('tenantGuard')) {
       problems.push(`${where}: missing tenantGuard`);
     }
+
+    if (route.feature !== undefined && !names.includes('requireFeature')) {
+      problems.push(`${where}: declares feature "${route.feature}" but does not enforce it`);
+    }
   }
 
   if (problems.length > 0) {

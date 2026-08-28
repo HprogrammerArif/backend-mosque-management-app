@@ -4,6 +4,7 @@ import type { OracleMosqueRepository } from '../../infrastructure/repositories/o
 import type { OracleMembershipRepository } from '../../infrastructure/repositories/oracle/oracle-membership.repository.js';
 import { OracleFundRepository } from '../../infrastructure/repositories/oracle/oracle-fund.repository.js';
 import { OracleExpenseCategoryRepository } from '../../infrastructure/repositories/oracle/oracle-expense-category.repository.js';
+import type { OracleSubscriptionRepository } from '../../infrastructure/repositories/oracle/oracle-subscription.repository.js';
 import type { MosqueRecord } from './ports/mosque.repository.js';
 import type { FundType } from '../../domain/enums.js';
 import type { CreateMosqueRequest } from './mosques.schemas.js';
@@ -46,6 +47,7 @@ export class MosquesService {
     private readonly pool: OraclePool,
     private readonly mosques: OracleMosqueRepository,
     private readonly memberships: OracleMembershipRepository,
+    private readonly subscriptions: OracleSubscriptionRepository,
   ) {}
 
   /**
@@ -73,6 +75,7 @@ export class MosquesService {
       for (const category of DEFAULT_EXPENSE_CATEGORIES) {
         await expenseCategories.insert({ id: uuidv7(), ...category, isSystem: true }, tx);
       }
+      await this.subscriptions.create({ id: uuidv7(), mosqueId, planCode: 'BASIC', status: 'ACTIVE' }, tx);
       return mosque;
     });
   }

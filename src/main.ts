@@ -9,6 +9,8 @@ import { OracleTokenRepository } from './infrastructure/repositories/oracle/orac
 import { OracleMosqueRepository } from './infrastructure/repositories/oracle/oracle-mosque.repository.js';
 import { OracleMembershipRepository } from './infrastructure/repositories/oracle/oracle-membership.repository.js';
 import { OracleInvitationRepository } from './infrastructure/repositories/oracle/oracle-invitation.repository.js';
+import { OracleSubscriptionRepository } from './infrastructure/repositories/oracle/oracle-subscription.repository.js';
+import { OraclePlanRepository } from './infrastructure/repositories/oracle/oracle-plan.repository.js';
 import { PasswordService } from './modules/auth/password.service.js';
 import { TokenService } from './modules/auth/token.service.js';
 import { AuthService } from './modules/auth/auth.service.js';
@@ -42,6 +44,8 @@ import { AnnouncementsService } from './modules/announcements/announcements.serv
 import { announcementsRoutes } from './modules/announcements/announcements.routes.js';
 import { StatisticsService } from './modules/statistics/statistics.service.js';
 import { statisticsRoutes } from './modules/statistics/statistics.routes.js';
+import { BillingService } from './modules/billing/billing.service.js';
+import { billingRoutes } from './modules/billing/billing.routes.js';
 import { SyncService } from './modules/sync/sync.service.js';
 import { syncRoutes } from './modules/sync/sync.routes.js';
 import { healthRoutes } from './modules/health/health.routes.js';
@@ -66,12 +70,15 @@ export async function createApp() {
   const mosques     = new OracleMosqueRepository(pool);
   const memberships = new OracleMembershipRepository(pool);
   const invitations = new OracleInvitationRepository(pool);
+  const subscriptions = new OracleSubscriptionRepository(pool);
+  const plans        = new OraclePlanRepository(pool);
 
   // ── services ────────────────────────────────────────────────────────────
   const passwords     = new PasswordService();
   const tokenSvc      = new TokenService(env, tokens);
   const authSvc       = new AuthService(users, passwords, tokenSvc, pool);
-  const mosquesSvc      = new MosquesService(pool, mosques, memberships);
+  const mosquesSvc      = new MosquesService(pool, mosques, memberships, subscriptions);
+  const billingSvc      = new BillingService(subscriptions, plans);
   const invitationsSvc  = new InvitationsService(invitations, memberships);
   const prayerConfigSvc = new PrayerConfigService(pool);
   const householdsSvc   = new HouseholdsService(pool);
@@ -109,11 +116,14 @@ export async function createApp() {
     }),
     ...fundsRoutes({ funds: fundsSvc, tokens: tokenSvc, memberships }),
     ...duesRoutes({ dues: duesSvc, tokens: tokenSvc, memberships, idempotency }),
-    ...payrollRoutes({ staff: staffSvc, payroll: payrollSvc, tokens: tokenSvc, memberships, idempotency }),
+    ...payrollRoutes({
+      staff: staffSvc, payroll: payrollSvc, tokens: tokenSvc, memberships, idempotency, subscriptions, plans,
+    }),
     ...committeeRoutes({ committee: committeeSvc, tokens: tokenSvc, memberships, idempotency }),
     ...eventsRoutes({ events: eventsSvc, tokens: tokenSvc, memberships, idempotency }),
     ...announcementsRoutes({ announcements: announcementsSvc, tokens: tokenSvc, memberships, idempotency }),
     ...statisticsRoutes({ statistics: statisticsSvc, tokens: tokenSvc, memberships }),
+    ...billingRoutes({ billing: billingSvc, tokens: tokenSvc, memberships, idempotency }),
     ...syncRoutes({ sync: syncSvc, tokens: tokenSvc, memberships, idempotency }),
   ]) router.add(route);
 

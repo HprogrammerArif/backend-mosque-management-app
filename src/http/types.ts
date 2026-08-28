@@ -40,6 +40,8 @@ export type RouteDefinition = {
   middleware: Middleware[];
   handler: Handler;
   docs?: RouteDocs;        // additive — routes without it still work
+  /** Plan entitlement gate (e.g. 'PAYROLL'). requireFeature must be in `middleware` when set. */
+  feature?: string;
 };
 
 export type MatchResult = { route: RouteDefinition; params: Record<string, string> };
