@@ -6,9 +6,10 @@ import type { FundRepository, FundRecord, CreateFundInput } from '../../../modul
 
 type Row = {
   id: string; tenant_id: string; type: string; name: string; zakat_eligible: number;
+  corpus_minor: number | null;
 };
 
-const COLUMNS = 'ID, TENANT_ID, TYPE, NAME, ZAKAT_ELIGIBLE';
+const COLUMNS = 'ID, TENANT_ID, TYPE, NAME, ZAKAT_ELIGIBLE, CORPUS_MINOR';
 
 const SQL_LIST = `SELECT ${COLUMNS} FROM FUNDS WHERE TENANT_ID = :tenantId`;
 
@@ -18,6 +19,22 @@ const SQL_INSERT = `
   INSERT INTO FUNDS (ID, TENANT_ID, TYPE, NAME, ZAKAT_ELIGIBLE)
   VALUES (:id, :tenantId, :type, :name, :zakatEligible)`;
 
+const SQL_SET_CORPUS = `
+  UPDATE FUNDS SET CORPUS_MINOR = :corpusMinor WHERE TENANT_ID = :tenantId AND ID = :id`;
+
+/**
+ * BR-2's "available" balance: lifetime donations into the fund minus lifetime expenses
+ * from it. Same formula as StatisticsRepository.fundBalances — duplicated rather than
+ * shared, since that one aggregates across every fund in a single query and this one
+ * needs a single fund's figure inline with ExpensesService's existing BR-1 checks.
+ */
+const SQL_CURRENT_BALANCE = `
+  SELECT
+    NVL((SELECT SUM(AMOUNT_MINOR) FROM DONATIONS WHERE TENANT_ID = :tenantId AND FUND_ID = :id), 0)
+    - NVL((SELECT SUM(AMOUNT_MINOR) FROM EXPENSES WHERE TENANT_ID = :tenantId AND FUND_ID = :id), 0)
+    AS BALANCE_MINOR
+  FROM DUAL`;
+
 function toRecord(row: Row): FundRecord {
   return {
     id: row.id,
@@ -25,6 +42,7 @@ function toRecord(row: Row): FundRecord {
     type: row.type as FundType,
     name: row.name,
     zakatEligible: Number(row.zakat_eligible) === 1,
+    corpusMinor: Number(row.corpus_minor ?? 0),
   };
 }
 
@@ -57,6 +75,18 @@ export class OracleFundRepository extends BaseRepository implements FundReposito
     } else {
       await this.scoped(SQL_INSERT, binds);
     }
-    return { ...input, tenantId: this.ctx.tenantId };
+    return { ...input, tenantId: this.ctx.tenantId, corpusMinor: 0 };
+  }
+
+  async setCorpus(id: string, corpusMinor: number): Promise<FundRecord> {
+    await this.scoped(SQL_SET_CORPUS, { id, corpusMinor });
+    const updated = await this.findById(id);
+    if (!updated) throw new Error(`Fund ${id} vanished immediately after corpus update`);
+    return updated;
+  }
+
+  async currentBalance(id: string): Promise<number> {
+    const rows = await this.scoped<{ balance_minor: number }>(SQL_CURRENT_BALANCE, { id });
+    return Number(rows[0]?.balance_minor ?? 0);
   }
 }

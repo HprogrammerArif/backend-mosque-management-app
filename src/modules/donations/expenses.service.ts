@@ -38,6 +38,20 @@ export class ExpensesService {
       );
     }
 
+    // BR-2: a WAQF fund's corpus is inalienable — this expense may only draw against
+    // the balance ABOVE the protected corpus, never dip below it. corpusMinor is 0 for
+    // every non-WAQF fund, so this is a no-op everywhere else.
+    if (fund.type === 'WAQF' && fund.corpusMinor > 0) {
+      const currentBalance = await new OracleFundRepository(this.pool, ctx).currentBalance(fund.id);
+      const availableMinor = currentBalance - fund.corpusMinor;
+      if (input.amountMinor > availableMinor) {
+        throw new AppError(
+          'RULE_WAQF_CORPUS_PROTECTED',
+          `Fund "${fund.name}" has a protected corpus of ${fund.corpusMinor} — only ${Math.max(0, availableMinor)} is available to spend (BR-2)`,
+        );
+      }
+    }
+
     return this.#expenses(ctx).create({
       id: uuidv7(),
       ...input,

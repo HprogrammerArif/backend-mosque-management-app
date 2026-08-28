@@ -94,6 +94,90 @@ describe('BR-1 — Zakat fund restriction', () => {
   });
 });
 
+describe('BR-2 — Waqf corpus is inalienable', () => {
+  it('has a zero corpus by default — no protection until an Admin sets one', async () => {
+    const tenant = await createTenant(server);
+    const funds = await api().get(`/api/v1/mosques/${tenant.mosqueId}/funds`).set(auth(tenant));
+    const waqf = (funds.body as { type: string; corpusMinor: number }[]).find((f) => f.type === 'WAQF');
+    expect(waqf?.corpusMinor).toBe(0);
+  });
+
+  it('refuses to set a corpus on a non-WAQF fund', async () => {
+    const tenant = await createTenant(server);
+    const generalFundId = await fundByType(tenant, 'GENERAL');
+
+    const res = await api().patch(`/api/v1/mosques/${tenant.mosqueId}/funds/${generalFundId}/corpus`)
+      .set(auth(tenant)).set(idem())
+      .send({ corpusMinor: 1000, reason: 'Should be refused' });
+
+    expect(res.status).toBe(422);
+    expect(res.body.error.code).toBe('VALIDATION_FAILED');
+  });
+
+  it('allows an expense that leaves the corpus intact, exactly at the boundary', async () => {
+    const tenant = await createTenant(server);
+    const waqfFundId = await fundByType(tenant, 'WAQF');
+    const categoryId = await categoryByName(tenant, 'General Expenses');
+
+    await api().post(`/api/v1/mosques/${tenant.mosqueId}/donations`)
+      .set(auth(tenant)).set(idem())
+      .send({ fundId: waqfFundId, amountMinor: 100000, occurredOn: '2026-08-15', method: 'CASH' });
+    await api().patch(`/api/v1/mosques/${tenant.mosqueId}/funds/${waqfFundId}/corpus`)
+      .set(auth(tenant)).set(idem())
+      .send({ corpusMinor: 80000, reason: 'Endowment principal' });
+
+    // Exactly the 20000 available above the corpus — must succeed, not just anything below it.
+    const res = await api().post(`/api/v1/mosques/${tenant.mosqueId}/expenses`)
+      .set(auth(tenant)).set(idem())
+      .send({
+        fundId: waqfFundId, categoryId, amountMinor: 20000, occurredOn: '2026-08-16', method: 'CASH',
+      });
+
+    expect(res.status).toBe(201);
+  });
+
+  it('rejects an expense that would dip into the protected corpus, by even 1 minor unit', async () => {
+    const tenant = await createTenant(server);
+    const waqfFundId = await fundByType(tenant, 'WAQF');
+    const categoryId = await categoryByName(tenant, 'General Expenses');
+
+    await api().post(`/api/v1/mosques/${tenant.mosqueId}/donations`)
+      .set(auth(tenant)).set(idem())
+      .send({ fundId: waqfFundId, amountMinor: 100000, occurredOn: '2026-08-15', method: 'CASH' });
+    await api().patch(`/api/v1/mosques/${tenant.mosqueId}/funds/${waqfFundId}/corpus`)
+      .set(auth(tenant)).set(idem())
+      .send({ corpusMinor: 80000, reason: 'Endowment principal' });
+
+    const res = await api().post(`/api/v1/mosques/${tenant.mosqueId}/expenses`)
+      .set(auth(tenant)).set(idem())
+      .send({
+        fundId: waqfFundId, categoryId, amountMinor: 20001, occurredOn: '2026-08-16', method: 'CASH',
+      });
+
+    expect(res.status).toBe(409);
+    expect(res.body.error.code).toBe('RULE_WAQF_CORPUS_PROTECTED');
+  });
+
+  it('does not restrict a WAQF fund at all until a corpus is actually set', async () => {
+    const tenant = await createTenant(server);
+    const waqfFundId = await fundByType(tenant, 'WAQF');
+    const categoryId = await categoryByName(tenant, 'General Expenses');
+
+    await api().post(`/api/v1/mosques/${tenant.mosqueId}/donations`)
+      .set(auth(tenant)).set(idem())
+      .send({ fundId: waqfFundId, amountMinor: 5000, occurredOn: '2026-08-15', method: 'CASH' });
+
+    // No corpus set — the whole balance is spendable, same as any other fund.
+    const res = await api().post(`/api/v1/mosques/${tenant.mosqueId}/expenses`)
+      .set(auth(tenant)).set(idem())
+      .send({
+        fundId: waqfFundId, categoryId, amountMinor: 5000, occurredOn: '2026-08-16', method: 'CASH',
+      });
+
+    expect(res.status).toBe(201);
+  });
+});
+
 describe('BR-10 — a mosque always has at least one active Admin', () => {
   async function addSecondAdmin(tenant: TenantFixture) {
     const invite = await api().post(`/api/v1/mosques/${tenant.mosqueId}/invitations`)

@@ -128,6 +128,21 @@ describe('cross-tenant leakage — VPD isolation', () => {
     expect([...idsA].some((id) => idsB.has(id))).toBe(false);
   });
 
+  it('refuses B setting a corpus on A\'s WAQF fund by id (BR-2 across the tenant boundary)', async () => {
+    const { a, b } = await seedTwoTenants();
+    const fundsA = await api().get(`/api/v1/mosques/${a.mosqueId}/funds`).set(auth(a));
+    const waqfA = (fundsA.body as { id: string; type: string }[]).find((f) => f.type === 'WAQF');
+    if (!waqfA) throw new Error('Tenant A has no seeded WAQF fund');
+
+    // B is a real Admin — just not of mosque A. Same 404-not-leak shape as the
+    // household-by-id case above: B's own path, A's fund id.
+    const res = await api().patch(`/api/v1/mosques/${b.mosqueId}/funds/${waqfA.id}/corpus`)
+      .set(auth(b)).set(idem())
+      .send({ corpusMinor: 1, reason: 'Attempted cross-tenant corpus tamper' });
+
+    expect(res.status).toBe(404);
+  });
+
   it('404s, not 200-with-data, when B fetches A\'s household by id through B\'s own membership boundary', async () => {
     const { a, b, householdId } = await seedTwoTenants();
     // B is a real, active member of mosque B — tenantGuard passes on the :mosqueId in

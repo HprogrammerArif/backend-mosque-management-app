@@ -69,6 +69,6 @@ describe('OracleUserRepository', () => {
     for (let i = 0; i < 5; i++) await repo.recordFailedAttempt(input.id);
     const user = await repo.findById(input.id);
     expect(user?.lockedUntil).toBeInstanceOf(Date);
-    expect(user!.lockedUntil!.getTime()).toBeGreaterThan(Date.now());
+    expect(user?.lockedUntil?.getTime()).toBeGreaterThan(Date.now());
   });
 });

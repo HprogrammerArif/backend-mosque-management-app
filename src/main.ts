@@ -119,7 +119,7 @@ export async function createApp() {
       expenses: expensesSvc, expenseCategories: expenseCategoriesSvc,
       tokens: tokenSvc, memberships, idempotency,
     }),
-    ...fundsRoutes({ funds: fundsSvc, tokens: tokenSvc, memberships }),
+    ...fundsRoutes({ funds: fundsSvc, tokens: tokenSvc, memberships, idempotency }),
     ...duesRoutes({ dues: duesSvc, tokens: tokenSvc, memberships, idempotency }),
     ...payrollRoutes({
       staff: staffSvc, payroll: payrollSvc, tokens: tokenSvc, memberships, idempotency, subscriptions, plans,
