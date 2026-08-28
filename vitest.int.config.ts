@@ -10,5 +10,11 @@ export default defineConfig({
     testTimeout: 60_000,
     hookTimeout: 120_000,
     fileParallelism: false,   // one shared database; serial keeps state predictable
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'html'],
+      include: ['src/**/*.ts'],
+      exclude: ['src/**/*.test.ts', 'src/main.ts', 'src/infrastructure/database/migrate-cli.ts'],
+    },
   },
 });

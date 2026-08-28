@@ -3,7 +3,7 @@ import { OraclePool } from '../src/infrastructure/database/oracle.pool.js';
 import { OracleTokenRepository } from '../src/infrastructure/repositories/oracle/oracle-token.repository.js';
 import { TokenService } from '../src/modules/auth/token.service.js';
 import { loadEnv } from '../src/config/env.js';
-import { resetAuthTables } from './helpers/reset-auth-tables.js';
+import { resetAllTables } from './helpers/reset-all-tables.js';
 
 let pool: OraclePool;
 let service: TokenService;
@@ -18,7 +18,7 @@ beforeAll(async () => {
 afterAll(async () => { await pool.close(); });
 
 beforeEach(async () => {
-  await resetAuthTables(pool);
+  await resetAllTables(pool);
   await pool.execute(
     'INSERT INTO USERS (ID, PHONE, PASSWORD_HASH, DISPLAY_NAME) VALUES (:i,:p,:h,:n)',
     { i: userId, p: '+8801700000099', h: 'x', n: 'Token Test' },

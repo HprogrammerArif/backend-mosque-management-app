@@ -12,7 +12,7 @@ import { TokenService } from '../src/modules/auth/token.service.js';
 import { OracleTokenRepository } from '../src/infrastructure/repositories/oracle/oracle-token.repository.js';
 import { OraclePool } from '../src/infrastructure/database/oracle.pool.js';
 import { loadEnv } from '../src/config/env.js';
-import { resetAuthTables } from './helpers/reset-auth-tables.js';
+import { resetAllTables } from './helpers/reset-all-tables.js';
 
 let pool: OraclePool; let server: Server; let shutdown: () => Promise<void>;
 let tokens: TokenService; let accessToken: string;
@@ -22,7 +22,7 @@ beforeAll(async () => {
   await pool.init();
   tokens = new TokenService(loadEnv(), new OracleTokenRepository(pool));
 
-  await resetAuthTables(pool);
+  await resetAllTables(pool);
   await pool.execute('INSERT INTO USERS (ID,PHONE,PASSWORD_HASH,DISPLAY_NAME) VALUES (:i,:p,:h,:n)',
     { i: 'u-mw', p: '+8801700000055', h: 'x', n: 'MW Test' });
   await pool.execute('INSERT INTO DEVICES (ID,USER_ID,PLATFORM) VALUES (:i,:u,:p)',

@@ -2,7 +2,7 @@ import { describe, it, expect, beforeAll, afterAll, beforeEach } from 'vitest';
 import request from 'supertest';
 import { createApp } from '../src/main.js';
 import type { OraclePool } from '../src/infrastructure/database/oracle.pool.js';
-import { resetAuthTables } from './helpers/reset-auth-tables.js';
+import { resetAllTables } from './helpers/reset-all-tables.js';
 import type { Server } from 'node:http';
 
 let server: Server; let shutdown: () => Promise<void>; let pool: OraclePool;
@@ -14,7 +14,7 @@ const credentials = { phone: '+8801712345678', password: 'correct-horse-battery'
 beforeAll(async () => { ({ server, shutdown, pool } = await createApp()); });
 afterAll(async () => { await shutdown(); await pool.close(); });
 
-beforeEach(async () => { await resetAuthTables(pool); });
+beforeEach(async () => { await resetAllTables(pool); });
 
 const api = () => request(server);
 const idem = () => ({ 'Idempotency-Key': crypto.randomUUID() });
