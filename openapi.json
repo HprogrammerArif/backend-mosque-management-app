@@ -55,6 +55,7 @@
                             "RULE_LAST_ADMIN",
                             "RULE_DUES_ALREADY_SETTLED",
                             "RULE_DUES_OVERPAYMENT",
+                            "RULE_PAYROLL_ALREADY_POSTED",
                             "SYNC_CURSOR_TOO_OLD",
                             "SYNC_DEPENDENCY_NOT_FOUND",
                             "SYNC_EPOCH_MISMATCH",
@@ -133,6 +134,7 @@
                             "RULE_LAST_ADMIN",
                             "RULE_DUES_ALREADY_SETTLED",
                             "RULE_DUES_OVERPAYMENT",
+                            "RULE_PAYROLL_ALREADY_POSTED",
                             "SYNC_CURSOR_TOO_OLD",
                             "SYNC_DEPENDENCY_NOT_FOUND",
                             "SYNC_EPOCH_MISMATCH",
@@ -306,6 +308,7 @@
                             "RULE_LAST_ADMIN",
                             "RULE_DUES_ALREADY_SETTLED",
                             "RULE_DUES_OVERPAYMENT",
+                            "RULE_PAYROLL_ALREADY_POSTED",
                             "SYNC_CURSOR_TOO_OLD",
                             "SYNC_DEPENDENCY_NOT_FOUND",
                             "SYNC_EPOCH_MISMATCH",
@@ -499,6 +502,7 @@
                             "RULE_LAST_ADMIN",
                             "RULE_DUES_ALREADY_SETTLED",
                             "RULE_DUES_OVERPAYMENT",
+                            "RULE_PAYROLL_ALREADY_POSTED",
                             "SYNC_CURSOR_TOO_OLD",
                             "SYNC_DEPENDENCY_NOT_FOUND",
                             "SYNC_EPOCH_MISMATCH",
@@ -602,6 +606,7 @@
                             "RULE_LAST_ADMIN",
                             "RULE_DUES_ALREADY_SETTLED",
                             "RULE_DUES_OVERPAYMENT",
+                            "RULE_PAYROLL_ALREADY_POSTED",
                             "SYNC_CURSOR_TOO_OLD",
                             "SYNC_DEPENDENCY_NOT_FOUND",
                             "SYNC_EPOCH_MISMATCH",
@@ -684,6 +689,7 @@
                             "RULE_LAST_ADMIN",
                             "RULE_DUES_ALREADY_SETTLED",
                             "RULE_DUES_OVERPAYMENT",
+                            "RULE_PAYROLL_ALREADY_POSTED",
                             "SYNC_CURSOR_TOO_OLD",
                             "SYNC_DEPENDENCY_NOT_FOUND",
                             "SYNC_EPOCH_MISMATCH",
@@ -766,6 +772,7 @@
                             "RULE_LAST_ADMIN",
                             "RULE_DUES_ALREADY_SETTLED",
                             "RULE_DUES_OVERPAYMENT",
+                            "RULE_PAYROLL_ALREADY_POSTED",
                             "SYNC_CURSOR_TOO_OLD",
                             "SYNC_DEPENDENCY_NOT_FOUND",
                             "SYNC_EPOCH_MISMATCH",
@@ -930,6 +937,7 @@
                             "RULE_LAST_ADMIN",
                             "RULE_DUES_ALREADY_SETTLED",
                             "RULE_DUES_OVERPAYMENT",
+                            "RULE_PAYROLL_ALREADY_POSTED",
                             "SYNC_CURSOR_TOO_OLD",
                             "SYNC_DEPENDENCY_NOT_FOUND",
                             "SYNC_EPOCH_MISMATCH",
@@ -1056,6 +1064,7 @@
                             "RULE_LAST_ADMIN",
                             "RULE_DUES_ALREADY_SETTLED",
                             "RULE_DUES_OVERPAYMENT",
+                            "RULE_PAYROLL_ALREADY_POSTED",
                             "SYNC_CURSOR_TOO_OLD",
                             "SYNC_DEPENDENCY_NOT_FOUND",
                             "SYNC_EPOCH_MISMATCH",
@@ -1191,6 +1200,7 @@
                             "RULE_LAST_ADMIN",
                             "RULE_DUES_ALREADY_SETTLED",
                             "RULE_DUES_OVERPAYMENT",
+                            "RULE_PAYROLL_ALREADY_POSTED",
                             "SYNC_CURSOR_TOO_OLD",
                             "SYNC_DEPENDENCY_NOT_FOUND",
                             "SYNC_EPOCH_MISMATCH",
@@ -1335,6 +1345,7 @@
                             "RULE_LAST_ADMIN",
                             "RULE_DUES_ALREADY_SETTLED",
                             "RULE_DUES_OVERPAYMENT",
+                            "RULE_PAYROLL_ALREADY_POSTED",
                             "SYNC_CURSOR_TOO_OLD",
                             "SYNC_DEPENDENCY_NOT_FOUND",
                             "SYNC_EPOCH_MISMATCH",
@@ -1471,6 +1482,7 @@
                             "RULE_LAST_ADMIN",
                             "RULE_DUES_ALREADY_SETTLED",
                             "RULE_DUES_OVERPAYMENT",
+                            "RULE_PAYROLL_ALREADY_POSTED",
                             "SYNC_CURSOR_TOO_OLD",
                             "SYNC_DEPENDENCY_NOT_FOUND",
                             "SYNC_EPOCH_MISMATCH",
@@ -1610,6 +1622,7 @@
                             "RULE_LAST_ADMIN",
                             "RULE_DUES_ALREADY_SETTLED",
                             "RULE_DUES_OVERPAYMENT",
+                            "RULE_PAYROLL_ALREADY_POSTED",
                             "SYNC_CURSOR_TOO_OLD",
                             "SYNC_DEPENDENCY_NOT_FOUND",
                             "SYNC_EPOCH_MISMATCH",
@@ -1785,6 +1798,7 @@
                             "RULE_LAST_ADMIN",
                             "RULE_DUES_ALREADY_SETTLED",
                             "RULE_DUES_OVERPAYMENT",
+                            "RULE_PAYROLL_ALREADY_POSTED",
                             "SYNC_CURSOR_TOO_OLD",
                             "SYNC_DEPENDENCY_NOT_FOUND",
                             "SYNC_EPOCH_MISMATCH",
@@ -1963,6 +1977,7 @@
                             "RULE_LAST_ADMIN",
                             "RULE_DUES_ALREADY_SETTLED",
                             "RULE_DUES_OVERPAYMENT",
+                            "RULE_PAYROLL_ALREADY_POSTED",
                             "SYNC_CURSOR_TOO_OLD",
                             "SYNC_DEPENDENCY_NOT_FOUND",
                             "SYNC_EPOCH_MISMATCH",
@@ -2226,6 +2241,7 @@
                             "RULE_LAST_ADMIN",
                             "RULE_DUES_ALREADY_SETTLED",
                             "RULE_DUES_OVERPAYMENT",
+                            "RULE_PAYROLL_ALREADY_POSTED",
                             "SYNC_CURSOR_TOO_OLD",
                             "SYNC_DEPENDENCY_NOT_FOUND",
                             "SYNC_EPOCH_MISMATCH",
@@ -2444,6 +2460,7 @@
                             "RULE_LAST_ADMIN",
                             "RULE_DUES_ALREADY_SETTLED",
                             "RULE_DUES_OVERPAYMENT",
+                            "RULE_PAYROLL_ALREADY_POSTED",
                             "SYNC_CURSOR_TOO_OLD",
                             "SYNC_DEPENDENCY_NOT_FOUND",
                             "SYNC_EPOCH_MISMATCH",
@@ -2604,6 +2621,7 @@
                             "RULE_LAST_ADMIN",
                             "RULE_DUES_ALREADY_SETTLED",
                             "RULE_DUES_OVERPAYMENT",
+                            "RULE_PAYROLL_ALREADY_POSTED",
                             "SYNC_CURSOR_TOO_OLD",
                             "SYNC_DEPENDENCY_NOT_FOUND",
                             "SYNC_EPOCH_MISMATCH",
@@ -2771,6 +2789,7 @@
                             "RULE_LAST_ADMIN",
                             "RULE_DUES_ALREADY_SETTLED",
                             "RULE_DUES_OVERPAYMENT",
+                            "RULE_PAYROLL_ALREADY_POSTED",
                             "SYNC_CURSOR_TOO_OLD",
                             "SYNC_DEPENDENCY_NOT_FOUND",
                             "SYNC_EPOCH_MISMATCH",
@@ -2930,6 +2949,7 @@
                             "RULE_LAST_ADMIN",
                             "RULE_DUES_ALREADY_SETTLED",
                             "RULE_DUES_OVERPAYMENT",
+                            "RULE_PAYROLL_ALREADY_POSTED",
                             "SYNC_CURSOR_TOO_OLD",
                             "SYNC_DEPENDENCY_NOT_FOUND",
                             "SYNC_EPOCH_MISMATCH",
@@ -3140,6 +3160,7 @@
                             "RULE_LAST_ADMIN",
                             "RULE_DUES_ALREADY_SETTLED",
                             "RULE_DUES_OVERPAYMENT",
+                            "RULE_PAYROLL_ALREADY_POSTED",
                             "SYNC_CURSOR_TOO_OLD",
                             "SYNC_DEPENDENCY_NOT_FOUND",
                             "SYNC_EPOCH_MISMATCH",
@@ -3398,6 +3419,7 @@
                             "RULE_LAST_ADMIN",
                             "RULE_DUES_ALREADY_SETTLED",
                             "RULE_DUES_OVERPAYMENT",
+                            "RULE_PAYROLL_ALREADY_POSTED",
                             "SYNC_CURSOR_TOO_OLD",
                             "SYNC_DEPENDENCY_NOT_FOUND",
                             "SYNC_EPOCH_MISMATCH",
@@ -3577,6 +3599,7 @@
                             "RULE_LAST_ADMIN",
                             "RULE_DUES_ALREADY_SETTLED",
                             "RULE_DUES_OVERPAYMENT",
+                            "RULE_PAYROLL_ALREADY_POSTED",
                             "SYNC_CURSOR_TOO_OLD",
                             "SYNC_DEPENDENCY_NOT_FOUND",
                             "SYNC_EPOCH_MISMATCH",
@@ -3692,6 +3715,7 @@
                             "RULE_LAST_ADMIN",
                             "RULE_DUES_ALREADY_SETTLED",
                             "RULE_DUES_OVERPAYMENT",
+                            "RULE_PAYROLL_ALREADY_POSTED",
                             "SYNC_CURSOR_TOO_OLD",
                             "SYNC_DEPENDENCY_NOT_FOUND",
                             "SYNC_EPOCH_MISMATCH",
@@ -3878,6 +3902,7 @@
                             "RULE_LAST_ADMIN",
                             "RULE_DUES_ALREADY_SETTLED",
                             "RULE_DUES_OVERPAYMENT",
+                            "RULE_PAYROLL_ALREADY_POSTED",
                             "SYNC_CURSOR_TOO_OLD",
                             "SYNC_DEPENDENCY_NOT_FOUND",
                             "SYNC_EPOCH_MISMATCH",
@@ -4085,6 +4110,7 @@
                             "RULE_LAST_ADMIN",
                             "RULE_DUES_ALREADY_SETTLED",
                             "RULE_DUES_OVERPAYMENT",
+                            "RULE_PAYROLL_ALREADY_POSTED",
                             "SYNC_CURSOR_TOO_OLD",
                             "SYNC_DEPENDENCY_NOT_FOUND",
                             "SYNC_EPOCH_MISMATCH",
@@ -4223,6 +4249,7 @@
                             "RULE_LAST_ADMIN",
                             "RULE_DUES_ALREADY_SETTLED",
                             "RULE_DUES_OVERPAYMENT",
+                            "RULE_PAYROLL_ALREADY_POSTED",
                             "SYNC_CURSOR_TOO_OLD",
                             "SYNC_DEPENDENCY_NOT_FOUND",
                             "SYNC_EPOCH_MISMATCH",
@@ -4396,6 +4423,7 @@
                             "RULE_LAST_ADMIN",
                             "RULE_DUES_ALREADY_SETTLED",
                             "RULE_DUES_OVERPAYMENT",
+                            "RULE_PAYROLL_ALREADY_POSTED",
                             "SYNC_CURSOR_TOO_OLD",
                             "SYNC_DEPENDENCY_NOT_FOUND",
                             "SYNC_EPOCH_MISMATCH",
@@ -4644,6 +4672,7 @@
                             "RULE_LAST_ADMIN",
                             "RULE_DUES_ALREADY_SETTLED",
                             "RULE_DUES_OVERPAYMENT",
+                            "RULE_PAYROLL_ALREADY_POSTED",
                             "SYNC_CURSOR_TOO_OLD",
                             "SYNC_DEPENDENCY_NOT_FOUND",
                             "SYNC_EPOCH_MISMATCH",
@@ -4823,6 +4852,7 @@
                             "RULE_LAST_ADMIN",
                             "RULE_DUES_ALREADY_SETTLED",
                             "RULE_DUES_OVERPAYMENT",
+                            "RULE_PAYROLL_ALREADY_POSTED",
                             "SYNC_CURSOR_TOO_OLD",
                             "SYNC_DEPENDENCY_NOT_FOUND",
                             "SYNC_EPOCH_MISMATCH",
@@ -5009,6 +5039,7 @@
                             "RULE_LAST_ADMIN",
                             "RULE_DUES_ALREADY_SETTLED",
                             "RULE_DUES_OVERPAYMENT",
+                            "RULE_PAYROLL_ALREADY_POSTED",
                             "SYNC_CURSOR_TOO_OLD",
                             "SYNC_DEPENDENCY_NOT_FOUND",
                             "SYNC_EPOCH_MISMATCH",
@@ -5216,6 +5247,7 @@
                             "RULE_LAST_ADMIN",
                             "RULE_DUES_ALREADY_SETTLED",
                             "RULE_DUES_OVERPAYMENT",
+                            "RULE_PAYROLL_ALREADY_POSTED",
                             "SYNC_CURSOR_TOO_OLD",
                             "SYNC_DEPENDENCY_NOT_FOUND",
                             "SYNC_EPOCH_MISMATCH",
@@ -5354,6 +5386,7 @@
                             "RULE_LAST_ADMIN",
                             "RULE_DUES_ALREADY_SETTLED",
                             "RULE_DUES_OVERPAYMENT",
+                            "RULE_PAYROLL_ALREADY_POSTED",
                             "SYNC_CURSOR_TOO_OLD",
                             "SYNC_DEPENDENCY_NOT_FOUND",
                             "SYNC_EPOCH_MISMATCH",
@@ -5529,6 +5562,7 @@
                             "RULE_LAST_ADMIN",
                             "RULE_DUES_ALREADY_SETTLED",
                             "RULE_DUES_OVERPAYMENT",
+                            "RULE_PAYROLL_ALREADY_POSTED",
                             "SYNC_CURSOR_TOO_OLD",
                             "SYNC_DEPENDENCY_NOT_FOUND",
                             "SYNC_EPOCH_MISMATCH",
@@ -5684,6 +5718,7 @@
                             "RULE_LAST_ADMIN",
                             "RULE_DUES_ALREADY_SETTLED",
                             "RULE_DUES_OVERPAYMENT",
+                            "RULE_PAYROLL_ALREADY_POSTED",
                             "SYNC_CURSOR_TOO_OLD",
                             "SYNC_DEPENDENCY_NOT_FOUND",
                             "SYNC_EPOCH_MISMATCH",
@@ -5844,6 +5879,7 @@
                             "RULE_LAST_ADMIN",
                             "RULE_DUES_ALREADY_SETTLED",
                             "RULE_DUES_OVERPAYMENT",
+                            "RULE_PAYROLL_ALREADY_POSTED",
                             "SYNC_CURSOR_TOO_OLD",
                             "SYNC_DEPENDENCY_NOT_FOUND",
                             "SYNC_EPOCH_MISMATCH",
@@ -6008,6 +6044,7 @@
                             "RULE_LAST_ADMIN",
                             "RULE_DUES_ALREADY_SETTLED",
                             "RULE_DUES_OVERPAYMENT",
+                            "RULE_PAYROLL_ALREADY_POSTED",
                             "SYNC_CURSOR_TOO_OLD",
                             "SYNC_DEPENDENCY_NOT_FOUND",
                             "SYNC_EPOCH_MISMATCH",
@@ -6225,6 +6262,7 @@
                             "RULE_LAST_ADMIN",
                             "RULE_DUES_ALREADY_SETTLED",
                             "RULE_DUES_OVERPAYMENT",
+                            "RULE_PAYROLL_ALREADY_POSTED",
                             "SYNC_CURSOR_TOO_OLD",
                             "SYNC_DEPENDENCY_NOT_FOUND",
                             "SYNC_EPOCH_MISMATCH",
@@ -6406,6 +6444,7 @@
                             "RULE_LAST_ADMIN",
                             "RULE_DUES_ALREADY_SETTLED",
                             "RULE_DUES_OVERPAYMENT",
+                            "RULE_PAYROLL_ALREADY_POSTED",
                             "SYNC_CURSOR_TOO_OLD",
                             "SYNC_DEPENDENCY_NOT_FOUND",
                             "SYNC_EPOCH_MISMATCH",
@@ -6569,6 +6608,1098 @@
                             "RULE_LAST_ADMIN",
                             "RULE_DUES_ALREADY_SETTLED",
                             "RULE_DUES_OVERPAYMENT",
+                            "RULE_PAYROLL_ALREADY_POSTED",
+                            "SYNC_CURSOR_TOO_OLD",
+                            "SYNC_DEPENDENCY_NOT_FOUND",
+                            "SYNC_EPOCH_MISMATCH",
+                            "CONFLICT_VERSION_MISMATCH",
+                            "IDEMPOTENCY_KEY_REUSED",
+                            "IDEMPOTENCY_KEY_REQUIRED",
+                            "NOT_FOUND",
+                            "RATE_LIMIT_EXCEEDED",
+                            "INTERNAL_ERROR"
+                          ]
+                        },
+                        "message": {
+                          "type": "string"
+                        },
+                        "requestId": {
+                          "type": "string"
+                        },
+                        "details": {}
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/mosques/{mosqueId}/staff": {
+      "post": {
+        "summary": "Add a staff record",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "mosqueId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 200
+                  },
+                  "roleTitle": {
+                    "type": "string",
+                    "maxLength": 100,
+                    "nullable": true,
+                    "default": null
+                  },
+                  "phone": {
+                    "type": "string",
+                    "maxLength": 20,
+                    "nullable": true,
+                    "default": null
+                  },
+                  "monthlySalaryMinor": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "default": 0
+                  },
+                  "currency": {
+                    "type": "string",
+                    "enum": [
+                      "BDT",
+                      "USD",
+                      "GBP",
+                      "EUR"
+                    ],
+                    "default": "BDT"
+                  },
+                  "joinedOn": {
+                    "type": "string",
+                    "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+                    "nullable": true,
+                    "default": null
+                  }
+                },
+                "required": [
+                  "name"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "roleTitle": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "phone": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "monthlySalaryMinor": {
+                      "type": "integer"
+                    },
+                    "currency": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "ACTIVE",
+                        "INACTIVE"
+                      ]
+                    },
+                    "joinedOn": {
+                      "type": "string",
+                      "nullable": true
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "name",
+                    "roleTitle",
+                    "phone",
+                    "monthlySalaryMinor",
+                    "currency",
+                    "status",
+                    "joinedOn"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "required": [
+                        "code",
+                        "message",
+                        "requestId"
+                      ],
+                      "properties": {
+                        "code": {
+                          "type": "string",
+                          "enum": [
+                            "AUTH_INVALID_CREDENTIALS",
+                            "AUTH_TOKEN_EXPIRED",
+                            "AUTH_TOKEN_INVALID",
+                            "AUTH_TOKEN_REUSED",
+                            "AUTH_ACCOUNT_LOCKED",
+                            "AUTH_EMAIL_TAKEN",
+                            "AUTH_PHONE_TAKEN",
+                            "PERM_DENIED",
+                            "PERM_ROLE_REQUIRED",
+                            "FEATURE_NOT_IN_PLAN",
+                            "FEATURE_LIMIT_REACHED",
+                            "TENANT_ID_REQUIRED",
+                            "TENANT_NOT_FOUND",
+                            "TENANT_SUSPENDED",
+                            "TENANT_READONLY",
+                            "INVITATION_EXPIRED",
+                            "INVITATION_ALREADY_ACCEPTED",
+                            "VALIDATION_FAILED",
+                            "RULE_FUND_RESTRICTION_VIOLATED",
+                            "RULE_WAQF_CORPUS_PROTECTED",
+                            "RULE_LEDGER_IMMUTABLE",
+                            "RULE_LAST_ADMIN",
+                            "RULE_DUES_ALREADY_SETTLED",
+                            "RULE_DUES_OVERPAYMENT",
+                            "RULE_PAYROLL_ALREADY_POSTED",
+                            "SYNC_CURSOR_TOO_OLD",
+                            "SYNC_DEPENDENCY_NOT_FOUND",
+                            "SYNC_EPOCH_MISMATCH",
+                            "CONFLICT_VERSION_MISMATCH",
+                            "IDEMPOTENCY_KEY_REUSED",
+                            "IDEMPOTENCY_KEY_REQUIRED",
+                            "NOT_FOUND",
+                            "RATE_LIMIT_EXCEEDED",
+                            "INTERNAL_ERROR"
+                          ]
+                        },
+                        "message": {
+                          "type": "string"
+                        },
+                        "requestId": {
+                          "type": "string"
+                        },
+                        "details": {}
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "List active staff",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "mosqueId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "roleTitle": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "phone": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "monthlySalaryMinor": {
+                        "type": "integer"
+                      },
+                      "currency": {
+                        "type": "string"
+                      },
+                      "status": {
+                        "type": "string",
+                        "enum": [
+                          "ACTIVE",
+                          "INACTIVE"
+                        ]
+                      },
+                      "joinedOn": {
+                        "type": "string",
+                        "nullable": true
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "name",
+                      "roleTitle",
+                      "phone",
+                      "monthlySalaryMinor",
+                      "currency",
+                      "status",
+                      "joinedOn"
+                    ],
+                    "additionalProperties": false
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "required": [
+                        "code",
+                        "message",
+                        "requestId"
+                      ],
+                      "properties": {
+                        "code": {
+                          "type": "string",
+                          "enum": [
+                            "AUTH_INVALID_CREDENTIALS",
+                            "AUTH_TOKEN_EXPIRED",
+                            "AUTH_TOKEN_INVALID",
+                            "AUTH_TOKEN_REUSED",
+                            "AUTH_ACCOUNT_LOCKED",
+                            "AUTH_EMAIL_TAKEN",
+                            "AUTH_PHONE_TAKEN",
+                            "PERM_DENIED",
+                            "PERM_ROLE_REQUIRED",
+                            "FEATURE_NOT_IN_PLAN",
+                            "FEATURE_LIMIT_REACHED",
+                            "TENANT_ID_REQUIRED",
+                            "TENANT_NOT_FOUND",
+                            "TENANT_SUSPENDED",
+                            "TENANT_READONLY",
+                            "INVITATION_EXPIRED",
+                            "INVITATION_ALREADY_ACCEPTED",
+                            "VALIDATION_FAILED",
+                            "RULE_FUND_RESTRICTION_VIOLATED",
+                            "RULE_WAQF_CORPUS_PROTECTED",
+                            "RULE_LEDGER_IMMUTABLE",
+                            "RULE_LAST_ADMIN",
+                            "RULE_DUES_ALREADY_SETTLED",
+                            "RULE_DUES_OVERPAYMENT",
+                            "RULE_PAYROLL_ALREADY_POSTED",
+                            "SYNC_CURSOR_TOO_OLD",
+                            "SYNC_DEPENDENCY_NOT_FOUND",
+                            "SYNC_EPOCH_MISMATCH",
+                            "CONFLICT_VERSION_MISMATCH",
+                            "IDEMPOTENCY_KEY_REUSED",
+                            "IDEMPOTENCY_KEY_REQUIRED",
+                            "NOT_FOUND",
+                            "RATE_LIMIT_EXCEEDED",
+                            "INTERNAL_ERROR"
+                          ]
+                        },
+                        "message": {
+                          "type": "string"
+                        },
+                        "requestId": {
+                          "type": "string"
+                        },
+                        "details": {}
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/mosques/{mosqueId}/staff/{staffId}": {
+      "get": {
+        "summary": "Get a staff record",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "mosqueId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "staffId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "roleTitle": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "phone": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "monthlySalaryMinor": {
+                      "type": "integer"
+                    },
+                    "currency": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "ACTIVE",
+                        "INACTIVE"
+                      ]
+                    },
+                    "joinedOn": {
+                      "type": "string",
+                      "nullable": true
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "name",
+                    "roleTitle",
+                    "phone",
+                    "monthlySalaryMinor",
+                    "currency",
+                    "status",
+                    "joinedOn"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "required": [
+                        "code",
+                        "message",
+                        "requestId"
+                      ],
+                      "properties": {
+                        "code": {
+                          "type": "string",
+                          "enum": [
+                            "AUTH_INVALID_CREDENTIALS",
+                            "AUTH_TOKEN_EXPIRED",
+                            "AUTH_TOKEN_INVALID",
+                            "AUTH_TOKEN_REUSED",
+                            "AUTH_ACCOUNT_LOCKED",
+                            "AUTH_EMAIL_TAKEN",
+                            "AUTH_PHONE_TAKEN",
+                            "PERM_DENIED",
+                            "PERM_ROLE_REQUIRED",
+                            "FEATURE_NOT_IN_PLAN",
+                            "FEATURE_LIMIT_REACHED",
+                            "TENANT_ID_REQUIRED",
+                            "TENANT_NOT_FOUND",
+                            "TENANT_SUSPENDED",
+                            "TENANT_READONLY",
+                            "INVITATION_EXPIRED",
+                            "INVITATION_ALREADY_ACCEPTED",
+                            "VALIDATION_FAILED",
+                            "RULE_FUND_RESTRICTION_VIOLATED",
+                            "RULE_WAQF_CORPUS_PROTECTED",
+                            "RULE_LEDGER_IMMUTABLE",
+                            "RULE_LAST_ADMIN",
+                            "RULE_DUES_ALREADY_SETTLED",
+                            "RULE_DUES_OVERPAYMENT",
+                            "RULE_PAYROLL_ALREADY_POSTED",
+                            "SYNC_CURSOR_TOO_OLD",
+                            "SYNC_DEPENDENCY_NOT_FOUND",
+                            "SYNC_EPOCH_MISMATCH",
+                            "CONFLICT_VERSION_MISMATCH",
+                            "IDEMPOTENCY_KEY_REUSED",
+                            "IDEMPOTENCY_KEY_REQUIRED",
+                            "NOT_FOUND",
+                            "RATE_LIMIT_EXCEEDED",
+                            "INTERNAL_ERROR"
+                          ]
+                        },
+                        "message": {
+                          "type": "string"
+                        },
+                        "requestId": {
+                          "type": "string"
+                        },
+                        "details": {}
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/mosques/{mosqueId}/payroll/runs": {
+      "post": {
+        "summary": "Generate a payroll run for a period",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "mosqueId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "period": {
+                    "type": "string",
+                    "pattern": "^\\d{4}-\\d{2}$"
+                  },
+                  "fundId": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "period",
+                  "fundId"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "period": {
+                      "type": "string"
+                    },
+                    "fundId": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "DRAFT",
+                        "POSTED"
+                      ]
+                    },
+                    "postedAt": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "createdBy": {
+                      "type": "string"
+                    },
+                    "createdAt": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "period",
+                    "fundId",
+                    "status",
+                    "postedAt",
+                    "createdBy",
+                    "createdAt"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "required": [
+                        "code",
+                        "message",
+                        "requestId"
+                      ],
+                      "properties": {
+                        "code": {
+                          "type": "string",
+                          "enum": [
+                            "AUTH_INVALID_CREDENTIALS",
+                            "AUTH_TOKEN_EXPIRED",
+                            "AUTH_TOKEN_INVALID",
+                            "AUTH_TOKEN_REUSED",
+                            "AUTH_ACCOUNT_LOCKED",
+                            "AUTH_EMAIL_TAKEN",
+                            "AUTH_PHONE_TAKEN",
+                            "PERM_DENIED",
+                            "PERM_ROLE_REQUIRED",
+                            "FEATURE_NOT_IN_PLAN",
+                            "FEATURE_LIMIT_REACHED",
+                            "TENANT_ID_REQUIRED",
+                            "TENANT_NOT_FOUND",
+                            "TENANT_SUSPENDED",
+                            "TENANT_READONLY",
+                            "INVITATION_EXPIRED",
+                            "INVITATION_ALREADY_ACCEPTED",
+                            "VALIDATION_FAILED",
+                            "RULE_FUND_RESTRICTION_VIOLATED",
+                            "RULE_WAQF_CORPUS_PROTECTED",
+                            "RULE_LEDGER_IMMUTABLE",
+                            "RULE_LAST_ADMIN",
+                            "RULE_DUES_ALREADY_SETTLED",
+                            "RULE_DUES_OVERPAYMENT",
+                            "RULE_PAYROLL_ALREADY_POSTED",
+                            "SYNC_CURSOR_TOO_OLD",
+                            "SYNC_DEPENDENCY_NOT_FOUND",
+                            "SYNC_EPOCH_MISMATCH",
+                            "CONFLICT_VERSION_MISMATCH",
+                            "IDEMPOTENCY_KEY_REUSED",
+                            "IDEMPOTENCY_KEY_REQUIRED",
+                            "NOT_FOUND",
+                            "RATE_LIMIT_EXCEEDED",
+                            "INTERNAL_ERROR"
+                          ]
+                        },
+                        "message": {
+                          "type": "string"
+                        },
+                        "requestId": {
+                          "type": "string"
+                        },
+                        "details": {}
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/mosques/{mosqueId}/payroll/runs/{runId}": {
+      "get": {
+        "summary": "Get a payroll run",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "mosqueId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "runId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "period": {
+                      "type": "string"
+                    },
+                    "fundId": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "DRAFT",
+                        "POSTED"
+                      ]
+                    },
+                    "postedAt": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "createdBy": {
+                      "type": "string"
+                    },
+                    "createdAt": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "period",
+                    "fundId",
+                    "status",
+                    "postedAt",
+                    "createdBy",
+                    "createdAt"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "required": [
+                        "code",
+                        "message",
+                        "requestId"
+                      ],
+                      "properties": {
+                        "code": {
+                          "type": "string",
+                          "enum": [
+                            "AUTH_INVALID_CREDENTIALS",
+                            "AUTH_TOKEN_EXPIRED",
+                            "AUTH_TOKEN_INVALID",
+                            "AUTH_TOKEN_REUSED",
+                            "AUTH_ACCOUNT_LOCKED",
+                            "AUTH_EMAIL_TAKEN",
+                            "AUTH_PHONE_TAKEN",
+                            "PERM_DENIED",
+                            "PERM_ROLE_REQUIRED",
+                            "FEATURE_NOT_IN_PLAN",
+                            "FEATURE_LIMIT_REACHED",
+                            "TENANT_ID_REQUIRED",
+                            "TENANT_NOT_FOUND",
+                            "TENANT_SUSPENDED",
+                            "TENANT_READONLY",
+                            "INVITATION_EXPIRED",
+                            "INVITATION_ALREADY_ACCEPTED",
+                            "VALIDATION_FAILED",
+                            "RULE_FUND_RESTRICTION_VIOLATED",
+                            "RULE_WAQF_CORPUS_PROTECTED",
+                            "RULE_LEDGER_IMMUTABLE",
+                            "RULE_LAST_ADMIN",
+                            "RULE_DUES_ALREADY_SETTLED",
+                            "RULE_DUES_OVERPAYMENT",
+                            "RULE_PAYROLL_ALREADY_POSTED",
+                            "SYNC_CURSOR_TOO_OLD",
+                            "SYNC_DEPENDENCY_NOT_FOUND",
+                            "SYNC_EPOCH_MISMATCH",
+                            "CONFLICT_VERSION_MISMATCH",
+                            "IDEMPOTENCY_KEY_REUSED",
+                            "IDEMPOTENCY_KEY_REQUIRED",
+                            "NOT_FOUND",
+                            "RATE_LIMIT_EXCEEDED",
+                            "INTERNAL_ERROR"
+                          ]
+                        },
+                        "message": {
+                          "type": "string"
+                        },
+                        "requestId": {
+                          "type": "string"
+                        },
+                        "details": {}
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/mosques/{mosqueId}/payroll/runs/{runId}/lines": {
+      "get": {
+        "summary": "List a payroll run's lines (for review)",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "mosqueId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "runId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "runId": {
+                        "type": "string"
+                      },
+                      "staffId": {
+                        "type": "string"
+                      },
+                      "amountMinor": {
+                        "type": "integer"
+                      },
+                      "currency": {
+                        "type": "string"
+                      },
+                      "expenseId": {
+                        "type": "string",
+                        "nullable": true
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "runId",
+                      "staffId",
+                      "amountMinor",
+                      "currency",
+                      "expenseId"
+                    ],
+                    "additionalProperties": false
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "required": [
+                        "code",
+                        "message",
+                        "requestId"
+                      ],
+                      "properties": {
+                        "code": {
+                          "type": "string",
+                          "enum": [
+                            "AUTH_INVALID_CREDENTIALS",
+                            "AUTH_TOKEN_EXPIRED",
+                            "AUTH_TOKEN_INVALID",
+                            "AUTH_TOKEN_REUSED",
+                            "AUTH_ACCOUNT_LOCKED",
+                            "AUTH_EMAIL_TAKEN",
+                            "AUTH_PHONE_TAKEN",
+                            "PERM_DENIED",
+                            "PERM_ROLE_REQUIRED",
+                            "FEATURE_NOT_IN_PLAN",
+                            "FEATURE_LIMIT_REACHED",
+                            "TENANT_ID_REQUIRED",
+                            "TENANT_NOT_FOUND",
+                            "TENANT_SUSPENDED",
+                            "TENANT_READONLY",
+                            "INVITATION_EXPIRED",
+                            "INVITATION_ALREADY_ACCEPTED",
+                            "VALIDATION_FAILED",
+                            "RULE_FUND_RESTRICTION_VIOLATED",
+                            "RULE_WAQF_CORPUS_PROTECTED",
+                            "RULE_LEDGER_IMMUTABLE",
+                            "RULE_LAST_ADMIN",
+                            "RULE_DUES_ALREADY_SETTLED",
+                            "RULE_DUES_OVERPAYMENT",
+                            "RULE_PAYROLL_ALREADY_POSTED",
+                            "SYNC_CURSOR_TOO_OLD",
+                            "SYNC_DEPENDENCY_NOT_FOUND",
+                            "SYNC_EPOCH_MISMATCH",
+                            "CONFLICT_VERSION_MISMATCH",
+                            "IDEMPOTENCY_KEY_REUSED",
+                            "IDEMPOTENCY_KEY_REQUIRED",
+                            "NOT_FOUND",
+                            "RATE_LIMIT_EXCEEDED",
+                            "INTERNAL_ERROR"
+                          ]
+                        },
+                        "message": {
+                          "type": "string"
+                        },
+                        "requestId": {
+                          "type": "string"
+                        },
+                        "details": {}
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/mosques/{mosqueId}/payroll/runs/{runId}/post": {
+      "post": {
+        "summary": "Post a payroll run to the expense ledger",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "mosqueId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "runId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "period": {
+                      "type": "string"
+                    },
+                    "fundId": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "DRAFT",
+                        "POSTED"
+                      ]
+                    },
+                    "postedAt": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "createdBy": {
+                      "type": "string"
+                    },
+                    "createdAt": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "period",
+                    "fundId",
+                    "status",
+                    "postedAt",
+                    "createdBy",
+                    "createdAt"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "required": [
+                        "code",
+                        "message",
+                        "requestId"
+                      ],
+                      "properties": {
+                        "code": {
+                          "type": "string",
+                          "enum": [
+                            "AUTH_INVALID_CREDENTIALS",
+                            "AUTH_TOKEN_EXPIRED",
+                            "AUTH_TOKEN_INVALID",
+                            "AUTH_TOKEN_REUSED",
+                            "AUTH_ACCOUNT_LOCKED",
+                            "AUTH_EMAIL_TAKEN",
+                            "AUTH_PHONE_TAKEN",
+                            "PERM_DENIED",
+                            "PERM_ROLE_REQUIRED",
+                            "FEATURE_NOT_IN_PLAN",
+                            "FEATURE_LIMIT_REACHED",
+                            "TENANT_ID_REQUIRED",
+                            "TENANT_NOT_FOUND",
+                            "TENANT_SUSPENDED",
+                            "TENANT_READONLY",
+                            "INVITATION_EXPIRED",
+                            "INVITATION_ALREADY_ACCEPTED",
+                            "VALIDATION_FAILED",
+                            "RULE_FUND_RESTRICTION_VIOLATED",
+                            "RULE_WAQF_CORPUS_PROTECTED",
+                            "RULE_LEDGER_IMMUTABLE",
+                            "RULE_LAST_ADMIN",
+                            "RULE_DUES_ALREADY_SETTLED",
+                            "RULE_DUES_OVERPAYMENT",
+                            "RULE_PAYROLL_ALREADY_POSTED",
                             "SYNC_CURSOR_TOO_OLD",
                             "SYNC_DEPENDENCY_NOT_FOUND",
                             "SYNC_EPOCH_MISMATCH",
@@ -6678,6 +7809,7 @@
                             "RULE_LAST_ADMIN",
                             "RULE_DUES_ALREADY_SETTLED",
                             "RULE_DUES_OVERPAYMENT",
+                            "RULE_PAYROLL_ALREADY_POSTED",
                             "SYNC_CURSOR_TOO_OLD",
                             "SYNC_DEPENDENCY_NOT_FOUND",
                             "SYNC_EPOCH_MISMATCH",
@@ -6966,6 +8098,7 @@
                             "RULE_LAST_ADMIN",
                             "RULE_DUES_ALREADY_SETTLED",
                             "RULE_DUES_OVERPAYMENT",
+                            "RULE_PAYROLL_ALREADY_POSTED",
                             "SYNC_CURSOR_TOO_OLD",
                             "SYNC_DEPENDENCY_NOT_FOUND",
                             "SYNC_EPOCH_MISMATCH",
@@ -7048,6 +8181,7 @@
                             "RULE_LAST_ADMIN",
                             "RULE_DUES_ALREADY_SETTLED",
                             "RULE_DUES_OVERPAYMENT",
+                            "RULE_PAYROLL_ALREADY_POSTED",
                             "SYNC_CURSOR_TOO_OLD",
                             "SYNC_DEPENDENCY_NOT_FOUND",
                             "SYNC_EPOCH_MISMATCH",
