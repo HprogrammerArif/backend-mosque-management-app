@@ -40,6 +40,8 @@ import { EventsService } from './modules/events/events.service.js';
 import { eventsRoutes } from './modules/events/events.routes.js';
 import { AnnouncementsService } from './modules/announcements/announcements.service.js';
 import { announcementsRoutes } from './modules/announcements/announcements.routes.js';
+import { StatisticsService } from './modules/statistics/statistics.service.js';
+import { statisticsRoutes } from './modules/statistics/statistics.routes.js';
 import { SyncService } from './modules/sync/sync.service.js';
 import { syncRoutes } from './modules/sync/sync.routes.js';
 import { healthRoutes } from './modules/health/health.routes.js';
@@ -84,6 +86,7 @@ export async function createApp() {
   const committeeSvc    = new CommitteeService(pool);
   const eventsSvc       = new EventsService(pool);
   const announcementsSvc = new AnnouncementsService(pool);
+  const statisticsSvc   = new StatisticsService(pool);
   const syncSvc         = new SyncService(pool);
   const idempotency     = new MemoryIdempotencyStore();
 
@@ -110,6 +113,7 @@ export async function createApp() {
     ...committeeRoutes({ committee: committeeSvc, tokens: tokenSvc, memberships, idempotency }),
     ...eventsRoutes({ events: eventsSvc, tokens: tokenSvc, memberships, idempotency }),
     ...announcementsRoutes({ announcements: announcementsSvc, tokens: tokenSvc, memberships, idempotency }),
+    ...statisticsRoutes({ statistics: statisticsSvc, tokens: tokenSvc, memberships }),
     ...syncRoutes({ sync: syncSvc, tokens: tokenSvc, memberships, idempotency }),
   ]) router.add(route);
 
