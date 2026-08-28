@@ -46,6 +46,9 @@ import { StatisticsService } from './modules/statistics/statistics.service.js';
 import { statisticsRoutes } from './modules/statistics/statistics.routes.js';
 import { BillingService } from './modules/billing/billing.service.js';
 import { billingRoutes } from './modules/billing/billing.routes.js';
+import { OracleNotificationPreferencesRepository } from './infrastructure/repositories/oracle/oracle-notification-preferences.repository.js';
+import { NotificationPreferencesService } from './modules/notifications/notification-preferences.service.js';
+import { notificationPreferencesRoutes } from './modules/notifications/notification-preferences.routes.js';
 import { SyncService } from './modules/sync/sync.service.js';
 import { syncRoutes } from './modules/sync/sync.routes.js';
 import { healthRoutes } from './modules/health/health.routes.js';
@@ -79,6 +82,8 @@ export async function createApp() {
   const authSvc       = new AuthService(users, passwords, tokenSvc, pool);
   const mosquesSvc      = new MosquesService(pool, mosques, memberships, subscriptions);
   const billingSvc      = new BillingService(subscriptions, plans);
+  const notificationPreferences = new OracleNotificationPreferencesRepository(pool);
+  const notificationPreferencesSvc = new NotificationPreferencesService(notificationPreferences);
   const invitationsSvc  = new InvitationsService(invitations, memberships);
   const prayerConfigSvc = new PrayerConfigService(pool);
   const householdsSvc   = new HouseholdsService(pool);
@@ -124,6 +129,7 @@ export async function createApp() {
     ...announcementsRoutes({ announcements: announcementsSvc, tokens: tokenSvc, memberships, idempotency }),
     ...statisticsRoutes({ statistics: statisticsSvc, tokens: tokenSvc, memberships }),
     ...billingRoutes({ billing: billingSvc, tokens: tokenSvc, memberships, idempotency }),
+    ...notificationPreferencesRoutes({ preferences: notificationPreferencesSvc, tokens: tokenSvc, idempotency }),
     ...syncRoutes({ sync: syncSvc, tokens: tokenSvc, memberships, idempotency }),
   ]) router.add(route);
 
