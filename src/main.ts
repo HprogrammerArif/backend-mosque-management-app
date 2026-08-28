@@ -23,6 +23,11 @@ import { HouseholdsService } from './modules/households/households.service.js';
 import { householdsRoutes } from './modules/households/households.routes.js';
 import { DonationsService } from './modules/donations/donations.service.js';
 import { donationsRoutes } from './modules/donations/donations.routes.js';
+import { ExpensesService } from './modules/donations/expenses.service.js';
+import { ExpenseCategoriesService } from './modules/donations/expense-categories.service.js';
+import { expensesRoutes } from './modules/donations/expenses.routes.js';
+import { FundsService } from './modules/mosques/funds.service.js';
+import { fundsRoutes } from './modules/mosques/funds.routes.js';
 import { healthRoutes } from './modules/health/health.routes.js';
 import { MemoryIdempotencyStore } from './middleware/require-idempotency.js';
 import { assertRouteTableIsSound } from './middleware/assert-routes.js';
@@ -55,6 +60,9 @@ export async function createApp() {
   const prayerConfigSvc = new PrayerConfigService(pool);
   const householdsSvc   = new HouseholdsService(pool);
   const donationsSvc    = new DonationsService(pool);
+  const expensesSvc     = new ExpensesService(pool);
+  const expenseCategoriesSvc = new ExpenseCategoriesService(pool);
+  const fundsSvc        = new FundsService(pool);
   const idempotency     = new MemoryIdempotencyStore();
 
   // ── routes ──────────────────────────────────────────────────────────────
@@ -67,6 +75,11 @@ export async function createApp() {
     ...prayerConfigRoutes({ prayerConfig: prayerConfigSvc, tokens: tokenSvc, memberships, idempotency }),
     ...householdsRoutes({ households: householdsSvc, tokens: tokenSvc, memberships, idempotency }),
     ...donationsRoutes({ donations: donationsSvc, tokens: tokenSvc, memberships, idempotency }),
+    ...expensesRoutes({
+      expenses: expensesSvc, expenseCategories: expenseCategoriesSvc,
+      tokens: tokenSvc, memberships, idempotency,
+    }),
+    ...fundsRoutes({ funds: fundsSvc, tokens: tokenSvc, memberships }),
   ]) router.add(route);
 
   assertRouteTableIsSound(router);   // refuses to boot on a forgotten guard

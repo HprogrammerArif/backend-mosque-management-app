@@ -12,6 +12,8 @@ const COLUMNS = 'ID, TENANT_ID, TYPE, NAME, ZAKAT_ELIGIBLE';
 
 const SQL_LIST = `SELECT ${COLUMNS} FROM FUNDS WHERE TENANT_ID = :tenantId`;
 
+const SQL_FIND_BY_ID = `SELECT ${COLUMNS} FROM FUNDS WHERE TENANT_ID = :tenantId AND ID = :id`;
+
 const SQL_INSERT = `
   INSERT INTO FUNDS (ID, TENANT_ID, TYPE, NAME, ZAKAT_ELIGIBLE)
   VALUES (:id, :tenantId, :type, :name, :zakatEligible)`;
@@ -29,6 +31,11 @@ function toRecord(row: Row): FundRecord {
 export class OracleFundRepository extends BaseRepository implements FundRepository {
   constructor(pool: OraclePool, ctx: TenantContext) {
     super(pool, ctx);
+  }
+
+  async findById(id: string): Promise<FundRecord | null> {
+    const rows = await this.scoped<Row>(SQL_FIND_BY_ID, { id });
+    return rows[0] ? toRecord(rows[0]) : null;
   }
 
   async listMine(): Promise<FundRecord[]> {

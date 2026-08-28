@@ -17,6 +17,7 @@ export type CreateFundInput = {
 
 /** Tenant-owned (TENANT_ID, VPD-protected) — see Task 4's FUNDS_TENANT_POLICY. */
 export interface FundRepository {
+  findById(id: string): Promise<FundRecord | null>;
   listMine(): Promise<FundRecord[]>;
   insert(input: CreateFundInput): Promise<FundRecord>;
 }
