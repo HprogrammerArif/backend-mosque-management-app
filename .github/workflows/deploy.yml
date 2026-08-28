@@ -1,0 +1,81 @@
+name: Deploy
+
+# Tags trigger a production deploy, matching the release convention in
+# docs/40-delivery/02-devops-and-cicd.md §8. Won't run successfully until the repo
+# secrets below are configured — that's deliberate: this file can be committed and
+# reviewed before any of the actual OCI infrastructure exists, and it fails cleanly
+# (a missing-secret error, not a partial deploy) rather than silently no-op'ing.
+#
+# Required secrets:
+#   OCI_REGISTRY        e.g. iad.ocir.io/<tenancy-namespace>
+#   OCI_REGISTRY_USER    OCI Container Registry auth token username
+#   OCI_REGISTRY_TOKEN   OCI Container Registry auth token
+#   DEPLOY_HOST          the VM's public IP or hostname
+#   DEPLOY_SSH_KEY       private key for a deploy-only user with docker compose access
+#   DEPLOY_SSH_KNOWN_HOSTS  `ssh-keyscan` output for DEPLOY_HOST, so the connection is
+#                            pinned rather than trust-on-first-use over CI
+on:
+  push:
+    tags: ['v*']
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: docker/setup-qemu-action@v3 # arm64 emulation — the VM is ARM, this runner is x86
+      - uses: docker/setup-buildx-action@v3
+
+      - name: Log in to the OCI Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ secrets.OCI_REGISTRY }}
+          username: ${{ secrets.OCI_REGISTRY_USER }}
+          password: ${{ secrets.OCI_REGISTRY_TOKEN }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          platforms: linux/arm64
+          push: true
+          tags: |
+            ${{ secrets.OCI_REGISTRY }}/masjid-backend:${{ github.ref_name }}
+            ${{ secrets.OCI_REGISTRY }}/masjid-backend:latest
+
+  deploy:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    steps:
+      - name: Configure SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.DEPLOY_SSH_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          echo "${{ secrets.DEPLOY_SSH_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
+
+      - name: Pull the new image and run migrations
+        # Migrations run BEFORE the api container is recreated — main.ts itself refuses
+        # to start with any unapplied migration, so this is a second, earlier gate, not
+        # the only one.
+        run: |
+          ssh -i ~/.ssh/deploy_key ${{ secrets.DEPLOY_HOST }} "
+            cd /opt/masjid-backend &&
+            export IMAGE_TAG=${{ github.ref_name }} &&
+            docker compose -f docker-compose.prod.yml pull api &&
+            docker compose -f docker-compose.prod.yml run --rm api node dist/src/infrastructure/database/migrate-cli.js
+          "
+
+      - name: Recreate containers
+        run: |
+          ssh -i ~/.ssh/deploy_key ${{ secrets.DEPLOY_HOST }} "
+            cd /opt/masjid-backend &&
+            export IMAGE_TAG=${{ github.ref_name }} &&
+            docker compose -f docker-compose.prod.yml up -d --no-deps api
+          "
+
+      - name: Smoke test
+        run: |
+          sleep 5
+          ssh -i ~/.ssh/deploy_key ${{ secrets.DEPLOY_HOST }} "curl -sf http://localhost:3000/ready"

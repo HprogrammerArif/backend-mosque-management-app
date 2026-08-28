@@ -1,0 +1,14 @@
+# Automatic TLS (Let's Encrypt), reverse proxy to the api container. Replace the
+# placeholder domain with the real one once purchased and pointed at the VM's IP —
+# nothing here works until that DNS record exists (Caddy needs to actually answer the
+# ACME challenge on the real domain to issue a certificate).
+api.masjidos.example {
+	reverse_proxy api:3000
+
+	encode gzip
+
+	log {
+		output stdout
+		format json
+	}
+}
