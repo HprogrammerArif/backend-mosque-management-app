@@ -29,3 +29,6 @@ export const DONATION_METHODS = [
   'CASH', 'BANK', 'MOBILE_MONEY', 'CARD', 'CHEQUE', 'IN_KIND',
 ] as const;
 export type DonationMethod = (typeof DONATION_METHODS)[number];
+
+export const DUES_CHARGE_STATUSES = ['PENDING', 'PARTIAL', 'PAID', 'WAIVED'] as const;
+export type DuesChargeStatus = (typeof DUES_CHARGE_STATUSES)[number];
