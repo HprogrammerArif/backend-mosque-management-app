@@ -10253,6 +10253,281 @@
         }
       }
     },
+    "/api/v1/me/notification-preferences": {
+      "get": {
+        "summary": "Current user's notification preferences (defaults if never set)",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "announcements": {
+                      "type": "boolean"
+                    },
+                    "duesReminders": {
+                      "type": "boolean"
+                    },
+                    "prayerReminders": {
+                      "type": "boolean"
+                    },
+                    "events": {
+                      "type": "boolean"
+                    },
+                    "quietHoursStart": {
+                      "type": "string"
+                    },
+                    "quietHoursEnd": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "announcements",
+                    "duesReminders",
+                    "prayerReminders",
+                    "events",
+                    "quietHoursStart",
+                    "quietHoursEnd"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "required": [
+                        "code",
+                        "message",
+                        "requestId"
+                      ],
+                      "properties": {
+                        "code": {
+                          "type": "string",
+                          "enum": [
+                            "AUTH_INVALID_CREDENTIALS",
+                            "AUTH_TOKEN_EXPIRED",
+                            "AUTH_TOKEN_INVALID",
+                            "AUTH_TOKEN_REUSED",
+                            "AUTH_ACCOUNT_LOCKED",
+                            "AUTH_EMAIL_TAKEN",
+                            "AUTH_PHONE_TAKEN",
+                            "PERM_DENIED",
+                            "PERM_ROLE_REQUIRED",
+                            "FEATURE_NOT_IN_PLAN",
+                            "FEATURE_LIMIT_REACHED",
+                            "TENANT_ID_REQUIRED",
+                            "TENANT_NOT_FOUND",
+                            "TENANT_SUSPENDED",
+                            "TENANT_READONLY",
+                            "INVITATION_EXPIRED",
+                            "INVITATION_ALREADY_ACCEPTED",
+                            "VALIDATION_FAILED",
+                            "RULE_FUND_RESTRICTION_VIOLATED",
+                            "RULE_WAQF_CORPUS_PROTECTED",
+                            "RULE_LEDGER_IMMUTABLE",
+                            "RULE_LAST_ADMIN",
+                            "RULE_DUES_ALREADY_SETTLED",
+                            "RULE_DUES_OVERPAYMENT",
+                            "RULE_PAYROLL_ALREADY_POSTED",
+                            "SYNC_CURSOR_TOO_OLD",
+                            "SYNC_DEPENDENCY_NOT_FOUND",
+                            "SYNC_EPOCH_MISMATCH",
+                            "CONFLICT_VERSION_MISMATCH",
+                            "IDEMPOTENCY_KEY_REUSED",
+                            "IDEMPOTENCY_KEY_REQUIRED",
+                            "NOT_FOUND",
+                            "RATE_LIMIT_EXCEEDED",
+                            "INTERNAL_ERROR"
+                          ]
+                        },
+                        "message": {
+                          "type": "string"
+                        },
+                        "requestId": {
+                          "type": "string"
+                        },
+                        "details": {}
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Replace notification preferences",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "announcements": {
+                    "type": "boolean",
+                    "default": true
+                  },
+                  "duesReminders": {
+                    "type": "boolean",
+                    "default": true
+                  },
+                  "prayerReminders": {
+                    "type": "boolean",
+                    "default": true
+                  },
+                  "events": {
+                    "type": "boolean",
+                    "default": true
+                  },
+                  "quietHoursStart": {
+                    "type": "string",
+                    "pattern": "^\\d{2}:\\d{2}$",
+                    "default": "22:00"
+                  },
+                  "quietHoursEnd": {
+                    "type": "string",
+                    "pattern": "^\\d{2}:\\d{2}$",
+                    "default": "06:00"
+                  }
+                },
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "announcements": {
+                      "type": "boolean"
+                    },
+                    "duesReminders": {
+                      "type": "boolean"
+                    },
+                    "prayerReminders": {
+                      "type": "boolean"
+                    },
+                    "events": {
+                      "type": "boolean"
+                    },
+                    "quietHoursStart": {
+                      "type": "string"
+                    },
+                    "quietHoursEnd": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "announcements",
+                    "duesReminders",
+                    "prayerReminders",
+                    "events",
+                    "quietHoursStart",
+                    "quietHoursEnd"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "required": [
+                        "code",
+                        "message",
+                        "requestId"
+                      ],
+                      "properties": {
+                        "code": {
+                          "type": "string",
+                          "enum": [
+                            "AUTH_INVALID_CREDENTIALS",
+                            "AUTH_TOKEN_EXPIRED",
+                            "AUTH_TOKEN_INVALID",
+                            "AUTH_TOKEN_REUSED",
+                            "AUTH_ACCOUNT_LOCKED",
+                            "AUTH_EMAIL_TAKEN",
+                            "AUTH_PHONE_TAKEN",
+                            "PERM_DENIED",
+                            "PERM_ROLE_REQUIRED",
+                            "FEATURE_NOT_IN_PLAN",
+                            "FEATURE_LIMIT_REACHED",
+                            "TENANT_ID_REQUIRED",
+                            "TENANT_NOT_FOUND",
+                            "TENANT_SUSPENDED",
+                            "TENANT_READONLY",
+                            "INVITATION_EXPIRED",
+                            "INVITATION_ALREADY_ACCEPTED",
+                            "VALIDATION_FAILED",
+                            "RULE_FUND_RESTRICTION_VIOLATED",
+                            "RULE_WAQF_CORPUS_PROTECTED",
+                            "RULE_LEDGER_IMMUTABLE",
+                            "RULE_LAST_ADMIN",
+                            "RULE_DUES_ALREADY_SETTLED",
+                            "RULE_DUES_OVERPAYMENT",
+                            "RULE_PAYROLL_ALREADY_POSTED",
+                            "SYNC_CURSOR_TOO_OLD",
+                            "SYNC_DEPENDENCY_NOT_FOUND",
+                            "SYNC_EPOCH_MISMATCH",
+                            "CONFLICT_VERSION_MISMATCH",
+                            "IDEMPOTENCY_KEY_REUSED",
+                            "IDEMPOTENCY_KEY_REQUIRED",
+                            "NOT_FOUND",
+                            "RATE_LIMIT_EXCEEDED",
+                            "INTERNAL_ERROR"
+                          ]
+                        },
+                        "message": {
+                          "type": "string"
+                        },
+                        "requestId": {
+                          "type": "string"
+                        },
+                        "details": {}
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/sync/bootstrap": {
       "post": {
         "summary": "First sync for a tenant, or recovery after cursor loss",
