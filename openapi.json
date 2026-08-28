@@ -5315,6 +5315,479 @@
           }
         }
       }
+    },
+    "/api/v1/sync/bootstrap": {
+      "post": {
+        "summary": "First sync for a tenant, or recovery after cursor loss",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "entities": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "donations",
+                        "households"
+                      ]
+                    },
+                    "minItems": 1
+                  }
+                },
+                "required": [
+                  "entities"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Success"
+          },
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "required": [
+                        "code",
+                        "message",
+                        "requestId"
+                      ],
+                      "properties": {
+                        "code": {
+                          "type": "string",
+                          "enum": [
+                            "AUTH_INVALID_CREDENTIALS",
+                            "AUTH_TOKEN_EXPIRED",
+                            "AUTH_TOKEN_INVALID",
+                            "AUTH_TOKEN_REUSED",
+                            "AUTH_ACCOUNT_LOCKED",
+                            "AUTH_EMAIL_TAKEN",
+                            "AUTH_PHONE_TAKEN",
+                            "PERM_DENIED",
+                            "PERM_ROLE_REQUIRED",
+                            "FEATURE_NOT_IN_PLAN",
+                            "FEATURE_LIMIT_REACHED",
+                            "TENANT_ID_REQUIRED",
+                            "TENANT_NOT_FOUND",
+                            "TENANT_SUSPENDED",
+                            "TENANT_READONLY",
+                            "INVITATION_EXPIRED",
+                            "INVITATION_ALREADY_ACCEPTED",
+                            "VALIDATION_FAILED",
+                            "RULE_FUND_RESTRICTION_VIOLATED",
+                            "RULE_WAQF_CORPUS_PROTECTED",
+                            "RULE_LEDGER_IMMUTABLE",
+                            "RULE_LAST_ADMIN",
+                            "SYNC_CURSOR_TOO_OLD",
+                            "SYNC_DEPENDENCY_NOT_FOUND",
+                            "SYNC_EPOCH_MISMATCH",
+                            "CONFLICT_VERSION_MISMATCH",
+                            "IDEMPOTENCY_KEY_REUSED",
+                            "IDEMPOTENCY_KEY_REQUIRED",
+                            "NOT_FOUND",
+                            "RATE_LIMIT_EXCEEDED",
+                            "INTERNAL_ERROR"
+                          ]
+                        },
+                        "message": {
+                          "type": "string"
+                        },
+                        "requestId": {
+                          "type": "string"
+                        },
+                        "details": {}
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/sync/push": {
+      "post": {
+        "summary": "Push a batch of offline mutations",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "deviceId": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "mutations": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "mutationId": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "entity": {
+                          "type": "string",
+                          "enum": [
+                            "donations",
+                            "households"
+                          ]
+                        },
+                        "entityId": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "op": {
+                          "type": "string",
+                          "enum": [
+                            "insert",
+                            "update",
+                            "delete"
+                          ]
+                        },
+                        "hlc": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "dependsOn": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          },
+                          "default": []
+                        },
+                        "payload": {
+                          "anyOf": [
+                            {
+                              "type": "object",
+                              "properties": {
+                                "fundId": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "amountMinor": {
+                                  "type": "integer"
+                                },
+                                "currency": {
+                                  "type": "string",
+                                  "enum": [
+                                    "BDT",
+                                    "USD",
+                                    "GBP",
+                                    "EUR"
+                                  ],
+                                  "default": "BDT"
+                                },
+                                "occurredOn": {
+                                  "type": "string",
+                                  "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+                                },
+                                "method": {
+                                  "type": "string",
+                                  "enum": [
+                                    "CASH",
+                                    "BANK",
+                                    "MOBILE_MONEY",
+                                    "CARD",
+                                    "CHEQUE",
+                                    "IN_KIND"
+                                  ]
+                                },
+                                "donorHouseholdId": {
+                                  "type": "string",
+                                  "nullable": true,
+                                  "default": null
+                                },
+                                "donorName": {
+                                  "type": "string",
+                                  "maxLength": 200,
+                                  "nullable": true,
+                                  "default": null
+                                },
+                                "anonymous": {
+                                  "type": "boolean",
+                                  "default": false
+                                },
+                                "receiptNo": {
+                                  "type": "string",
+                                  "maxLength": 30,
+                                  "nullable": true,
+                                  "default": null
+                                },
+                                "note": {
+                                  "type": "string",
+                                  "maxLength": 500,
+                                  "nullable": true,
+                                  "default": null
+                                },
+                                "adjustsId": {
+                                  "type": "string",
+                                  "nullable": true,
+                                  "default": null
+                                },
+                                "adjustmentReason": {
+                                  "type": "string",
+                                  "maxLength": 500,
+                                  "nullable": true,
+                                  "default": null
+                                }
+                              },
+                              "required": [
+                                "fundId",
+                                "amountMinor",
+                                "occurredOn",
+                                "method"
+                              ],
+                              "additionalProperties": false
+                            },
+                            {
+                              "type": "object",
+                              "properties": {
+                                "name": {
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 200
+                                },
+                                "addressLine1": {
+                                  "type": "string",
+                                  "maxLength": 200,
+                                  "nullable": true,
+                                  "default": null
+                                },
+                                "area": {
+                                  "type": "string",
+                                  "maxLength": 100,
+                                  "nullable": true,
+                                  "default": null
+                                },
+                                "phone": {
+                                  "type": "string",
+                                  "maxLength": 20,
+                                  "nullable": true,
+                                  "default": null
+                                },
+                                "monthlyDuesMinor": {
+                                  "type": "integer",
+                                  "minimum": 0,
+                                  "default": 0
+                                },
+                                "exempt": {
+                                  "type": "boolean",
+                                  "default": false
+                                },
+                                "joinedOn": {
+                                  "type": "string",
+                                  "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+                                  "nullable": true,
+                                  "default": null
+                                }
+                              },
+                              "required": [
+                                "name"
+                              ],
+                              "additionalProperties": false
+                            }
+                          ]
+                        }
+                      },
+                      "required": [
+                        "mutationId",
+                        "entity",
+                        "entityId",
+                        "op",
+                        "hlc",
+                        "payload"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "maxItems": 200
+                  }
+                },
+                "required": [
+                  "deviceId",
+                  "mutations"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Success"
+          },
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "required": [
+                        "code",
+                        "message",
+                        "requestId"
+                      ],
+                      "properties": {
+                        "code": {
+                          "type": "string",
+                          "enum": [
+                            "AUTH_INVALID_CREDENTIALS",
+                            "AUTH_TOKEN_EXPIRED",
+                            "AUTH_TOKEN_INVALID",
+                            "AUTH_TOKEN_REUSED",
+                            "AUTH_ACCOUNT_LOCKED",
+                            "AUTH_EMAIL_TAKEN",
+                            "AUTH_PHONE_TAKEN",
+                            "PERM_DENIED",
+                            "PERM_ROLE_REQUIRED",
+                            "FEATURE_NOT_IN_PLAN",
+                            "FEATURE_LIMIT_REACHED",
+                            "TENANT_ID_REQUIRED",
+                            "TENANT_NOT_FOUND",
+                            "TENANT_SUSPENDED",
+                            "TENANT_READONLY",
+                            "INVITATION_EXPIRED",
+                            "INVITATION_ALREADY_ACCEPTED",
+                            "VALIDATION_FAILED",
+                            "RULE_FUND_RESTRICTION_VIOLATED",
+                            "RULE_WAQF_CORPUS_PROTECTED",
+                            "RULE_LEDGER_IMMUTABLE",
+                            "RULE_LAST_ADMIN",
+                            "SYNC_CURSOR_TOO_OLD",
+                            "SYNC_DEPENDENCY_NOT_FOUND",
+                            "SYNC_EPOCH_MISMATCH",
+                            "CONFLICT_VERSION_MISMATCH",
+                            "IDEMPOTENCY_KEY_REUSED",
+                            "IDEMPOTENCY_KEY_REQUIRED",
+                            "NOT_FOUND",
+                            "RATE_LIMIT_EXCEEDED",
+                            "INTERNAL_ERROR"
+                          ]
+                        },
+                        "message": {
+                          "type": "string"
+                        },
+                        "requestId": {
+                          "type": "string"
+                        },
+                        "details": {}
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/sync/pull": {
+      "get": {
+        "summary": "Pull changes since a cursor",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "required": [
+                        "code",
+                        "message",
+                        "requestId"
+                      ],
+                      "properties": {
+                        "code": {
+                          "type": "string",
+                          "enum": [
+                            "AUTH_INVALID_CREDENTIALS",
+                            "AUTH_TOKEN_EXPIRED",
+                            "AUTH_TOKEN_INVALID",
+                            "AUTH_TOKEN_REUSED",
+                            "AUTH_ACCOUNT_LOCKED",
+                            "AUTH_EMAIL_TAKEN",
+                            "AUTH_PHONE_TAKEN",
+                            "PERM_DENIED",
+                            "PERM_ROLE_REQUIRED",
+                            "FEATURE_NOT_IN_PLAN",
+                            "FEATURE_LIMIT_REACHED",
+                            "TENANT_ID_REQUIRED",
+                            "TENANT_NOT_FOUND",
+                            "TENANT_SUSPENDED",
+                            "TENANT_READONLY",
+                            "INVITATION_EXPIRED",
+                            "INVITATION_ALREADY_ACCEPTED",
+                            "VALIDATION_FAILED",
+                            "RULE_FUND_RESTRICTION_VIOLATED",
+                            "RULE_WAQF_CORPUS_PROTECTED",
+                            "RULE_LEDGER_IMMUTABLE",
+                            "RULE_LAST_ADMIN",
+                            "SYNC_CURSOR_TOO_OLD",
+                            "SYNC_DEPENDENCY_NOT_FOUND",
+                            "SYNC_EPOCH_MISMATCH",
+                            "CONFLICT_VERSION_MISMATCH",
+                            "IDEMPOTENCY_KEY_REUSED",
+                            "IDEMPOTENCY_KEY_REQUIRED",
+                            "NOT_FOUND",
+                            "RATE_LIMIT_EXCEEDED",
+                            "INTERNAL_ERROR"
+                          ]
+                        },
+                        "message": {
+                          "type": "string"
+                        },
+                        "requestId": {
+                          "type": "string"
+                        },
+                        "details": {}
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {

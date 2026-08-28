@@ -29,6 +29,8 @@ import { ExpenseCategoriesService } from './modules/donations/expense-categories
 import { expensesRoutes } from './modules/donations/expenses.routes.js';
 import { FundsService } from './modules/mosques/funds.service.js';
 import { fundsRoutes } from './modules/mosques/funds.routes.js';
+import { SyncService } from './modules/sync/sync.service.js';
+import { syncRoutes } from './modules/sync/sync.routes.js';
 import { healthRoutes } from './modules/health/health.routes.js';
 import { MemoryIdempotencyStore } from './middleware/require-idempotency.js';
 import { assertRouteTableIsSound } from './middleware/assert-routes.js';
@@ -65,6 +67,7 @@ export async function createApp() {
   const expensesSvc     = new ExpensesService(pool);
   const expenseCategoriesSvc = new ExpenseCategoriesService(pool);
   const fundsSvc        = new FundsService(pool);
+  const syncSvc         = new SyncService(pool);
   const idempotency     = new MemoryIdempotencyStore();
 
   // ── routes ──────────────────────────────────────────────────────────────
@@ -85,6 +88,7 @@ export async function createApp() {
       tokens: tokenSvc, memberships, idempotency,
     }),
     ...fundsRoutes({ funds: fundsSvc, tokens: tokenSvc, memberships }),
+    ...syncRoutes({ sync: syncSvc, tokens: tokenSvc, memberships, idempotency }),
   ]) router.add(route);
 
   assertRouteTableIsSound(router);   // refuses to boot on a forgotten guard
