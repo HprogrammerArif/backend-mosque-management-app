@@ -253,13 +253,82 @@
                         "email"
                       ],
                       "additionalProperties": false
+                    },
+                    "memberships": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "mosqueId": {
+                            "type": "string"
+                          },
+                          "mosqueName": {
+                            "type": "string"
+                          },
+                          "role": {
+                            "type": "string"
+                          },
+                          "plan": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "entitlements": {
+                            "type": "object",
+                            "properties": {
+                              "features": {
+                                "type": "array",
+                                "items": {
+                                  "type": "string"
+                                }
+                              },
+                              "limits": {
+                                "type": "object",
+                                "properties": {
+                                  "adminUsers": {
+                                    "type": "integer",
+                                    "nullable": true
+                                  },
+                                  "members": {
+                                    "type": "integer",
+                                    "nullable": true
+                                  },
+                                  "historyMonths": {
+                                    "type": "integer",
+                                    "nullable": true
+                                  }
+                                },
+                                "required": [
+                                  "adminUsers",
+                                  "members",
+                                  "historyMonths"
+                                ],
+                                "additionalProperties": false
+                              }
+                            },
+                            "required": [
+                              "features",
+                              "limits"
+                            ],
+                            "additionalProperties": false
+                          }
+                        },
+                        "required": [
+                          "mosqueId",
+                          "mosqueName",
+                          "role",
+                          "plan",
+                          "entitlements"
+                        ],
+                        "additionalProperties": false
+                      }
                     }
                   },
                   "required": [
                     "accessToken",
                     "expiresIn",
                     "refreshToken",
-                    "user"
+                    "user",
+                    "memberships"
                   ],
                   "additionalProperties": false
                 }
@@ -447,13 +516,82 @@
                         "email"
                       ],
                       "additionalProperties": false
+                    },
+                    "memberships": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "mosqueId": {
+                            "type": "string"
+                          },
+                          "mosqueName": {
+                            "type": "string"
+                          },
+                          "role": {
+                            "type": "string"
+                          },
+                          "plan": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "entitlements": {
+                            "type": "object",
+                            "properties": {
+                              "features": {
+                                "type": "array",
+                                "items": {
+                                  "type": "string"
+                                }
+                              },
+                              "limits": {
+                                "type": "object",
+                                "properties": {
+                                  "adminUsers": {
+                                    "type": "integer",
+                                    "nullable": true
+                                  },
+                                  "members": {
+                                    "type": "integer",
+                                    "nullable": true
+                                  },
+                                  "historyMonths": {
+                                    "type": "integer",
+                                    "nullable": true
+                                  }
+                                },
+                                "required": [
+                                  "adminUsers",
+                                  "members",
+                                  "historyMonths"
+                                ],
+                                "additionalProperties": false
+                              }
+                            },
+                            "required": [
+                              "features",
+                              "limits"
+                            ],
+                            "additionalProperties": false
+                          }
+                        },
+                        "required": [
+                          "mosqueId",
+                          "mosqueName",
+                          "role",
+                          "plan",
+                          "entitlements"
+                        ],
+                        "additionalProperties": false
+                      }
                     }
                   },
                   "required": [
                     "accessToken",
                     "expiresIn",
                     "refreshToken",
-                    "user"
+                    "user",
+                    "memberships"
                   ],
                   "additionalProperties": false
                 }
@@ -7134,7 +7272,7 @@
     },
     "/api/v1/mosques/{mosqueId}/payroll/runs": {
       "post": {
-        "summary": "Generate a payroll run for a period",
+        "summary": "Generate a payroll run for a period (PRO plan)",
         "security": [
           {
             "bearerAuth": []
@@ -7584,7 +7722,7 @@
     },
     "/api/v1/mosques/{mosqueId}/payroll/runs/{runId}/post": {
       "post": {
-        "summary": "Post a payroll run to the expense ledger",
+        "summary": "Post a payroll run to the expense ledger (PRO plan)",
         "security": [
           {
             "bearerAuth": []
@@ -9391,6 +9529,655 @@
                     ],
                     "additionalProperties": false
                   }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "required": [
+                        "code",
+                        "message",
+                        "requestId"
+                      ],
+                      "properties": {
+                        "code": {
+                          "type": "string",
+                          "enum": [
+                            "AUTH_INVALID_CREDENTIALS",
+                            "AUTH_TOKEN_EXPIRED",
+                            "AUTH_TOKEN_INVALID",
+                            "AUTH_TOKEN_REUSED",
+                            "AUTH_ACCOUNT_LOCKED",
+                            "AUTH_EMAIL_TAKEN",
+                            "AUTH_PHONE_TAKEN",
+                            "PERM_DENIED",
+                            "PERM_ROLE_REQUIRED",
+                            "FEATURE_NOT_IN_PLAN",
+                            "FEATURE_LIMIT_REACHED",
+                            "TENANT_ID_REQUIRED",
+                            "TENANT_NOT_FOUND",
+                            "TENANT_SUSPENDED",
+                            "TENANT_READONLY",
+                            "INVITATION_EXPIRED",
+                            "INVITATION_ALREADY_ACCEPTED",
+                            "VALIDATION_FAILED",
+                            "RULE_FUND_RESTRICTION_VIOLATED",
+                            "RULE_WAQF_CORPUS_PROTECTED",
+                            "RULE_LEDGER_IMMUTABLE",
+                            "RULE_LAST_ADMIN",
+                            "RULE_DUES_ALREADY_SETTLED",
+                            "RULE_DUES_OVERPAYMENT",
+                            "RULE_PAYROLL_ALREADY_POSTED",
+                            "SYNC_CURSOR_TOO_OLD",
+                            "SYNC_DEPENDENCY_NOT_FOUND",
+                            "SYNC_EPOCH_MISMATCH",
+                            "CONFLICT_VERSION_MISMATCH",
+                            "IDEMPOTENCY_KEY_REUSED",
+                            "IDEMPOTENCY_KEY_REQUIRED",
+                            "NOT_FOUND",
+                            "RATE_LIMIT_EXCEEDED",
+                            "INTERNAL_ERROR"
+                          ]
+                        },
+                        "message": {
+                          "type": "string"
+                        },
+                        "requestId": {
+                          "type": "string"
+                        },
+                        "details": {}
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/mosques/{mosqueId}/billing/subscription": {
+      "get": {
+        "summary": "Current subscription and entitlements",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "mosqueId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "subscription": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "mosqueId": {
+                          "type": "string"
+                        },
+                        "planCode": {
+                          "type": "string"
+                        },
+                        "status": {
+                          "type": "string",
+                          "enum": [
+                            "TRIALING",
+                            "ACTIVE",
+                            "PAST_DUE",
+                            "CANCELED",
+                            "EXPIRED"
+                          ]
+                        },
+                        "billingPeriod": {
+                          "type": "string"
+                        },
+                        "priceMinor": {
+                          "type": "integer"
+                        },
+                        "currency": {
+                          "type": "string"
+                        },
+                        "currentPeriodStart": {
+                          "type": "string",
+                          "nullable": true
+                        },
+                        "currentPeriodEnd": {
+                          "type": "string",
+                          "nullable": true
+                        },
+                        "trialEndsAt": {
+                          "type": "string",
+                          "nullable": true
+                        },
+                        "cancelAtPeriodEnd": {
+                          "type": "boolean"
+                        },
+                        "provider": {
+                          "type": "string",
+                          "nullable": true
+                        },
+                        "providerRef": {
+                          "type": "string",
+                          "nullable": true
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "mosqueId",
+                        "planCode",
+                        "status",
+                        "billingPeriod",
+                        "priceMinor",
+                        "currency",
+                        "currentPeriodStart",
+                        "currentPeriodEnd",
+                        "trialEndsAt",
+                        "cancelAtPeriodEnd",
+                        "provider",
+                        "providerRef"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "plan": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "entitlements": {
+                          "type": "object",
+                          "properties": {
+                            "features": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              }
+                            },
+                            "limits": {
+                              "type": "object",
+                              "properties": {
+                                "adminUsers": {
+                                  "type": "integer",
+                                  "nullable": true
+                                },
+                                "members": {
+                                  "type": "integer",
+                                  "nullable": true
+                                },
+                                "historyMonths": {
+                                  "type": "integer",
+                                  "nullable": true
+                                }
+                              },
+                              "required": [
+                                "adminUsers",
+                                "members",
+                                "historyMonths"
+                              ],
+                              "additionalProperties": false
+                            }
+                          },
+                          "required": [
+                            "features",
+                            "limits"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "active": {
+                          "type": "boolean"
+                        }
+                      },
+                      "required": [
+                        "code",
+                        "name",
+                        "entitlements",
+                        "active"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "subscription",
+                    "plan"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "required": [
+                        "code",
+                        "message",
+                        "requestId"
+                      ],
+                      "properties": {
+                        "code": {
+                          "type": "string",
+                          "enum": [
+                            "AUTH_INVALID_CREDENTIALS",
+                            "AUTH_TOKEN_EXPIRED",
+                            "AUTH_TOKEN_INVALID",
+                            "AUTH_TOKEN_REUSED",
+                            "AUTH_ACCOUNT_LOCKED",
+                            "AUTH_EMAIL_TAKEN",
+                            "AUTH_PHONE_TAKEN",
+                            "PERM_DENIED",
+                            "PERM_ROLE_REQUIRED",
+                            "FEATURE_NOT_IN_PLAN",
+                            "FEATURE_LIMIT_REACHED",
+                            "TENANT_ID_REQUIRED",
+                            "TENANT_NOT_FOUND",
+                            "TENANT_SUSPENDED",
+                            "TENANT_READONLY",
+                            "INVITATION_EXPIRED",
+                            "INVITATION_ALREADY_ACCEPTED",
+                            "VALIDATION_FAILED",
+                            "RULE_FUND_RESTRICTION_VIOLATED",
+                            "RULE_WAQF_CORPUS_PROTECTED",
+                            "RULE_LEDGER_IMMUTABLE",
+                            "RULE_LAST_ADMIN",
+                            "RULE_DUES_ALREADY_SETTLED",
+                            "RULE_DUES_OVERPAYMENT",
+                            "RULE_PAYROLL_ALREADY_POSTED",
+                            "SYNC_CURSOR_TOO_OLD",
+                            "SYNC_DEPENDENCY_NOT_FOUND",
+                            "SYNC_EPOCH_MISMATCH",
+                            "CONFLICT_VERSION_MISMATCH",
+                            "IDEMPOTENCY_KEY_REUSED",
+                            "IDEMPOTENCY_KEY_REQUIRED",
+                            "NOT_FOUND",
+                            "RATE_LIMIT_EXCEEDED",
+                            "INTERNAL_ERROR"
+                          ]
+                        },
+                        "message": {
+                          "type": "string"
+                        },
+                        "requestId": {
+                          "type": "string"
+                        },
+                        "details": {}
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/billing/plans": {
+      "get": {
+        "summary": "List available plans",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "code": {
+                        "type": "string"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "entitlements": {
+                        "type": "object",
+                        "properties": {
+                          "features": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "limits": {
+                            "type": "object",
+                            "properties": {
+                              "adminUsers": {
+                                "type": "integer",
+                                "nullable": true
+                              },
+                              "members": {
+                                "type": "integer",
+                                "nullable": true
+                              },
+                              "historyMonths": {
+                                "type": "integer",
+                                "nullable": true
+                              }
+                            },
+                            "required": [
+                              "adminUsers",
+                              "members",
+                              "historyMonths"
+                            ],
+                            "additionalProperties": false
+                          }
+                        },
+                        "required": [
+                          "features",
+                          "limits"
+                        ],
+                        "additionalProperties": false
+                      },
+                      "active": {
+                        "type": "boolean"
+                      }
+                    },
+                    "required": [
+                      "code",
+                      "name",
+                      "entitlements",
+                      "active"
+                    ],
+                    "additionalProperties": false
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "required": [
+                        "code",
+                        "message",
+                        "requestId"
+                      ],
+                      "properties": {
+                        "code": {
+                          "type": "string",
+                          "enum": [
+                            "AUTH_INVALID_CREDENTIALS",
+                            "AUTH_TOKEN_EXPIRED",
+                            "AUTH_TOKEN_INVALID",
+                            "AUTH_TOKEN_REUSED",
+                            "AUTH_ACCOUNT_LOCKED",
+                            "AUTH_EMAIL_TAKEN",
+                            "AUTH_PHONE_TAKEN",
+                            "PERM_DENIED",
+                            "PERM_ROLE_REQUIRED",
+                            "FEATURE_NOT_IN_PLAN",
+                            "FEATURE_LIMIT_REACHED",
+                            "TENANT_ID_REQUIRED",
+                            "TENANT_NOT_FOUND",
+                            "TENANT_SUSPENDED",
+                            "TENANT_READONLY",
+                            "INVITATION_EXPIRED",
+                            "INVITATION_ALREADY_ACCEPTED",
+                            "VALIDATION_FAILED",
+                            "RULE_FUND_RESTRICTION_VIOLATED",
+                            "RULE_WAQF_CORPUS_PROTECTED",
+                            "RULE_LEDGER_IMMUTABLE",
+                            "RULE_LAST_ADMIN",
+                            "RULE_DUES_ALREADY_SETTLED",
+                            "RULE_DUES_OVERPAYMENT",
+                            "RULE_PAYROLL_ALREADY_POSTED",
+                            "SYNC_CURSOR_TOO_OLD",
+                            "SYNC_DEPENDENCY_NOT_FOUND",
+                            "SYNC_EPOCH_MISMATCH",
+                            "CONFLICT_VERSION_MISMATCH",
+                            "IDEMPOTENCY_KEY_REUSED",
+                            "IDEMPOTENCY_KEY_REQUIRED",
+                            "NOT_FOUND",
+                            "RATE_LIMIT_EXCEEDED",
+                            "INTERNAL_ERROR"
+                          ]
+                        },
+                        "message": {
+                          "type": "string"
+                        },
+                        "requestId": {
+                          "type": "string"
+                        },
+                        "details": {}
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/mosques/{mosqueId}/billing/mock-set-plan": {
+      "post": {
+        "summary": "Mock billing: set the mosque's plan directly (no real payment — ADR-0007)",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "mosqueId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "planCode": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 20
+                  }
+                },
+                "required": [
+                  "planCode"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "subscription": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "mosqueId": {
+                          "type": "string"
+                        },
+                        "planCode": {
+                          "type": "string"
+                        },
+                        "status": {
+                          "type": "string",
+                          "enum": [
+                            "TRIALING",
+                            "ACTIVE",
+                            "PAST_DUE",
+                            "CANCELED",
+                            "EXPIRED"
+                          ]
+                        },
+                        "billingPeriod": {
+                          "type": "string"
+                        },
+                        "priceMinor": {
+                          "type": "integer"
+                        },
+                        "currency": {
+                          "type": "string"
+                        },
+                        "currentPeriodStart": {
+                          "type": "string",
+                          "nullable": true
+                        },
+                        "currentPeriodEnd": {
+                          "type": "string",
+                          "nullable": true
+                        },
+                        "trialEndsAt": {
+                          "type": "string",
+                          "nullable": true
+                        },
+                        "cancelAtPeriodEnd": {
+                          "type": "boolean"
+                        },
+                        "provider": {
+                          "type": "string",
+                          "nullable": true
+                        },
+                        "providerRef": {
+                          "type": "string",
+                          "nullable": true
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "mosqueId",
+                        "planCode",
+                        "status",
+                        "billingPeriod",
+                        "priceMinor",
+                        "currency",
+                        "currentPeriodStart",
+                        "currentPeriodEnd",
+                        "trialEndsAt",
+                        "cancelAtPeriodEnd",
+                        "provider",
+                        "providerRef"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "plan": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "entitlements": {
+                          "type": "object",
+                          "properties": {
+                            "features": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              }
+                            },
+                            "limits": {
+                              "type": "object",
+                              "properties": {
+                                "adminUsers": {
+                                  "type": "integer",
+                                  "nullable": true
+                                },
+                                "members": {
+                                  "type": "integer",
+                                  "nullable": true
+                                },
+                                "historyMonths": {
+                                  "type": "integer",
+                                  "nullable": true
+                                }
+                              },
+                              "required": [
+                                "adminUsers",
+                                "members",
+                                "historyMonths"
+                              ],
+                              "additionalProperties": false
+                            }
+                          },
+                          "required": [
+                            "features",
+                            "limits"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "active": {
+                          "type": "boolean"
+                        }
+                      },
+                      "required": [
+                        "code",
+                        "name",
+                        "entitlements",
+                        "active"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "subscription",
+                    "plan"
+                  ],
+                  "additionalProperties": false
                 }
               }
             }
