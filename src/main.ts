@@ -19,6 +19,10 @@ import { InvitationsService } from './modules/mosques/invitations.service.js';
 import { invitationsRoutes } from './modules/mosques/invitations.routes.js';
 import { PrayerConfigService } from './modules/mosques/prayer-config.service.js';
 import { prayerConfigRoutes } from './modules/mosques/prayer-config.routes.js';
+import { HouseholdsService } from './modules/households/households.service.js';
+import { householdsRoutes } from './modules/households/households.routes.js';
+import { DonationsService } from './modules/donations/donations.service.js';
+import { donationsRoutes } from './modules/donations/donations.routes.js';
 import { healthRoutes } from './modules/health/health.routes.js';
 import { MemoryIdempotencyStore } from './middleware/require-idempotency.js';
 import { assertRouteTableIsSound } from './middleware/assert-routes.js';
@@ -49,6 +53,8 @@ export async function createApp() {
   const mosquesSvc      = new MosquesService(pool, mosques, memberships);
   const invitationsSvc  = new InvitationsService(invitations, memberships);
   const prayerConfigSvc = new PrayerConfigService(pool);
+  const householdsSvc   = new HouseholdsService(pool);
+  const donationsSvc    = new DonationsService(pool);
   const idempotency     = new MemoryIdempotencyStore();
 
   // ── routes ──────────────────────────────────────────────────────────────
@@ -59,6 +65,8 @@ export async function createApp() {
     ...mosquesRoutes({ mosques: mosquesSvc, tokens: tokenSvc, memberships, idempotency }),
     ...invitationsRoutes({ invitations: invitationsSvc, tokens: tokenSvc, memberships, idempotency }),
     ...prayerConfigRoutes({ prayerConfig: prayerConfigSvc, tokens: tokenSvc, memberships, idempotency }),
+    ...householdsRoutes({ households: householdsSvc, tokens: tokenSvc, memberships, idempotency }),
+    ...donationsRoutes({ donations: donationsSvc, tokens: tokenSvc, memberships, idempotency }),
   ]) router.add(route);
 
   assertRouteTableIsSound(router);   // refuses to boot on a forgotten guard

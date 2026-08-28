@@ -18,3 +18,14 @@ export const FUND_TYPES = [
   'FITRANA', 'QURBANI', 'WAQF', 'BUILDING', 'CUSTOM',
 ] as const;
 export type FundType = (typeof FUND_TYPES)[number];
+
+export const HOUSEHOLD_STATUSES = ['ACTIVE', 'INACTIVE', 'MOVED'] as const;
+export type HouseholdStatus = (typeof HOUSEHOLD_STATUSES)[number];
+
+export const RELATIONS = ['HEAD', 'SPOUSE', 'CHILD', 'PARENT', 'SIBLING', 'OTHER'] as const;
+export type Relation = (typeof RELATIONS)[number];
+
+export const DONATION_METHODS = [
+  'CASH', 'BANK', 'MOBILE_MONEY', 'CARD', 'CHEQUE', 'IN_KIND',
+] as const;
+export type DonationMethod = (typeof DONATION_METHODS)[number];
