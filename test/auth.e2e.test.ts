@@ -88,8 +88,9 @@ describe('auth', () => {
       .set('Authorization', `Bearer ${reg.body.accessToken}`);
 
     expect(res.status).toBe(200);
-    expect(res.body.phone).toBe(credentials.phone);
-    expect(res.body).not.toHaveProperty('passwordHash');
+    expect(res.body.user.phone).toBe(credentials.phone);
+    expect(res.body.user).not.toHaveProperty('passwordHash');
+    expect(res.body.memberships).toEqual([]);
   });
 
   it('rejects /auth/me without a token', async () => {

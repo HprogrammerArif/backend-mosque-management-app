@@ -1,4 +1,4 @@
-import { loginSchema, refreshSchema, registerSchema, authResponseSchema } from './auth.schemas.js';
+import { loginSchema, refreshSchema, registerSchema, authResponseSchema, meResponseSchema } from './auth.schemas.js';
 import type { RouteDefinition } from '../../http/types.js';
 import { createRequireAuth } from '../../middleware/require-auth.js';
 import { validate } from '../../middleware/validate.js';
@@ -35,6 +35,6 @@ export function authRoutes(deps: AuthRouteDeps): RouteDefinition[] {
 
     { method: 'GET', path: '/api/v1/auth/me', permission: 'AUTHENTICATED',
       middleware: [createRequireAuth(deps.tokens)], handler: c.me,
-      docs: { summary: 'Current user' } },
+      docs: { summary: 'Current user and memberships', response: meResponseSchema } },
   ];
 }

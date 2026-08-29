@@ -50,26 +50,41 @@ const membershipEntitlementsSchema = z.object({
   }),
 });
 
+const userResponseSchema = z.object({
+  id: z.string(),
+  displayName: z.string(),
+  locale: z.string(),
+  phone: z.string().nullable(),
+  email: z.string().nullable(),
+});
+
+// Read at login/register and refreshed on sync, so plan gating stays correct offline
+// (FR-SUB-9) — the app never has to make a live call just to know what it's allowed to show.
+const membershipsResponseSchema = z.array(z.object({
+  mosqueId: z.string(),
+  mosqueName: z.string(),
+  role: z.string(),
+  plan: z.string().nullable(),
+  entitlements: membershipEntitlementsSchema,
+}));
+
 export const authResponseSchema = z.object({
   accessToken: z.string(),
   expiresIn: z.number().int(),
   refreshToken: z.string(),
-  user: z.object({
-    id: z.string(),
-    displayName: z.string(),
-    locale: z.string(),
-    phone: z.string().nullable(),
-    email: z.string().nullable(),
-  }),
-  // Read at login/register and refreshed on sync, so plan gating stays correct offline
-  // (FR-SUB-9) — the app never has to make a live call just to know what it's allowed to show.
-  memberships: z.array(z.object({
-    mosqueId: z.string(),
-    mosqueName: z.string(),
-    role: z.string(),
-    plan: z.string().nullable(),
-    entitlements: membershipEntitlementsSchema,
-  })),
+  user: userResponseSchema,
+  memberships: membershipsResponseSchema,
+});
+
+// GET /auth/me's shape — no tokens (nothing was just issued), but memberships ARE
+// included here even though the original login/register response also carries them:
+// this is the one endpoint a client can call to re-sync its membership list after an
+// action that changes it (creating a mosque, accepting an invitation) without forcing a
+// full re-login, closing the "memberships go stale until next sign-in" gap noted in the
+// frontend's session store.
+export const meResponseSchema = z.object({
+  user: userResponseSchema,
+  memberships: membershipsResponseSchema,
 });
 
 export type DeviceInput = z.infer<typeof deviceSchema>;
@@ -77,3 +92,4 @@ export type RegisterInput = z.infer<typeof registerSchema>;
 export type LoginInput = z.infer<typeof loginSchema>;
 export type RefreshInput = z.infer<typeof refreshSchema>;
 export type AuthResponse = z.infer<typeof authResponseSchema>;
+export type MeResponse = z.infer<typeof meResponseSchema>;

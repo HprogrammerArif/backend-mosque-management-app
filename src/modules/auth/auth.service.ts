@@ -1,5 +1,5 @@
 import { uuidv7 } from 'uuidv7';
-import type { AuthResponse, LoginInput, RegisterInput } from './auth.schemas.js';
+import type { AuthResponse, LoginInput, RegisterInput, MeResponse } from './auth.schemas.js';
 import { AppError } from '../../common/errors/app-error.js';
 import type { OraclePool } from '../../infrastructure/database/oracle.pool.js';
 import type { PasswordService } from './password.service.js';
@@ -134,12 +134,15 @@ export class AuthService {
     await this.tokens.revokeByRefreshToken(refreshToken);
   }
 
-  async me(userId: string): Promise<AuthResponse['user']> {
+  async me(userId: string): Promise<MeResponse> {
     const user = await this.users.findById(userId);
     if (!user) throw new AppError('NOT_FOUND', 'User not found');
     return {
-      id: user.id, displayName: user.displayName, locale: user.locale,
-      phone: user.phone, email: user.email,
+      user: {
+        id: user.id, displayName: user.displayName, locale: user.locale,
+        phone: user.phone, email: user.email,
+      },
+      memberships: await this.#loadMemberships(user.id),
     };
   }
 }

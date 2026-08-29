@@ -858,7 +858,7 @@
     },
     "/api/v1/auth/me": {
       "get": {
-        "summary": "Current user",
+        "summary": "Current user and memberships",
         "security": [
           {
             "bearerAuth": []
@@ -866,7 +866,119 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "user": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "displayName": {
+                          "type": "string"
+                        },
+                        "locale": {
+                          "type": "string"
+                        },
+                        "phone": {
+                          "type": "string",
+                          "nullable": true
+                        },
+                        "email": {
+                          "type": "string",
+                          "nullable": true
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "displayName",
+                        "locale",
+                        "phone",
+                        "email"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "memberships": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "mosqueId": {
+                            "type": "string"
+                          },
+                          "mosqueName": {
+                            "type": "string"
+                          },
+                          "role": {
+                            "type": "string"
+                          },
+                          "plan": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "entitlements": {
+                            "type": "object",
+                            "properties": {
+                              "features": {
+                                "type": "array",
+                                "items": {
+                                  "type": "string"
+                                }
+                              },
+                              "limits": {
+                                "type": "object",
+                                "properties": {
+                                  "adminUsers": {
+                                    "type": "integer",
+                                    "nullable": true
+                                  },
+                                  "members": {
+                                    "type": "integer",
+                                    "nullable": true
+                                  },
+                                  "historyMonths": {
+                                    "type": "integer",
+                                    "nullable": true
+                                  }
+                                },
+                                "required": [
+                                  "adminUsers",
+                                  "members",
+                                  "historyMonths"
+                                ],
+                                "additionalProperties": false
+                              }
+                            },
+                            "required": [
+                              "features",
+                              "limits"
+                            ],
+                            "additionalProperties": false
+                          }
+                        },
+                        "required": [
+                          "mosqueId",
+                          "mosqueName",
+                          "role",
+                          "plan",
+                          "entitlements"
+                        ],
+                        "additionalProperties": false
+                      }
+                    }
+                  },
+                  "required": [
+                    "user",
+                    "memberships"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
           },
           "default": {
             "description": "Error",
@@ -10884,7 +10996,9 @@
                                   "minLength": 1
                                 },
                                 "amountMinor": {
-                                  "type": "integer"
+                                  "type": "integer",
+                                  "exclusiveMinimum": true,
+                                  "minimum": 0
                                 },
                                 "currency": {
                                   "type": "string",
@@ -10939,13 +11053,16 @@
                                   "default": null
                                 },
                                 "adjustsId": {
-                                  "type": "string",
+                                  "enum": [
+                                    "null"
+                                  ],
                                   "nullable": true,
                                   "default": null
                                 },
                                 "adjustmentReason": {
-                                  "type": "string",
-                                  "maxLength": 500,
+                                  "enum": [
+                                    "null"
+                                  ],
                                   "nullable": true,
                                   "default": null
                                 }
