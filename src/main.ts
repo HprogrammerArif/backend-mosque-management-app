@@ -84,7 +84,7 @@ export async function createApp() {
   const billingSvc      = new BillingService(subscriptions, plans);
   const notificationPreferences = new OracleNotificationPreferencesRepository(pool);
   const notificationPreferencesSvc = new NotificationPreferencesService(notificationPreferences);
-  const invitationsSvc  = new InvitationsService(invitations, memberships);
+  const invitationsSvc  = new InvitationsService(invitations, memberships, pool);
   const prayerConfigSvc = new PrayerConfigService(pool);
   const householdsSvc   = new HouseholdsService(pool);
   const individualsSvc  = new IndividualsService(pool);
@@ -94,7 +94,7 @@ export async function createApp() {
   const fundsSvc        = new FundsService(pool);
   const duesSvc         = new DuesService(pool);
   const staffSvc        = new StaffService(pool);
-  const payrollSvc      = new PayrollService(pool);
+  const payrollSvc      = new PayrollService(pool, expensesSvc);
   const committeeSvc    = new CommitteeService(pool);
   const eventsSvc       = new EventsService(pool);
   const announcementsSvc = new AnnouncementsService(pool);

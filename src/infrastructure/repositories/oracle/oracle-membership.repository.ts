@@ -22,6 +22,13 @@ const SQL_COUNT_ACTIVE_ADMINS = `
   SELECT COUNT(*) AS CNT FROM MEMBERSHIPS
    WHERE MOSQUE_ID = :mosqueId AND ROLE = 'ADMIN' AND STATUS = 'ACTIVE'`;
 
+// No aggregate/FOR UPDATE combination — Oracle rejects FOR UPDATE on a COUNT(*) query —
+// so this locks the individual rows and the caller counts what came back.
+const SQL_LOCK_ACTIVE_ADMINS = `
+  SELECT ID FROM MEMBERSHIPS
+   WHERE MOSQUE_ID = :mosqueId AND ROLE = 'ADMIN' AND STATUS = 'ACTIVE'
+   FOR UPDATE`;
+
 const SQL_INSERT = `
   INSERT INTO MEMBERSHIPS (ID, MOSQUE_ID, USER_ID, ROLE)
   VALUES (:id, :mosqueId, :userId, :role)`;
@@ -63,6 +70,11 @@ export class OracleMembershipRepository implements MembershipRepository {
     return Number(rows[0]?.cnt ?? 0);
   }
 
+  async lockActiveAdmins(mosqueId: string, tx: Tx): Promise<string[]> {
+    const rows = await tx.execute<{ id: string }>(SQL_LOCK_ACTIVE_ADMINS, { mosqueId });
+    return rows.map((r) => r.id);
+  }
+
   /** See OracleMosqueRepository.create's note on the optional `tx` parameter. */
   async create(input: CreateMembershipInput, tx?: Tx): Promise<MembershipRecord> {
     const exec = tx ?? this.pool;
@@ -70,11 +82,13 @@ export class OracleMembershipRepository implements MembershipRepository {
     return { ...input, status: 'ACTIVE' };
   }
 
-  async updateRole(id: string, role: Role): Promise<void> {
-    await this.pool.execute(SQL_UPDATE_ROLE, { id, role });
+  async updateRole(id: string, role: Role, tx?: Tx): Promise<void> {
+    const exec = tx ?? this.pool;
+    await exec.execute(SQL_UPDATE_ROLE, { id, role });
   }
 
-  async updateStatus(id: string, status: MembershipStatus): Promise<void> {
-    await this.pool.execute(SQL_UPDATE_STATUS, { id, status });
+  async updateStatus(id: string, status: MembershipStatus, tx?: Tx): Promise<void> {
+    const exec = tx ?? this.pool;
+    await exec.execute(SQL_UPDATE_STATUS, { id, status });
   }
 }

@@ -22,6 +22,8 @@ const SQL_INSERT = `
 const SQL_SET_CORPUS = `
   UPDATE FUNDS SET CORPUS_MINOR = :corpusMinor WHERE TENANT_ID = :tenantId AND ID = :id`;
 
+const SQL_LOCK_FOR_UPDATE = `SELECT ${COLUMNS} FROM FUNDS WHERE TENANT_ID = :tenantId AND ID = :id FOR UPDATE`;
+
 /**
  * BR-2's "available" balance: lifetime donations into the fund minus lifetime expenses
  * from it. Same formula as StatisticsRepository.fundBalances — duplicated rather than
@@ -85,8 +87,16 @@ export class OracleFundRepository extends BaseRepository implements FundReposito
     return updated;
   }
 
-  async currentBalance(id: string): Promise<number> {
-    const rows = await this.scoped<{ balance_minor: number }>(SQL_CURRENT_BALANCE, { id });
+  async currentBalance(id: string, tx?: Tx): Promise<number> {
+    const binds = { id, tenantId: this.ctx.tenantId };
+    const rows = tx
+      ? await tx.execute<{ balance_minor: number }>(SQL_CURRENT_BALANCE, binds)
+      : await this.scoped<{ balance_minor: number }>(SQL_CURRENT_BALANCE, { id });
     return Number(rows[0]?.balance_minor ?? 0);
+  }
+
+  async lockForUpdate(id: string, tx: Tx): Promise<FundRecord | null> {
+    const rows = await tx.execute<Row>(SQL_LOCK_FOR_UPDATE, { id, tenantId: this.ctx.tenantId });
+    return rows[0] ? toRecord(rows[0]) : null;
   }
 }

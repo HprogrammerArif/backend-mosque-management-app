@@ -1,5 +1,6 @@
 import { randomBytes, createHash } from 'node:crypto';
 import { uuidv7 } from 'uuidv7';
+import type { OraclePool } from '../../infrastructure/database/oracle.pool.js';
 import type { InvitationRepository } from './ports/invitation.repository.js';
 import type { MembershipRepository, MembershipRecord } from './ports/membership.repository.js';
 import type { CreateInvitationRequest, UpdateMembershipRequest } from './invitations.schemas.js';
@@ -15,6 +16,7 @@ export class InvitationsService {
   constructor(
     private readonly invitations: InvitationRepository,
     private readonly memberships: MembershipRepository,
+    private readonly pool: OraclePool,
   ) {}
 
   async invite(
@@ -63,14 +65,23 @@ export class InvitationsService {
         || (patch.status !== undefined && patch.status !== 'ACTIVE'));
 
     if (losingAdmin) {
-      const activeAdmins = await this.memberships.countActiveAdmins(mosqueId);
-      if (activeAdmins <= 1) {
-        throw new AppError('RULE_LAST_ADMIN', 'A mosque must always have at least one Admin');
-      }
+      // Lock every active-admin row for the mosque before re-checking the count, inside
+      // the same transaction as the write — a second, concurrent demotion of a different
+      // admin blocks on this lock rather than reading the same pre-demotion count this
+      // one just did (BR-10's TOCTOU gap: two admins demoting each other at once could
+      // otherwise both pass the check before either commits).
+      await this.pool.withTransaction(async (tx) => {
+        const lockedAdminIds = await this.memberships.lockActiveAdmins(mosqueId, tx);
+        if (lockedAdminIds.length <= 1) {
+          throw new AppError('RULE_LAST_ADMIN', 'A mosque must always have at least one Admin');
+        }
+        if (patch.role !== undefined) await this.memberships.updateRole(membershipId, patch.role, tx);
+        if (patch.status !== undefined) await this.memberships.updateStatus(membershipId, patch.status, tx);
+      });
+    } else {
+      if (patch.role !== undefined) await this.memberships.updateRole(membershipId, patch.role);
+      if (patch.status !== undefined) await this.memberships.updateStatus(membershipId, patch.status);
     }
-
-    if (patch.role !== undefined) await this.memberships.updateRole(membershipId, patch.role);
-    if (patch.status !== undefined) await this.memberships.updateStatus(membershipId, patch.status);
 
     const updated = await this.memberships.findById(membershipId);
     if (!updated) throw new Error(`Membership ${membershipId} vanished immediately after update`);

@@ -4,6 +4,8 @@ import { OracleExpenseRepository } from '../../infrastructure/repositories/oracl
 import { OracleFundRepository } from '../../infrastructure/repositories/oracle/oracle-fund.repository.js';
 import { OracleExpenseCategoryRepository } from '../../infrastructure/repositories/oracle/oracle-expense-category.repository.js';
 import type { ExpenseRecord } from './ports/expense.repository.js';
+import type { FundRecord } from '../mosques/ports/fund.repository.js';
+import type { ExpenseCategoryRecord } from './ports/expense-category.repository.js';
 import type { TenantContext } from '../tenancy/tenant-context.js';
 import type { CreateExpenseRequest } from './expenses.schemas.js';
 import { AppError } from '../../common/errors/app-error.js';
@@ -18,19 +20,16 @@ export class ExpensesService {
   }
 
   /**
-   * BR-1: money in a Zakat fund may only be disbursed to a zakat-eligible expense
-   * category. Both the fund and the category carry their own zakatEligible flag —
-   * seeded correctly at provisioning (mosques.service.ts, expense-categories) and
-   * editable afterward, so this check has to read the current value each time rather
-   * than trust anything cached or inferred from names.
+   * BR-1 (Zakat restriction) + BR-2 (Waqf corpus protection) for a total amount about to
+   * be drawn from `fund`. `fund` must have been read via `lockForUpdate` inside the same
+   * `tx` this balance was computed in — otherwise two concurrent spends can each pass the
+   * check against the same pre-spend balance and jointly overdraw the corpus. Shared with
+   * PayrollService.postRun so a payroll run is held to exactly the same rules, under the
+   * same lock, as an ad-hoc expense against the same fund.
    */
-  async record(ctx: TenantContext, input: CreateExpenseRequest): Promise<ExpenseRecord> {
-    const fund = await new OracleFundRepository(this.pool, ctx).findById(input.fundId);
-    if (!fund) throw new AppError('NOT_FOUND', `Fund ${input.fundId} not found`);
-
-    const category = await new OracleExpenseCategoryRepository(this.pool, ctx).findById(input.categoryId);
-    if (!category) throw new AppError('NOT_FOUND', `Expense category ${input.categoryId} not found`);
-
+  assertWithinRules(
+    fund: FundRecord, category: ExpenseCategoryRecord, totalAmountMinor: number, currentBalance: number,
+  ): void {
     if (fund.zakatEligible && !category.zakatEligible) {
       throw new AppError(
         'RULE_FUND_RESTRICTION_VIOLATED',
@@ -42,22 +41,40 @@ export class ExpensesService {
     // the balance ABOVE the protected corpus, never dip below it. corpusMinor is 0 for
     // every non-WAQF fund, so this is a no-op everywhere else.
     if (fund.type === 'WAQF' && fund.corpusMinor > 0) {
-      const currentBalance = await new OracleFundRepository(this.pool, ctx).currentBalance(fund.id);
       const availableMinor = currentBalance - fund.corpusMinor;
-      if (input.amountMinor > availableMinor) {
+      if (totalAmountMinor > availableMinor) {
         throw new AppError(
           'RULE_WAQF_CORPUS_PROTECTED',
           `Fund "${fund.name}" has a protected corpus of ${fund.corpusMinor} — only ${Math.max(0, availableMinor)} is available to spend (BR-2)`,
         );
       }
     }
+  }
 
-    return this.#expenses(ctx).create({
-      id: uuidv7(),
-      ...input,
-      adjustsId: null,
-      adjustmentReason: null,
-      createdBy: ctx.userId,
+  /**
+   * The fund is locked (`FOR UPDATE`) for the lifetime of this transaction, so a second,
+   * concurrent `record()`/`postRun()` against the same fund blocks until this one commits
+   * or rolls back — the balance this checks against can't change out from under it.
+   */
+  async record(ctx: TenantContext, input: CreateExpenseRequest): Promise<ExpenseRecord> {
+    const category = await new OracleExpenseCategoryRepository(this.pool, ctx).findById(input.categoryId);
+    if (!category) throw new AppError('NOT_FOUND', `Expense category ${input.categoryId} not found`);
+
+    return this.pool.withTenantTransaction(ctx.tenantId, async (tx) => {
+      const fundRepo = new OracleFundRepository(this.pool, ctx);
+      const fund = await fundRepo.lockForUpdate(input.fundId, tx);
+      if (!fund) throw new AppError('NOT_FOUND', `Fund ${input.fundId} not found`);
+
+      const currentBalance = await fundRepo.currentBalance(fund.id, tx);
+      this.assertWithinRules(fund, category, input.amountMinor, currentBalance);
+
+      return this.#expenses(ctx).create({
+        id: uuidv7(),
+        ...input,
+        adjustsId: null,
+        adjustmentReason: null,
+        createdBy: ctx.userId,
+      }, tx);
     });
   }
 

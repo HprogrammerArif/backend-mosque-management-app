@@ -10,6 +10,7 @@ import type { TenantContext } from '../tenancy/tenant-context.js';
 import type { CreatePayrollRunRequest } from './payroll.schemas.js';
 import { AppError } from '../../common/errors/app-error.js';
 import type { Currency } from '../../domain/money.js';
+import type { ExpensesService } from '../donations/expenses.service.js';
 
 /** Last calendar day of a "YYYY-MM" period — same convention as dues.service.ts. */
 function periodEndDate(period: string): string {
@@ -19,7 +20,7 @@ function periodEndDate(period: string): string {
 }
 
 export class PayrollService {
-  constructor(private readonly pool: OraclePool) {}
+  constructor(private readonly pool: OraclePool, private readonly expenses: ExpensesService) {}
 
   #runs(ctx: TenantContext): OraclePayrollRunRepository {
     return new OraclePayrollRunRepository(this.pool, ctx);
@@ -71,7 +72,11 @@ export class PayrollService {
    * "Post to ledger": one EXPENSE per line, written under the seeded Salaries category,
    * inside the same transaction that marks the run POSTED — a run that's POSTED with a
    * line missing its EXPENSE_ID (or vice versa) is exactly the split-write this exists to
-   * prevent (same reasoning as DuesService.recordPayment).
+   * prevent (same reasoning as DuesService.recordPayment). The fund is locked
+   * (`FOR UPDATE`) and BR-1/BR-2 are checked against the *sum* of every line before any
+   * expense is written — routed through ExpensesService.assertWithinRules so a payroll
+   * run can't spend into a Zakat-restricted or Waqf-corpus-protected fund by a path that
+   * skips the checks ExpensesService.record enforces for an ad-hoc expense.
    */
   async postRun(ctx: TenantContext, runId: string): Promise<PayrollRunRecord> {
     const runs = this.#runs(ctx);
@@ -80,25 +85,23 @@ export class PayrollService {
       throw new AppError('RULE_PAYROLL_ALREADY_POSTED', `Payroll run ${runId} is already posted`);
     }
 
-    const fund = await new OracleFundRepository(this.pool, ctx).findById(run.fundId);
-    if (!fund) throw new AppError('NOT_FOUND', `Fund ${run.fundId} not found`);
-
     const categories = await new OracleExpenseCategoryRepository(this.pool, ctx).listAll();
     const salariesCategory = categories.find((c) => c.name === 'Salaries');
     if (!salariesCategory) throw new AppError('NOT_FOUND', 'Salaries expense category not found');
 
-    if (fund.zakatEligible && !salariesCategory.zakatEligible) {
-      throw new AppError(
-        'RULE_FUND_RESTRICTION_VIOLATED',
-        `Fund "${fund.name}" is Zakat-restricted (BR-1) — Salaries is not a zakat-eligible category`,
-      );
-    }
-
     const lines = await runs.listLines(runId);
     const occurredOn = periodEndDate(run.period);
     const staffById = new Map((await this.#staff(ctx).listActive()).map((s) => [s.id, s]));
+    const totalAmountMinor = lines.reduce((sum, line) => sum + line.amountMinor, 0);
 
     await this.pool.withTenantTransaction(ctx.tenantId, async (tx) => {
+      const fundRepo = new OracleFundRepository(this.pool, ctx);
+      const fund = await fundRepo.lockForUpdate(run.fundId, tx);
+      if (!fund) throw new AppError('NOT_FOUND', `Fund ${run.fundId} not found`);
+
+      const currentBalance = await fundRepo.currentBalance(fund.id, tx);
+      this.expenses.assertWithinRules(fund, salariesCategory, totalAmountMinor, currentBalance);
+
       const expensesRepo = this.#expenses(ctx);
       for (const line of lines) {
         const staffMember = staffById.get(line.staffId);

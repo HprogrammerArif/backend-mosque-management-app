@@ -9,7 +9,15 @@ export const bootstrapRequestSchema = z.object({
 
 const donationPayloadSchema = z.object({
   fundId: z.string().min(1),
-  amountMinor: z.number().int(),
+  // Positive, and adjustsId/adjustmentReason locked to null: sync only ever supports
+  // inserting a fresh donation (#applyDonation rejects update/delete outright). Creating
+  // an adjustment entry is a REST-only, server-computed operation (DonationsService.adjust
+  // negates the original amount itself) — no frontend path builds an offline adjustment
+  // mutation, so accepting a client-supplied negative amount or arbitrary adjustsId here
+  // would only ever be exploitable, never legitimate: it'd let a synced insert forge an
+  // unaudited correction against any donation ID without going through `adjust()`'s
+  // append-only trail.
+  amountMinor: z.number().int().positive(),
   currency: z.enum(['BDT', 'USD', 'GBP', 'EUR']).default('BDT'),
   occurredOn: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
   method: z.enum(['CASH', 'BANK', 'MOBILE_MONEY', 'CARD', 'CHEQUE', 'IN_KIND']),
@@ -18,8 +26,8 @@ const donationPayloadSchema = z.object({
   anonymous: z.boolean().default(false),
   receiptNo: z.string().max(30).nullable().default(null),
   note: z.string().max(500).nullable().default(null),
-  adjustsId: z.string().nullable().default(null),
-  adjustmentReason: z.string().max(500).nullable().default(null),
+  adjustsId: z.null().default(null),
+  adjustmentReason: z.null().default(null),
 });
 
 const householdPayloadSchema = z.object({

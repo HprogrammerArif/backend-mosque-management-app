@@ -1,4 +1,5 @@
 import type { FundType } from '../../../domain/enums.js';
+import type { Tx } from '../../../infrastructure/database/oracle.pool.js';
 
 export type FundRecord = {
   id: string;
@@ -24,6 +25,18 @@ export interface FundRepository {
   insert(input: CreateFundInput): Promise<FundRecord>;
   /** BR-2's corpus-adjustment entry — Admin-only, enforced at the route layer. */
   setCorpus(fundId: string, corpusMinor: number): Promise<FundRecord>;
-  /** Lifetime donations into the fund minus lifetime expenses from it — same formula as StatisticsRepository.fundBalances. */
-  currentBalance(fundId: string): Promise<number>;
+  /**
+   * Lifetime donations into the fund minus lifetime expenses from it — same formula as
+   * StatisticsRepository.fundBalances. Pass `tx` to read the balance on the same
+   * connection/transaction as a prior `lockForUpdate`, so the figure reflects exactly
+   * what's locked rather than a separate, unlocked snapshot.
+   */
+  currentBalance(fundId: string, tx?: Tx): Promise<number>;
+  /**
+   * `SELECT ... FOR UPDATE` inside `tx` — serializes concurrent spenders against the
+   * same fund so a balance-vs-corpus (BR-2) or balance-vs-restriction (BR-1) check made
+   * right after this call can't be invalidated by another transaction committing in
+   * between the check and the write (BR-2's TOCTOU gap).
+   */
+  lockForUpdate(fundId: string, tx: Tx): Promise<FundRecord | null>;
 }
