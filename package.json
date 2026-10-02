@@ -15,6 +15,7 @@
     "migrate": "tsx src/infrastructure/database/migrate-cli.ts",
     "migrate:prod": "node dist/src/infrastructure/database/migrate-cli.js",
     "openapi": "tsx scripts/generate-openapi.ts",
+    "seed": "tsx scripts/seed-realistic-tenant.ts",
     "seed:realistic": "tsx scripts/seed-realistic-tenant.ts",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
