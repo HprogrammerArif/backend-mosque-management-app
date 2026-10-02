@@ -28,6 +28,17 @@ export function createHttpServer(router: Router, options: Options) {
     inFlight++;
     res.on('close', () => { inFlight--; });
 
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, Idempotency-Key, X-Device-Id, Accept');
+    res.setHeader('Access-Control-Max-Age', '86400');
+
+    if (req.method === 'OPTIONS') {
+      res.statusCode = 204;
+      res.end();
+      return;
+    }
+
     const ctx = createContext(req, res, randomUUID());
 
     void (async () => {

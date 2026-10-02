@@ -80,8 +80,21 @@ export class OraclePayrollRunRepository extends BaseRepository implements Payrol
     return rows[0] ? toRunRecord(rows[0]) : null;
   }
 
-  async create(input: CreatePayrollRunInput): Promise<PayrollRunRecord> {
-    await this.scoped(SQL_INSERT_RUN, input);
+  async create(input: CreatePayrollRunInput, tx?: Tx): Promise<PayrollRunRecord> {
+    const binds = { ...input, tenantId: this.ctx.tenantId };
+    if (tx) {
+      await tx.execute(SQL_INSERT_RUN, binds);
+      return {
+        id: input.id,
+        period: input.period,
+        fundId: input.fundId,
+        status: 'DRAFT',
+        postedAt: null,
+        createdBy: input.createdBy,
+        createdAt: new Date().toISOString(),
+      };
+    }
+    await this.scoped(SQL_INSERT_RUN, binds);
     const created = await this.findById(input.id);
     if (!created) throw new Error(`Payroll run ${input.id} vanished immediately after insert`);
     return created;

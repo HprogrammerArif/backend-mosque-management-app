@@ -83,13 +83,23 @@ export class AuthService {
       locale: input.locale,
     });
 
-    const deviceId = 'bootstrap';    // a real per-install device id arrives in Plan 2
+    const device = input.device ?? {
+      id: uuidv7(),
+      platform: 'ANDROID' as const,
+      model: null,
+      appVersion: null,
+      pushToken: null,
+    };
     await this.pool.execute(SQL_UPSERT_DEVICE, {
-      id: deviceId, userId: user.id, platform: 'ANDROID',
-      model: null, appVersion: null, pushToken: null,
+      id: device.id,
+      userId: user.id,
+      platform: device.platform,
+      model: device.model ?? null,
+      appVersion: device.appVersion ?? null,
+      pushToken: device.pushToken ?? null,
     });
 
-    const issued = await this.tokens.issue(user.id, deviceId);
+    const issued = await this.tokens.issue(user.id, device.id);
     return this.#present(user, { ...issued, memberships: await this.#loadMemberships(user.id) });
   }
 

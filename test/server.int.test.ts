@@ -76,4 +76,16 @@ describe('http server', () => {
     const res = await request(server).get('/ok');
     expect(res.headers['x-request-id']).toBeTruthy();
   });
+
+  it('handles OPTIONS preflight with 204 and CORS headers', async () => {
+    const res = await request(server).options('/any-route');
+    expect(res.status).toBe(204);
+    expect(res.headers['access-control-allow-origin']).toBe('*');
+    expect(res.headers['access-control-allow-methods']).toContain('OPTIONS');
+  });
+
+  it('sets CORS headers on standard API responses', async () => {
+    const res = await request(server).get('/ok');
+    expect(res.headers['access-control-allow-origin']).toBe('*');
+  });
 });

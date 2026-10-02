@@ -393,4 +393,33 @@ describe('Dues charge payment rules', () => {
     expect(res.status).toBe(409);
     expect(res.body.error.code).toBe('RULE_DUES_ALREADY_SETTLED');
   });
+
+  it('rejects double adjustment of a donation and adjusting an adjustment entry', async () => {
+    const tenant = await createTenant(server);
+    const donation = await api().post(`/api/v1/mosques/${tenant.mosqueId}/donations`)
+      .set(auth(tenant)).set(idem())
+      .send({ fundId: tenant.fundId, amountMinor: 10000, occurredOn: '2026-08-01', method: 'CASH' });
+    const donationId = (donation.body as { id: string }).id;
+
+    // First adjustment succeeds
+    const adjust1 = await api().post(`/api/v1/mosques/${tenant.mosqueId}/donations/${donationId}/adjust`)
+      .set(auth(tenant)).set(idem())
+      .send({ reason: 'Correction: typo in amount' });
+    expect(adjust1.status).toBe(201);
+    const adjustmentId = (adjust1.body as { id: string }).id;
+
+    // Second adjustment against the same original donation fails with 409 CONFLICT
+    const adjust2 = await api().post(`/api/v1/mosques/${tenant.mosqueId}/donations/${donationId}/adjust`)
+      .set(auth(tenant)).set(idem())
+      .send({ reason: 'Duplicate adjustment attempt' });
+    expect(adjust2.status).toBe(409);
+    expect(adjust2.body.error.code).toBe('RULE_ALREADY_ADJUSTED');
+
+    // Attempting to adjust the adjustment entry itself fails with 422 VALIDATION_FAILED
+    const adjust3 = await api().post(`/api/v1/mosques/${tenant.mosqueId}/donations/${adjustmentId}/adjust`)
+      .set(auth(tenant)).set(idem())
+      .send({ reason: 'Attempting to reverse a reversal' });
+    expect(adjust3.status).toBe(422);
+    expect(adjust3.body.error.code).toBe('VALIDATION_FAILED');
+  });
 });

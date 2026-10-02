@@ -55,6 +55,15 @@ export class DonationsService {
     const original = await repo.findById(originalId);
     if (!original) throw new AppError('NOT_FOUND', `Donation ${originalId} not found`);
 
+    if (original.adjustsId !== null) {
+      throw new AppError('VALIDATION_FAILED', 'Cannot adjust an adjustment entry');
+    }
+
+    const existing = await repo.findByAdjustsId(originalId);
+    if (existing) {
+      throw new AppError('RULE_ALREADY_ADJUSTED', `Donation ${originalId} has already been adjusted by ${existing.id}`);
+    }
+
     const negated = negateMoney({ amountMinor: original.amountMinor, currency: original.currency as Currency });
 
     return repo.create({

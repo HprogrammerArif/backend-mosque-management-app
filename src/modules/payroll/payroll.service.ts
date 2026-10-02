@@ -45,16 +45,19 @@ export class PayrollService {
     const existing = await runs.findByPeriod(input.period);
     if (existing) return existing;
 
-    const run = await runs.create({ id: uuidv7(), ...input, createdBy: ctx.userId });
     const staff = await this.#staff(ctx).listActive();
-    for (const member of staff) {
-      if (member.monthlySalaryMinor <= 0) continue;
-      await runs.createLine({
-        id: uuidv7(), runId: run.id, staffId: member.id,
-        amountMinor: member.monthlySalaryMinor, currency: member.currency,
-      });
-    }
-    return run;
+
+    return this.pool.withTenantTransaction(ctx.tenantId, async (tx) => {
+      const run = await runs.create({ id: uuidv7(), ...input, createdBy: ctx.userId }, tx);
+      for (const member of staff) {
+        if (member.monthlySalaryMinor <= 0) continue;
+        await runs.createLine({
+          id: uuidv7(), runId: run.id, staffId: member.id,
+          amountMinor: member.monthlySalaryMinor, currency: member.currency,
+        }, tx);
+      }
+      return run;
+    });
   }
 
   async getById(ctx: TenantContext, id: string): Promise<PayrollRunRecord> {

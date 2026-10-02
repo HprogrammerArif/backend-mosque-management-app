@@ -58,22 +58,31 @@ describe('Statistics', () => {
 
   it('donation-trends: months=N means the last N calendar months, not N+1 (regression for the live-caught off-by-one)', async () => {
     const tenant = await createTenant(server);
+
+    const now = new Date();
+    const currentPeriod = now.toISOString().slice(0, 7);
+    const currentDateIso = `${currentPeriod}-01`;
+
+    const prevMonthDate = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() - 1, 1));
+    const prevPeriod = prevMonthDate.toISOString().slice(0, 7);
+    const prevDateIso = `${prevPeriod}-01`;
+
     await api().post(`/api/v1/mosques/${tenant.mosqueId}/donations`)
       .set(auth(tenant)).set(idem())
-      .send({ fundId: tenant.fundId, amountMinor: 5000, occurredOn: '2026-08-15', method: 'CASH' });
+      .send({ fundId: tenant.fundId, amountMinor: 5000, occurredOn: currentDateIso, method: 'CASH' });
     await api().post(`/api/v1/mosques/${tenant.mosqueId}/donations`)
       .set(auth(tenant)).set(idem())
-      .send({ fundId: tenant.fundId, amountMinor: 7000, occurredOn: '2026-07-10', method: 'CASH' });
+      .send({ fundId: tenant.fundId, amountMinor: 7000, occurredOn: prevDateIso, method: 'CASH' });
 
     const oneMonth = await api()
       .get(`/api/v1/mosques/${tenant.mosqueId}/statistics/donation-trends?months=1`).set(auth(tenant));
     const periods1 = (oneMonth.body as { period: string }[]).map((p) => p.period);
-    expect(periods1).not.toContain('2026-07');
+    expect(periods1).not.toContain(prevPeriod);
 
     const twoMonths = await api()
       .get(`/api/v1/mosques/${tenant.mosqueId}/statistics/donation-trends?months=2`).set(auth(tenant));
     const periods2 = (twoMonths.body as { period: string }[]).map((p) => p.period);
-    expect(periods2).toEqual(expect.arrayContaining(['2026-07']));
+    expect(periods2).toEqual(expect.arrayContaining([prevPeriod]));
   });
 });
 

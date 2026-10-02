@@ -44,6 +44,7 @@ export type FundBalance = { fundId: string; totalMinor: number };
  */
 export interface DonationRepository {
   findById(id: string): Promise<DonationRecord | null>;
+  findByAdjustsId(originalId: string): Promise<DonationRecord | null>;
   listByFund(fundId: string, limit: number): Promise<DonationRecord[]>;
   listRecent(limit: number): Promise<DonationRecord[]>;
   create(input: CreateDonationInput): Promise<DonationRecord>;

@@ -94,6 +94,15 @@ export class ExpensesService {
     const original = await repo.findById(originalId);
     if (!original) throw new AppError('NOT_FOUND', `Expense ${originalId} not found`);
 
+    if (original.adjustsId !== null) {
+      throw new AppError('VALIDATION_FAILED', 'Cannot adjust an adjustment entry');
+    }
+
+    const existing = await repo.findByAdjustsId(originalId);
+    if (existing) {
+      throw new AppError('RULE_ALREADY_ADJUSTED', `Expense ${originalId} has already been adjusted by ${existing.id}`);
+    }
+
     return repo.create({
       id: uuidv7(),
       fundId: original.fundId,

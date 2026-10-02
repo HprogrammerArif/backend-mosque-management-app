@@ -25,6 +25,7 @@ export const registerSchema = z.object({
   password,
   displayName: z.string().min(1).max(120),
   locale: z.string().max(10).default('en'),
+  device: deviceSchema.optional(),
 }).strip().refine(
   (v) => v.phone !== undefined || v.email !== undefined,
   { message: 'Provide a phone number or an email address', path: ['phone'] },

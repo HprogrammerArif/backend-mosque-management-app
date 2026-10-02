@@ -38,6 +38,7 @@ export type CreateExpenseInput = {
 /** Tenant-owned (VPD-protected). Append-only — see the DB trigger on EXPENSES. */
 export interface ExpenseRepository {
   findById(id: string): Promise<ExpenseRecord | null>;
+  findByAdjustsId(originalId: string): Promise<ExpenseRecord | null>;
   listRecent(limit: number): Promise<ExpenseRecord[]>;
   create(input: CreateExpenseInput): Promise<ExpenseRecord>;
 }

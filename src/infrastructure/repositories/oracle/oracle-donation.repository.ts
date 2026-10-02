@@ -20,6 +20,7 @@ const COLUMNS = `ID, FUND_ID, AMOUNT_MINOR, CURRENCY, OCCURRED_ON, METHOD,
   ADJUSTS_ID, ADJUSTMENT_REASON, CREATED_BY, CREATED_AT`;
 
 const SQL_FIND_BY_ID = `SELECT ${COLUMNS} FROM DONATIONS WHERE TENANT_ID = :tenantId AND ID = :id`;
+const SQL_FIND_BY_ADJUSTS_ID = `SELECT ${COLUMNS} FROM DONATIONS WHERE TENANT_ID = :tenantId AND ADJUSTS_ID = :originalId`;
 
 const SQL_LIST_BY_FUND = `
   SELECT ${COLUMNS} FROM DONATIONS
@@ -79,6 +80,11 @@ export class OracleDonationRepository extends BaseRepository implements Donation
 
   async findById(id: string): Promise<DonationRecord | null> {
     const rows = await this.scoped<Row>(SQL_FIND_BY_ID, { id });
+    return rows[0] ? toRecord(rows[0]) : null;
+  }
+
+  async findByAdjustsId(originalId: string): Promise<DonationRecord | null> {
+    const rows = await this.scoped<Row>(SQL_FIND_BY_ADJUSTS_ID, { originalId });
     return rows[0] ? toRecord(rows[0]) : null;
   }
 
