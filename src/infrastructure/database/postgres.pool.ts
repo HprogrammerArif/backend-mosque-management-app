@@ -47,6 +47,9 @@ export function prepareQuery(sql: string, binds: Binds = {}): { sql: string; val
     return '$' + idx;
   });
 
+  // Cast negated parameters like -$2 so PostgreSQL doesn't fail with "operator is not unique: - unknown"
+  transformedSql = transformedSql.replace(/-\s*\$([0-9]+)/g, (_m, p1) => `(-1 * $${p1}::int)`);
+
   return { sql: transformedSql, values };
 }
 
@@ -70,10 +73,36 @@ export class PostgresPool {
       connectionTimeoutMillis: 5_000,
     });
 
-    // Verify connectivity on init
+    // Verify connectivity on init and ensure Oracle SQL compatibility functions exist
     const client = await this.#pool.connect();
     try {
-      await client.query('SELECT 1');
+      await client.query(`
+        CREATE OR REPLACE FUNCTION ADD_MONTHS(d TIMESTAMPTZ, n INT) RETURNS TIMESTAMPTZ AS $$
+          SELECT (d + (n || ' month')::interval);
+        $$ LANGUAGE sql IMMUTABLE;
+
+        CREATE OR REPLACE FUNCTION ADD_MONTHS(d TIMESTAMP, n INT) RETURNS TIMESTAMP AS $$
+          SELECT (d + (n || ' month')::interval);
+        $$ LANGUAGE sql IMMUTABLE;
+
+        CREATE OR REPLACE FUNCTION TRUNC(d TIMESTAMPTZ, fmt TEXT) RETURNS TIMESTAMPTZ AS $$
+          SELECT CASE 
+            WHEN UPPER(fmt) IN ('MM', 'MONTH', 'MON') THEN date_trunc('month', d)
+            WHEN UPPER(fmt) IN ('YY', 'YYYY', 'YEAR') THEN date_trunc('year', d)
+            WHEN UPPER(fmt) IN ('DD', 'DAY') THEN date_trunc('day', d)
+            ELSE date_trunc('day', d)
+          END;
+        $$ LANGUAGE sql IMMUTABLE;
+
+        CREATE OR REPLACE FUNCTION TRUNC(d TIMESTAMP, fmt TEXT) RETURNS TIMESTAMP AS $$
+          SELECT CASE 
+            WHEN UPPER(fmt) IN ('MM', 'MONTH', 'MON') THEN date_trunc('month', d)::timestamp
+            WHEN UPPER(fmt) IN ('YY', 'YYYY', 'YEAR') THEN date_trunc('year', d)::timestamp
+            WHEN UPPER(fmt) IN ('DD', 'DAY') THEN date_trunc('day', d)::timestamp
+            ELSE date_trunc('day', d)::timestamp
+          END;
+        $$ LANGUAGE sql IMMUTABLE;
+      `);
     } finally {
       client.release();
     }
