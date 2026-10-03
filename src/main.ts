@@ -158,7 +158,9 @@ async function bootstrap(): Promise<void> {
 
   const pending = await app.migrator.pendingCount();
   if (pending > 0) {
-    throw new Error(`Refusing to start: ${pending} unapplied migration(s). Run pnpm migrate.`);
+    console.log(`Applying ${pending} pending migration(s)...`);
+    await app.migrator.up();
+    console.log('Migrations applied successfully.');
   }
 
   app.server.listen(app.env.PORT, '0.0.0.0', () => {
