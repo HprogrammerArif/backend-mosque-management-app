@@ -4,6 +4,8 @@ import { fileURLToPath } from 'node:url';
 import { loadEnv } from './config/env.js';
 import { OraclePool } from './infrastructure/database/oracle.pool.js';
 import { Migrator } from './infrastructure/database/migrator.js';
+import { PostgresPool } from './infrastructure/database/postgres.pool.js';
+import { PostgresMigrator } from './infrastructure/database/postgres-migrator.js';
 import { OracleUserRepository } from './infrastructure/repositories/oracle/oracle-user.repository.js';
 import { OracleTokenRepository } from './infrastructure/repositories/oracle/oracle-token.repository.js';
 import { OracleMosqueRepository } from './infrastructure/repositories/oracle/oracle-mosque.repository.js';
@@ -63,9 +65,14 @@ export async function createApp() {
   const env = loadEnv();
 
   // ── infrastructure ──────────────────────────────────────────────────────
-  const pool = new OraclePool(env);
+  const isPostgres = env.DB_DIALECT === 'postgres' || Boolean(env.DATABASE_URL || env.POSTGRES_URL);
+  const pool: OraclePool = isPostgres
+    ? (new PostgresPool(env) as unknown as OraclePool)
+    : new OraclePool(env);
   await pool.init();
-  const migrator = new Migrator(pool, join(here, 'infrastructure/database/migrations/oracle'));
+  const migrator: Migrator = isPostgres
+    ? (new PostgresMigrator(pool as unknown as PostgresPool, join(here, 'infrastructure/database/migrations/postgres')) as unknown as Migrator)
+    : new Migrator(pool, join(here, 'infrastructure/database/migrations/oracle'));
 
   // ── repositories ────────────────────────────────────────────────────────
   const users       = new OracleUserRepository(pool);
@@ -136,7 +143,14 @@ export async function createApp() {
   assertRouteTableIsSound(router);   // refuses to boot on a forgotten guard
 
   const { server, shutdown } = createHttpServer(router, { log: console });
-  return { server, shutdown, router, pool, migrator, env };
+  return {
+    server,
+    shutdown,
+    router,
+    pool: pool as unknown as OraclePool,
+    migrator: migrator as unknown as Migrator,
+    env,
+  };
 }
 
 async function bootstrap(): Promise<void> {
