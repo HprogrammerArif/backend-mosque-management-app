@@ -44,12 +44,18 @@ const VPD_POLICIES: ReadonlyArray<{ table: string; policy: string }> = [
  * needing a deferred constraint.
  */
 export async function resetAllTables(pool: OraclePool): Promise<void> {
+  let isOracleVpd = true;
   for (const { table, policy } of VPD_POLICIES) {
-    await pool.execute(`BEGIN
-      DBMS_RLS.ENABLE_POLICY(
-        object_schema => 'MASJID', object_name => '${table}', policy_name => '${policy}', enable => FALSE
-      );
-    END;`);
+    try {
+      await pool.execute(`BEGIN
+        DBMS_RLS.ENABLE_POLICY(
+          object_schema => 'MASJID', object_name => '${table}', policy_name => '${policy}', enable => FALSE
+        );
+      END;`);
+    } catch {
+      isOracleVpd = false;
+      break;
+    }
   }
 
   try {
@@ -79,12 +85,18 @@ export async function resetAllTables(pool: OraclePool): Promise<void> {
     await pool.execute('DELETE FROM DEVICES');
     await pool.execute('DELETE FROM USERS');
   } finally {
-    for (const { table, policy } of VPD_POLICIES) {
-      await pool.execute(`BEGIN
-        DBMS_RLS.ENABLE_POLICY(
-          object_schema => 'MASJID', object_name => '${table}', policy_name => '${policy}', enable => TRUE
-        );
-      END;`);
+    if (isOracleVpd) {
+      for (const { table, policy } of VPD_POLICIES) {
+        try {
+          await pool.execute(`BEGIN
+            DBMS_RLS.ENABLE_POLICY(
+              object_schema => 'MASJID', object_name => '${table}', policy_name => '${policy}', enable => TRUE
+            );
+          END;`);
+        } catch {
+          // ignore cleanup errors
+        }
+      }
     }
   }
 }

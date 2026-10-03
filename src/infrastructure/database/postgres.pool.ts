@@ -24,6 +24,8 @@ function normaliseRow<T>(row: Record<string, unknown>): T {
 export function prepareQuery(sql: string, binds: Binds = {}): { sql: string; values: unknown[] } {
   let transformedSql = sql
     .replace(/\bSEQ_CHANGE\.NEXTVAL\b/gi, "nextval('seq_change')")
+    .replace(/(?:SYSTIMESTAMP|SYSDATE|CURRENT_TIMESTAMP)\s*\+\s*(\d+)/gi, "CURRENT_TIMESTAMP + INTERVAL '$1 days'")
+    .replace(/(?:SYSTIMESTAMP|SYSDATE|CURRENT_TIMESTAMP)\s*-\s*(\d+)/gi, "CURRENT_TIMESTAMP - INTERVAL '$1 days'")
     .replace(/\bSYSTIMESTAMP\b/gi, 'CURRENT_TIMESTAMP')
     .replace(/\bSYSDATE\b/gi, 'CURRENT_TIMESTAMP')
     .replace(/\bNVL\(/gi, 'COALESCE(');
